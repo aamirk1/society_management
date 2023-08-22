@@ -1,23 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/screen/AddSociety.dart';
 
-class AddCommittee extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+class AddCommittee extends StatefulWidget {
   static const id = "/addCommittee";
   AddCommittee({super.key});
 
+  @override
+  State<AddCommittee> createState() => _AddCommitteeState();
+}
+
+class _AddCommitteeState extends State<AddCommittee> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _societyNameController = TextEditingController();
+
   final TextEditingController _nameController = TextEditingController();
+
   final TextEditingController _flatNoController = TextEditingController();
+
   final TextEditingController _designationController = TextEditingController();
+
   final TextEditingController _numberController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
 
   List<String> searchedList = [];
+
   @override
   void dispose() {
     _societyNameController.dispose();

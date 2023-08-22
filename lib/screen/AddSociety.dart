@@ -1,18 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AddSociety extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+class AddSociety extends StatefulWidget {
   static const id = "/addSociety";
-  AddSociety({super.key});
+  const AddSociety({super.key});
+
+  @override
+  State<AddSociety> createState() => _AddSocietyState();
+}
+
+class _AddSocietyState extends State<AddSociety> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _uniqueController = TextEditingController();
+
   final TextEditingController _societyNameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _regNoController = TextEditingController();
+
   final TextEditingController _adminNameController = TextEditingController();
+
   final TextEditingController _contactNumberController =
       TextEditingController();
+
   final TextEditingController _emailIdController = TextEditingController();
 
   @override
@@ -120,7 +132,7 @@ class AddSociety extends StatelessWidget {
                 //     style: TextStyle(fontSize: 20),
                 //   ),
                 // ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Column(
