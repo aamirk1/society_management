@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
@@ -68,14 +69,16 @@ class MyApp extends StatelessWidget {
     }
     final uri = Uri.parse(settings.name!);
     switch (uri.path) {
-      case '/':
-        return HomeScreen();
+      // case '/':
+      //   return HomeScreen();
       case '/addSociety':
-        return AddSociety();
+        return const AddSociety();
       case '/addCommittee':
         return AddCommittee();
       case '/addMember':
-        return const AddMember();
+        return AddMember();
+      case '/societyList':
+        return const societyList();
     }
     return null;
   }

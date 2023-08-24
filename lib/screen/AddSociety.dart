@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/listScreen/societyList.dart';
+
+import '../listScreen/custom_textfield.dart';
 
 class AddSociety extends StatefulWidget {
   static const id = "/addSociety";
@@ -11,21 +14,23 @@ class AddSociety extends StatefulWidget {
 
 class _AddSocietyState extends State<AddSociety> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _uniqueController = TextEditingController();
-
   final TextEditingController _societyNameController = TextEditingController();
-
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _regNoController = TextEditingController();
-
   final TextEditingController _adminNameController = TextEditingController();
-
   final TextEditingController _contactNumberController =
       TextEditingController();
-
   final TextEditingController _emailIdController = TextEditingController();
+  final TextEditingController _roadNoController = TextEditingController();
+  final TextEditingController _roadNameController = TextEditingController();
+  final TextEditingController _areaController = TextEditingController();
+  final TextEditingController _plotNoController = TextEditingController();
+  final TextEditingController _landmarkController = TextEditingController();
+  final TextEditingController _sectorController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _pincodeController = TextEditingController();
 
   @override
   void dispose() {
@@ -36,7 +41,17 @@ class _AddSocietyState extends State<AddSociety> {
     _adminNameController.dispose();
     _contactNumberController.dispose();
     _emailIdController.dispose();
-    dispose();
+    _roadNoController.dispose();
+    _roadNameController.dispose();
+    _areaController.dispose();
+    _plotNoController.dispose();
+    _landmarkController.dispose();
+    _sectorController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _pincodeController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -50,8 +65,6 @@ class _AddSocietyState extends State<AddSociety> {
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
                   Flexible(
@@ -70,149 +83,139 @@ class _AddSocietyState extends State<AddSociety> {
                     ),
                   ),
                 ]),
-                const SizedBox(height: 16),
                 Column(
                   children: [
                     Row(
                       children: [
-                        Flexible(
-                          child: TextFormField(
-                            controller: _uniqueController,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                labelText: 'Unique Id',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a unique id';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: TextFormField(
-                            controller: _regNoController,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                labelText: 'Reg No',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a registration number';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: TextFormField(
-                            controller: _emailController,
-                            decoration: const InputDecoration(
-                                labelText: 'Email',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter an email';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
+                        OverviewField('Unique ID: ', _uniqueController),
+                        OverviewField('Reg No.: ', _regNoController),
                       ],
                     ),
-                  ],
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.all(11.0),
-                //   child: Text(
-                //     "Contact Person",
-                //     style: TextStyle(fontSize: 20),
-                //   ),
-                // ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Column(
-                  children: [
                     Row(
                       children: [
-                        Flexible(
-                          child: TextFormField(
-                            controller: _adminNameController,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                labelText: 'Admin Name',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a admin name';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: TextFormField(
-                            controller: _contactNumberController,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                labelText: 'Contact Number',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a contact number';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: TextFormField(
-                            controller: _emailIdController,
-                            textInputAction: TextInputAction.done,
-                            decoration: const InputDecoration(
-                                labelText: 'Email Id',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a Email Id';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
+                        OverviewField('Society Email: ', _emailController),
+                        OverviewField('Admin Name: ', _adminNameController),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        OverviewField('Admin Email: ', _emailIdController),
+                        OverviewField(
+                            'Admin Contact: ', _contactNumberController),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        OverviewField('Road No.: ', _roadNoController),
+                        OverviewField('Road Name: ', _roadNameController),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        OverviewField('Area: ', _areaController),
+                        OverviewField('Plot No.: ', _plotNoController),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        OverviewField('Sector: ', _sectorController),
+                        OverviewField('Landmark: ', _landmarkController),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        OverviewField('Pincode: ', _pincodeController),
+                        OverviewField('City: ', _cityController),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        OverviewField('State: ', _stateController),
                       ],
                     ),
                   ],
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Form is valid, perform desired action
+                      FirebaseFirestore.instance
+                          .collection('society')
+                          .doc(_societyNameController.text)
+                          .set({
+                        'uniqueId': _uniqueController.text,
+                        'societyName': _societyNameController.text,
+                        'regNo': _regNoController.text,
+                        'email': _emailController.text,
+                        'adminName': _adminNameController.text,
+                        'contactNumber': _contactNumberController.text,
+                        'emailId': _emailIdController.text,
+                        'roadNo': _roadNoController.text,
+                        'roadName': _roadNameController.text,
+                        'area': _areaController.text,
+                        'plotNo': _plotNoController.text,
+                        'landmark': _landmarkController.text,
+                        'sector': _sectorController.text,
+                        'city': _cityController.text,
+                        'state': _stateController.text,
+                        'pincode': _pincodeController.text,
+                      });
+                      _uniqueController.clear();
+                      _societyNameController.clear();
+                      _regNoController.clear();
+                      _emailController.clear();
+                      _adminNameController.clear();
+                      _contactNumberController.clear();
+                      _emailIdController.clear();
+                      _roadNoController.clear();
+                      _roadNameController.clear();
+                      _areaController.clear();
+                      _plotNoController.clear();
+                      _landmarkController.clear();
+                      _sectorController.clear();
+                      _cityController.clear();
+                      _stateController.clear();
+                      _pincodeController.clear();
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const societyList(),
+                          ),
+                          (route) => false);
+                    }
+                  },
+                  child: const Text('Submit'),
                 ),
               ],
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              // Form is valid, perform desired action
-              FirebaseFirestore.instance
-                  .collection('society')
-                  .doc(_societyNameController.text)
-                  .set({
-                'uniqueId': _uniqueController.text,
-                'societyName': _societyNameController.text,
-                'regNo': _regNoController.text,
-                'email': _emailController.text,
-                'adminName': _adminNameController.text,
-                'contactNumber': _contactNumberController.text,
-                'emailId': _emailIdController.text
-              });
-            }
-          },
-          child: const Icon(Icons.check),
-        ),
       );
+
+  OverviewField(String title, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            width: 200,
+            child: Text(
+              title,
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          Container(
+            width: 250,
+            child: CustomTextField(
+              controller: controller,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

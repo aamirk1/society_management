@@ -13,14 +13,14 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  Widget selectedscreen = HomeScreen();
+  Widget selectedscreen = AddSociety();
   currentItem(item) {
     switch (item.route) {
-      case HomeScreen.id:
-        setState(() {
-          selectedscreen = HomeScreen();
-        });
-        break;
+      // case HomeScreen.id:
+      //   setState(() {
+      //     selectedscreen = HomeScreen();
+      //   });
+      //   break;
       case AddSociety.id:
         setState(() {
           selectedscreen = AddSociety();
@@ -53,11 +53,11 @@ class _SidebarState extends State<Sidebar> {
             currentItem(item);
           },
           items: const [
-            AdminMenuItem(
-              title: "Home",
-              icon: Icons.home_outlined,
-              route: '/',
-            ),
+            // AdminMenuItem(
+            //   title: "Home",
+            //   icon: Icons.home_outlined,
+            //   route: '/',
+            // ),
             AdminMenuItem(
               title: 'Add Society',
               icon: Icons.apartment_outlined,
@@ -74,7 +74,7 @@ class _SidebarState extends State<Sidebar> {
               route: '/addMember',
             ),
           ],
-          selectedRoute: HomeScreen.id,
+          selectedRoute: AddSociety.id,
         ),
         body: selectedscreen);
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AddMember extends StatelessWidget {
   static const String id = "/addMember";
-  const AddMember({super.key});
+  AddMember({super.key});
 
   @override
   Widget build(BuildContext context) => const Scaffold(

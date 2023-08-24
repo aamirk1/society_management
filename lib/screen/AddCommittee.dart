@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:society_management/listScreen/custom_textfield.dart';
 import 'package:society_management/screen/AddSociety.dart';
 
 class AddCommittee extends StatefulWidget {
@@ -13,19 +14,12 @@ class AddCommittee extends StatefulWidget {
 
 class _AddCommitteeState extends State<AddCommittee> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _societyNameController = TextEditingController();
-
   final TextEditingController _nameController = TextEditingController();
-
   final TextEditingController _flatNoController = TextEditingController();
-
   final TextEditingController _designationController = TextEditingController();
-
   final TextEditingController _numberController = TextEditingController();
-
   final TextEditingController _emailController = TextEditingController();
-
   List<String> searchedList = [];
 
   @override
@@ -36,7 +30,7 @@ class _AddCommitteeState extends State<AddCommittee> {
     _designationController.dispose();
     _numberController.dispose();
     _emailController.dispose();
-    dispose();
+    super.dispose();
   }
 
   @override
@@ -49,98 +43,65 @@ class _AddCommitteeState extends State<AddCommittee> {
         padding: EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: Row(
+          child: Column(
             children: [
-              Flexible(
-                  child: TypeAheadField(
-                textFieldConfiguration: TextFieldConfiguration(
-                    autofocus: true,
-                    style: DefaultTextStyle.of(context)
-                        .style
-                        .copyWith(fontStyle: FontStyle.italic),
-                    decoration: InputDecoration(border: OutlineInputBorder())),
-                suggestionsCallback: (pattern) async {
-                  return await getUserdata().getSuggestions(pattern);
-                },
-                itemBuilder: (context, suggestion) {
-                  return ListTile(
-                    title: Text('societyName'),
-                  );
-                },
-                onSuggestionSelected: (suggestion) {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AddSociety()));
-                },
-              )),
-              SizedBox(width: 16),
-              Flexible(
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                      labelText: 'Name', border: OutlineInputBorder()),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a name';
-                    }
-                    return null;
-                  },
-                ),
+              Row(
+                children: [
+                  Flexible(
+                      child: TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                        controller: _societyNameController,
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .copyWith(fontStyle: FontStyle.italic),
+                        decoration: const InputDecoration(
+                            labelText: 'Select Society',
+                            border: OutlineInputBorder())),
+                    suggestionsCallback: (pattern) async {
+                      return await getUserdata(pattern);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion.toString()),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      _societyNameController.text = suggestion.toString();
+                    },
+                  )),
+                ],
               ),
-              SizedBox(width: 16),
-              Flexible(
-                child: TextFormField(
-                  controller: _flatNoController,
-                  decoration: InputDecoration(
-                      labelText: 'Flat No.', border: OutlineInputBorder()),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a flat number';
-                    }
-                    return null;
-                  },
-                ),
+              SizedBox(
+                height: 16,
               ),
-              SizedBox(width: 16),
-              Flexible(
-                child: TextFormField(
-                  controller: _designationController,
-                  decoration: InputDecoration(
-                      labelText: 'Designation', border: OutlineInputBorder()),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a designation';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(width: 16),
-              Flexible(
-                child: TextFormField(
-                  controller: _numberController,
-                  decoration: InputDecoration(
-                      labelText: 'Number', border: OutlineInputBorder()),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a number';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(width: 16),
-              Flexible(
-                child: TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                      labelText: 'Email', border: OutlineInputBorder()),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter an email';
-                    }
-                    return null;
-                  },
-                ),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      OverviewField('Name: ', _nameController),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Flat No.: ', _flatNoController),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Designation: ', _designationController),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Number: ', _numberController),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Email: ', _emailController),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
@@ -176,16 +137,46 @@ class _AddCommitteeState extends State<AddCommittee> {
     );
   }
 
-  getUserdata() async {
+  getUserdata(String pattern) async {
     searchedList.clear();
-    FirebaseFirestore.instance.collection('society').get().then((value) {
-      value.docs.forEach((element) {
-        var data = element.data();
-        searchedList.add(data['societyName']);
-      });
-    });
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('society').get();
 
+    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
+    print(tempList);
+
+    for (int i = 0; i < tempList.length; i++) {
+      if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
+        searchedList.add(tempList[i]);
+      }
+    }
     print(searchedList.length);
     return searchedList;
+  }
+
+  OverviewField(String title, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            width: 200,
+            child: Text(
+              title,
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          Container(
+            width: 450,
+            child: CustomTextField(
+              controller: controller,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
