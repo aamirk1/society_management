@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
       case '/addMember':
         return AddMember();
       case '/societyList':
-        return const societyList();
+        return societyList();
     }
     return null;
   }

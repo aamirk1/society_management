@@ -172,6 +172,7 @@ class _AddCommitteeState extends State<AddCommittee> {
           Container(
             width: 450,
             child: CustomTextField(
+              readonly: false,
               controller: controller,
             ),
           ),

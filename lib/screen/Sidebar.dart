@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
+import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
 import 'package:society_management/screen/HomeScreen.dart';
+import 'package:society_management/viewScreen/societyView.dart';
 
 class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
@@ -13,7 +15,7 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  Widget selectedscreen = AddSociety();
+  Widget selectedscreen = societyList();
   currentItem(item) {
     switch (item.route) {
       // case HomeScreen.id:
@@ -21,9 +23,9 @@ class _SidebarState extends State<Sidebar> {
       //     selectedscreen = HomeScreen();
       //   });
       //   break;
-      case AddSociety.id:
+      case societyList.id:
         setState(() {
-          selectedscreen = AddSociety();
+          selectedscreen = societyList();
         });
         break;
       case AddCommittee.id:
@@ -59,9 +61,9 @@ class _SidebarState extends State<Sidebar> {
             //   route: '/',
             // ),
             AdminMenuItem(
-              title: 'Add Society',
+              title: 'Society List',
               icon: Icons.apartment_outlined,
-              route: '/addSociety',
+              route: '/societyList',
             ),
             AdminMenuItem(
               icon: Icons.supervised_user_circle_outlined,
@@ -74,7 +76,7 @@ class _SidebarState extends State<Sidebar> {
               route: '/addMember',
             ),
           ],
-          selectedRoute: AddSociety.id,
+          selectedRoute: societyList.id,
         ),
         body: selectedscreen);
   }

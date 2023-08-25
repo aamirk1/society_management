@@ -177,12 +177,7 @@ class _AddSocietyState extends State<AddSociety> {
                       _cityController.clear();
                       _stateController.clear();
                       _pincodeController.clear();
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const societyList(),
-                          ),
-                          (route) => false);
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text('Submit'),
@@ -211,6 +206,7 @@ class _AddSocietyState extends State<AddSociety> {
           Container(
             width: 250,
             child: CustomTextField(
+              readonly: false,
               controller: controller,
             ),
           ),
