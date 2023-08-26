@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:society_management/screen/HomeScreen.dart';
+import 'package:society_management/screen/Sidebar.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -74,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return HomeScreen();
+                          return Sidebar();
                         }));
                       },
                       child: const Text(

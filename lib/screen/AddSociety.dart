@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:society_management/listScreen/societyList.dart';
 
 import '../listScreen/custom_textfield.dart';
 

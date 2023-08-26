@@ -42,6 +42,11 @@ dependencies:
   cloud_firestore: ^4.8.5
   firebase_auth: ^4.7.3
   flutter_typeahead: ^4.6.2
+  file_picker: ^5.3.4
+  path: ^1.8.3
+  excel: ^2.1.0
+  data_grid: ^0.1.0
+  syncfusion_flutter_datagrid: ^22.2.10
 
 dev_dependencies:
   flutter_test:

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
+import 'package:society_management/listScreen/committeeList.dart';
 import 'package:society_management/listScreen/societyList.dart';
-import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
-import 'package:society_management/screen/AddSociety.dart';
-import 'package:society_management/screen/HomeScreen.dart';
-import 'package:society_management/viewScreen/societyView.dart';
 
 class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
@@ -28,15 +25,16 @@ class _SidebarState extends State<Sidebar> {
           selectedscreen = societyList();
         });
         break;
-      case AddCommittee.id:
+      case committeeList.id:
         setState(() {
-          selectedscreen = AddCommittee();
+          selectedscreen = committeeList();
         });
         break;
       case AddMember.id:
         setState(() {
           selectedscreen = AddMember();
         });
+        
     }
   }
 
@@ -67,8 +65,8 @@ class _SidebarState extends State<Sidebar> {
             ),
             AdminMenuItem(
               icon: Icons.supervised_user_circle_outlined,
-              title: 'Add Committee Members',
-              route: '/addCommittee',
+              title: 'Committee List',
+              route: '/committeeList',
             ),
             AdminMenuItem(
               title: 'Add Members',

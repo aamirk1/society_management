@@ -1,20 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:society_management/viewScreen/societyView.dart';
+import 'package:society_management/viewScreen/committeeView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class societyList extends StatefulWidget {
-  static const id = "/societyList";
-  societyList({super.key});
+class committeeList extends StatefulWidget {
+  static const id = "/committeeList";
+  const committeeList({super.key});
 
   @override
-  State<societyList> createState() => _societyListState();
+  State<committeeList> createState() => _committeeListState();
 }
 
-class _societyListState extends State<societyList> {
-  final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _societyNameController = TextEditingController();
+class _committeeListState extends State<committeeList> {
+  final TextEditingController _nameController = TextEditingController();
 
   List<String> searchedList = [];
 
@@ -23,17 +21,19 @@ class _societyListState extends State<societyList> {
     return Scaffold(
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('society').snapshots(),
+          stream:
+              FirebaseFirestore.instance.collection('committee').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasData) {
               final data = snapshot.data;
               // String cityname = '';
 
-              List<dynamic> societyNames = data!.docs.map((e) => e.id).toList();
+              List<dynamic> committeeNames =
+                  data!.docs.map((e) => e.id).toList();
 
               return Column(
                 children: [
@@ -41,15 +41,15 @@ class _societyListState extends State<societyList> {
                     children: [
                       Flexible(
                           child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: TypeAheadField(
                           textFieldConfiguration: TextFieldConfiguration(
-                              controller: _societyNameController,
+                              controller: _nameController,
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .copyWith(fontStyle: FontStyle.italic),
-                              decoration: InputDecoration(
-                                  labelText: 'Search Society',
+                              decoration: const InputDecoration(
+                                  labelText: 'Search Committee Members',
                                   border: OutlineInputBorder())),
                           suggestionsCallback: (pattern) async {
                             return await getUserdata(pattern);
@@ -60,18 +60,18 @@ class _societyListState extends State<societyList> {
                             );
                           },
                           onSuggestionSelected: (suggestion) {
-                            _societyNameController.text = suggestion.toString();
+                            _nameController.text = suggestion.toString();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => societyDetails(
-                                    societyNames: suggestion.toString()),
+                                builder: (context) => committeeDetails(
+                                    name: suggestion.toString()),
                               ),
                             );
                           },
                         ),
                       )),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
                         height: 45,
                         child: Padding(
@@ -79,9 +79,9 @@ class _societyListState extends State<societyList> {
                           child: ElevatedButton(
                             style: ButtonStyle(),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/addSociety');
+                              Navigator.pushNamed(context, '/addCommittee');
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                             ),
                           ),
@@ -94,17 +94,17 @@ class _societyListState extends State<societyList> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: societyNames.length,
+                    itemCount: committeeNames.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(societyNames[index]),
-                        // subtitle: Text(data.docs[index]['city']),
+                        title: Text(committeeNames[index]),
+                        subtitle: Text(data.docs[index]['designation']),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => societyDetails(
-                                  societyNames: societyNames[index]),
+                              builder: (context) =>
+                                  committeeDetails(name: committeeNames[index]),
                             ),
                           );
                         },
@@ -126,7 +126,7 @@ class _societyListState extends State<societyList> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('society').get();
+        await FirebaseFirestore.instance.collection('committee').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     print(tempList);

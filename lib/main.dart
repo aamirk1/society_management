@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/authentication/loginScreen.dart';
+import 'package:society_management/listScreen/committeeList.dart';
 import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
-import 'package:society_management/screen/HomeScreen.dart';
-import 'package:society_management/screen/Sidebar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
         }
         return null;
       },
-      home: Sidebar(),
+      home: const LoginScreen(),
     );
   }
 
@@ -69,8 +69,8 @@ class MyApp extends StatelessWidget {
     }
     final uri = Uri.parse(settings.name!);
     switch (uri.path) {
-      // case '/':
-      //   return HomeScreen();
+      case '/':
+        return const LoginScreen();
       case '/addSociety':
         return const AddSociety();
       case '/addCommittee':
@@ -79,6 +79,8 @@ class MyApp extends StatelessWidget {
         return AddMember();
       case '/societyList':
         return societyList();
+      case '/committeeList':
+        return committeeList();
     }
     return null;
   }

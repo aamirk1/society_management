@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/listScreen/custom_textfield.dart';
-import 'package:society_management/screen/AddSociety.dart';
 
 class AddCommittee extends StatefulWidget {
   static const id = "/addCommittee";
@@ -40,7 +39,7 @@ class _AddCommitteeState extends State<AddCommittee> {
       //   title: Text('TextFormField in a Single Row with Controller'),
       // ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
         child: Form(
           key: _formKey,
           child: Column(
@@ -48,31 +47,31 @@ class _AddCommitteeState extends State<AddCommittee> {
               Row(
                 children: [
                   Flexible(
-                      child: TypeAheadField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                        controller: _societyNameController,
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .copyWith(fontStyle: FontStyle.italic),
-                        decoration: const InputDecoration(
-                            labelText: 'Select Society',
-                            border: OutlineInputBorder())),
-                    suggestionsCallback: (pattern) async {
-                      return await getUserdata(pattern);
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        title: Text(suggestion.toString()),
-                      );
-                    },
-                    onSuggestionSelected: (suggestion) {
-                      _societyNameController.text = suggestion.toString();
-                    },
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: _societyNameController,
+                          decoration: InputDecoration(
+                              labelText: 'Select Society',
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        return await getUserdata(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        _societyNameController.text = suggestion.toString();
+                      },
+                    ),
                   )),
                 ],
               ),
               SizedBox(
-                height: 16,
+                height: 15,
               ),
               Column(
                 children: [
@@ -130,6 +129,7 @@ class _AddCommitteeState extends State<AddCommittee> {
             _designationController.clear();
             _numberController.clear();
             _emailController.clear();
+            Navigator.pop(context);
           }
         },
         child: Icon(Icons.check),
