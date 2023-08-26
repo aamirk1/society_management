@@ -35,9 +35,10 @@ class _AddCommitteeState extends State<AddCommittee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('TextFormField in a Single Row with Controller'),
-      // ),
+      appBar: AppBar(
+        title: Text("Add Committee"),
+        backgroundColor: Color.fromARGB(255, 0, 119, 255),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Form(

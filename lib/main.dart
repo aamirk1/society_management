@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
               bodyColor: Colors.purple,
             ),
         primaryIconTheme: IconThemeData(
-          color: Colors.blueGrey,
+          color: Color.fromARGB(255, 91, 3, 255),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
         }
         return null;
       },
-      home: const LoginScreen(),
+      home: LoginScreen(),
     );
   }
 
@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
     final uri = Uri.parse(settings.name!);
     switch (uri.path) {
       case '/':
-        return const LoginScreen();
+        return LoginScreen();
       case '/addSociety':
         return const AddSociety();
       case '/addCommittee':
@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
       case '/societyList':
         return societyList();
       case '/committeeList':
-        return committeeList();
+        return const committeeList();
     }
     return null;
   }

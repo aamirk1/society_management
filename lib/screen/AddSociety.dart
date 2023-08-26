@@ -55,10 +55,10 @@ class _AddSocietyState extends State<AddSociety> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        // appBar: AppBar(
-        //   title: const Text("Add Society"),
-        //   backgroundColor: Colors.blueGrey.shade700,
-        // ),
+        appBar: AppBar(
+          title: Text("Add Society"),
+          backgroundColor: Color.fromARGB(255, 0, 119, 255),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: Form(

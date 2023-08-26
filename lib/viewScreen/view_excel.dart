@@ -1,10 +1,7 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:excel/excel.dart' as exp;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 // import '../style.dart';
 
@@ -100,10 +97,10 @@ class _ViewExcelState extends State<ViewExcel> {
                   scrollDirection: Axis.horizontal,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    child: sheetsForTitle[sheetNumber].length == 0
+                    child: sheetsForTitle[sheetNumber].isEmpty
                         ? Container(
                             alignment: Alignment.center,
-                            child: Text(
+                            child: const Text(
                               "Sheet is empty",
                               // style: title16,
                             ),

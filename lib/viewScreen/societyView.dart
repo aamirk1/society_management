@@ -58,7 +58,7 @@ class _societyDetailsState extends State<societyDetails> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(widget.societyNames),
-          backgroundColor: Colors.blueGrey.shade700,
+          backgroundColor: Color.fromARGB(255, 0, 119, 255),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),

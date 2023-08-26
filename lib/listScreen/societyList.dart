@@ -12,8 +12,6 @@ class societyList extends StatefulWidget {
 }
 
 class _societyListState extends State<societyList> {
-  final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _societyNameController = TextEditingController();
 
   List<String> searchedList = [];
@@ -26,7 +24,7 @@ class _societyListState extends State<societyList> {
           stream: FirebaseFirestore.instance.collection('society').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasData) {
@@ -41,14 +39,14 @@ class _societyListState extends State<societyList> {
                     children: [
                       Flexible(
                           child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: TypeAheadField(
                           textFieldConfiguration: TextFieldConfiguration(
                               controller: _societyNameController,
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .copyWith(fontStyle: FontStyle.italic),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   labelText: 'Search Society',
                                   border: OutlineInputBorder())),
                           suggestionsCallback: (pattern) async {
@@ -113,8 +111,6 @@ class _societyListState extends State<societyList> {
                   )
                 ],
               );
-            } else {
-              Text("Not Availabel");
             }
             return Container();
           },
@@ -129,14 +125,14 @@ class _societyListState extends State<societyList> {
         await FirebaseFirestore.instance.collection('society').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    print(tempList);
+    // print(tempList);
 
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
         searchedList.add(tempList[i]);
       }
     }
-    print(searchedList.length);
+    // print(searchedList.length);
     return searchedList;
   }
 }

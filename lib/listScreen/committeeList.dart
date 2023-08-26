@@ -110,7 +110,7 @@ class _committeeListState extends State<committeeList> {
                         },
                       );
                     },
-                  )
+                  ),
                 ],
               );
             } else {
@@ -129,14 +129,14 @@ class _committeeListState extends State<committeeList> {
         await FirebaseFirestore.instance.collection('committee').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    print(tempList);
+    // print(tempList);
 
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
         searchedList.add(tempList[i]);
       }
     }
-    print(searchedList.length);
+    // print(searchedList.length);
     return searchedList;
   }
 }

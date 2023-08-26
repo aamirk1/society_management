@@ -32,7 +32,7 @@ class _committeeDetailsState extends State<committeeDetails> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(widget.name),
-          backgroundColor: Colors.blueGrey.shade700,
+          backgroundColor: Color.fromARGB(255, 0, 119, 255),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
