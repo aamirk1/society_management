@@ -19,7 +19,7 @@ class _AddMemberState extends State<AddMember> {
   Widget build(BuildContext context) => Scaffold(
       // appBar: AppBar(
       //   title: Text("Add Member"),
-      //   backgroundColor: Colors.blueGrey.shade700,
+      //   backgroundColor: Color.fromARGB(255, 0, 119, 255),
       // ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -69,22 +69,12 @@ class _AddMemberState extends State<AddMember> {
               ],
             )),
       ),
-      // floatingActionButton: FloatingActionButton(onPressed: () {
-      //   if (_formKey.currentState!.validate()) {}
-      // }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {}
         },
         child: Icon(Icons.check),
-      )
-
-      // FloatingActionButton(onPressed: () {
-      //   child:
-      //   const Text('');
-      //   if (_formKey.currentState!.validate()) {}
-      // }),
-      );
+      ));
 
   getUserdata(String pattern) async {
     searchedList.clear();

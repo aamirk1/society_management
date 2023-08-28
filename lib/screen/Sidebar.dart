@@ -34,48 +34,51 @@ class _SidebarState extends State<Sidebar> {
         setState(() {
           selectedscreen = AddMember();
         });
-        
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return AdminScaffold(
-        appBar: AppBar(
-          title: const Text("Society Management"),
-          backgroundColor: Colors.blue.shade700,
+      appBar: AppBar(
+        title: const Text("Society Management"),
+        backgroundColor: Colors.blue.shade700,
+      ),
+      sideBar: SideBar(
+        activeBackgroundColor: Color.fromARGB(255, 230, 230, 227),
+        iconColor: Colors.white,
+        textStyle: const TextStyle(
+          fontSize: 15,
         ),
-        sideBar: SideBar(
-          textStyle: TextStyle(
-            fontSize: 15,
+        onSelected: (item) {
+          currentItem(item);
+        },
+        items: const [
+          // AdminMenuItem(
+          //   title: "Home",
+          //   icon: Icons.home_outlined,
+          //   route: '/',
+          // ),
+          AdminMenuItem(
+            title: 'Society List',
+            icon: Icons.apartment_outlined,
+            route: '/societyList',
           ),
-          onSelected: (item) {
-            currentItem(item);
-          },
-          items: const [
-            // AdminMenuItem(
-            //   title: "Home",
-            //   icon: Icons.home_outlined,
-            //   route: '/',
-            // ),
-            AdminMenuItem(
-              title: 'Society List',
-              icon: Icons.apartment_outlined,
-              route: '/societyList',
-            ),
-            AdminMenuItem(
-              icon: Icons.supervised_user_circle_outlined,
-              title: 'Committee List',
-              route: '/committeeList',
-            ),
-            AdminMenuItem(
-              title: 'Add Members',
-              icon: Icons.supervised_user_circle_sharp,
-              route: '/addMember',
-            ),
-          ],
-          selectedRoute: societyList.id,
-        ),
-        body: selectedscreen);
+
+          AdminMenuItem(
+            icon: Icons.supervised_user_circle_outlined,
+            title: 'Committee List',
+            route: '/committeeList',
+          ),
+          AdminMenuItem(
+            title: 'Add Members',
+            icon: Icons.supervised_user_circle_sharp,
+            route: '/addMember',
+          ),
+        ],
+        selectedRoute: '/societyList',
+      ),
+      body: selectedscreen,
+    );
   }
 }

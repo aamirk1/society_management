@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:society_management/authentication/loginScreen.dart';
 import 'package:society_management/listScreen/committeeList.dart';
 import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
+import 'package:society_management/screen/Sidebar.dart';
+import 'package:society_management/viewScreen/side.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
         }
         return null;
       },
-      home: LoginScreen(),
+      home: TabBarApp(),
     );
   }
 
@@ -82,6 +85,7 @@ class MyApp extends StatelessWidget {
       case '/committeeList':
         return const committeeList();
     }
+
     return null;
   }
 }

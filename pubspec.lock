@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.4"
+  collapsible_sidebar:
+    dependency: "direct main"
+    description:
+      name: collapsible_sidebar
+      sha256: "5879fdfd6f86f9bf539a9cb6f0bca5ce63dbda08fb061ebad735f52b0568e3e8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.6"
   collection:
     dependency: transitive
     description:

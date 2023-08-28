@@ -47,6 +47,7 @@ dependencies:
   excel: ^2.1.0
   data_grid: ^0.1.0
   syncfusion_flutter_datagrid: ^22.2.10
+  collapsible_sidebar: ^2.0.6
 
 dev_dependencies:
   flutter_test:
