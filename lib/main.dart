@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:society_management/authentication/loginScreen.dart';
 import 'package:society_management/listScreen/committeeList.dart';
 import 'package:society_management/listScreen/societyList.dart';
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
         primaryTextTheme: Theme.of(context).textTheme.apply(
               bodyColor: Colors.purple,
             ),
-        primaryIconTheme: IconThemeData(
+        primaryIconTheme: const IconThemeData(
           color: Color.fromARGB(255, 91, 3, 255),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
         }
         return null;
       },
-      home: TabBarApp(),
+      home: const customSide(),
     );
   }
 

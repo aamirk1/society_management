@@ -1,72 +1,91 @@
-import 'package:collapsible_sidebar/collapsible_sidebar.dart';
-import 'package:collapsible_sidebar/collapsible_sidebar/collapsible_item.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const TabBarApp());
+import '../listScreen/committeeList.dart';
+import '../listScreen/societyList.dart';
+import '../screen/AddMember.dart';
 
-class TabBarApp extends StatelessWidget {
-  const TabBarApp({super.key});
+class customSide extends StatefulWidget {
+  const customSide({super.key});
 
-  Widget _body(Size size, BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      color: Colors.blueGrey[50],
-    );
-  }
+  @override
+  State<customSide> createState() => _customSideState();
+}
 
-  List<CollapsibleItem> get _items {
-    return [
-      CollapsibleItem(
-          text: 'Add Member',
-          iconImage: const AssetImage(
-              "assets/shop_icon.png"), //`iconImage` has priority over `icon` property
-          icon: Icons.ac_unit,
-          onPressed: () {},
-          onHold: () {},
-          isSelected: true,
-          subItems: [
-            // CollapsibleItem(
-            //   text: 'Cart',
-            //   icon: Icons.shopping_cart,
-            //   onPressed: () {},
-            //   onHold: () {},
-            //   isSelected: true,
-            // )
-          ]),
-      CollapsibleItem(
-          text: 'Add Society',
-          icon: Icons.assessment,
-          onPressed: () {},
-          onHold: () {},
-          isSelected: false),
-      CollapsibleItem(
-          text: 'Add Committee',
-          icon: Icons.icecream,
-          onPressed: () {},
-          onHold: () {},
-          isSelected: false),
-      // CollapsibleItem(
-      //   text: 'Search',
-      //   icon: Icons.search,
-      //   onPressed: () => setState(() => _headline = 'Search'),
-      //   onHold: () => ScaffoldMessenger.of(context)
-      //       .showSnackBar(SnackBar(content: const Text("Search"))),
-      // ),
-    ];
-  }
+class _customSideState extends State<customSide> {
+  List<String> tabTitle = ['Society List', 'Committee List', 'Member List'];
+  List<dynamic> tabIcon = [
+    Icons.apartment_outlined,
+    Icons.supervised_user_circle_outlined,
+    Icons.house_rounded
+  ];
+  List<bool> design = [true, false, false];
+
+  int _selectedIndex = 0;
+
+  List<Widget> pages = [
+    societyList(),
+    committeeList(),
+    AddMember(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: CollapsibleSidebar(
-        isCollapsed: MediaQuery.of(context).size.width <= 2000,
-        items: _items,
-        // avatarImg: _avatarImg,
-        title: 'Home',
-        body: _body(Size.zero, context),
+    return Scaffold(
+      body: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 30),
+            width: 250,
+            color: Color.fromARGB(255, 197, 216, 247),
+            child: Column(
+              children: [
+                Container(
+                  width: 250,
+                  height: 100,
+                  child: Image.asset('assets/images/devlogo.png'),
+                  padding: EdgeInsets.only(bottom: 10),
+                ),
+                Divider(
+                  color: Colors.black,
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: tabIcon.length,
+                    itemBuilder: (context, index) {
+                      return customListTile(
+                          tabTitle[index], tabIcon[index], index);
+                    })
+              ],
+            ),
+          ),
+          Expanded(child: pages[_selectedIndex])
+        ],
       ),
     );
+  }
+
+  Widget customListTile(String title, dynamic icon, int index) {
+    return InkWell(
+      onTap: () {
+        _selectedIndex = index;
+        design[index] = !design[index];
+        setState(() {});
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ListTile(
+          title: Icon(icon,
+              size: 50, color: design[index] ? Colors.white : Colors.black),
+          subtitle: Text(textAlign: TextAlign.center, title),
+        ),
+      ),
+    );
+  }
+
+  Widget getPage(int index) {
+    if (index == 0) {
+      return AddMember();
+    }
+    return Text('');
   }
 }
