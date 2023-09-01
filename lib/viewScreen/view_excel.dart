@@ -1,7 +1,6 @@
 import 'package:excel/excel.dart' as exp;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // import '../style.dart';
 
@@ -95,7 +94,7 @@ class _ViewExcelState extends State<ViewExcel> {
               children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: sheetsForTitle[sheetNumber].isEmpty
                         ? Container(
@@ -151,8 +150,8 @@ class _ViewExcelState extends State<ViewExcel> {
                                         // sheetsForTitle[sheetNumber][0].length,
                                         sheets[sheetNumber].length - 1,
                                     itemBuilder: (context, col) {
-                                      print(sheets[sheetNumber].length);
-                                      print(col);
+                                      // print(sheets[sheetNumber].length);
+                                      // print(col);
                                       List data__ = sub;
                                       List rows = [];
                                       for (int i = 0; i < data__.length; i++) {

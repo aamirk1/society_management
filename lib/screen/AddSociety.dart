@@ -56,7 +56,7 @@ class _AddSocietyState extends State<AddSociety> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text("Add Society"),
+          title: const Text("Add Society"),
           backgroundColor: Color.fromARGB(255, 0, 119, 255),
         ),
         body: Padding(
@@ -134,7 +134,7 @@ class _AddSocietyState extends State<AddSociety> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

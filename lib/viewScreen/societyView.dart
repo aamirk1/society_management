@@ -58,7 +58,7 @@ class _societyDetailsState extends State<societyDetails> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(widget.societyNames),
-          backgroundColor: Color.fromARGB(255, 0, 119, 255),
+          backgroundColor: const Color.fromARGB(255, 0, 119, 255),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
@@ -153,15 +153,15 @@ class _societyDetailsState extends State<societyDetails> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
+          SizedBox(
             width: 200,
             child: Text(
               title,
               textAlign: TextAlign.start,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
-          Container(
+          SizedBox(
             width: 250,
             child: CustomTextField(
               readonly: readonly,

@@ -15,8 +15,8 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text(
               "Welcome! Kindly login",
               style: TextStyle(
@@ -29,21 +29,17 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Card(
-                child: Container(
-                  // width: 400,
-                  // height: 500,
-                  child: Image.asset(
-                    'assets/images/login_img.jpg',
-                    height: 500,
-                    width: 550,
-                  ),
+                child: Image.asset(
+                  'assets/images/login_img.jpg',
+                  height: 500,
+                  width: 550,
                 ),
               ),
               Card(
                 color: Colors.white,
                 shadowColor: Colors.white70,
                 child: Container(
-                  padding: EdgeInsets.all(70),
+                  padding: const EdgeInsets.all(70),
                   width: 550,
                   height: 500,
                   child: Column(children: [
@@ -72,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                       child: TextFormField(
                         textInputAction: TextInputAction.next,
                         controller: _passwordController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             labelText: 'Password',
                             border: OutlineInputBorder()),
                       ),
@@ -110,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                                       )));
                             }
                           } catch (e) {
-                            print('An error occurred: $e');
+                            // print('An error occurred: $e');
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                                     backgroundColor: Colors.red,
@@ -132,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 0, 0, 0))))
+                                const Color.fromARGB(255, 0, 0, 0))))
                   ]),
                 ),
               )

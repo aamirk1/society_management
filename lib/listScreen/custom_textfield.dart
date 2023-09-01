@@ -13,7 +13,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 35,
       child: TextField(
         readOnly: widget.readonly,

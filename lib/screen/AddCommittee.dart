@@ -133,7 +133,7 @@ class _AddCommitteeState extends State<AddCommittee> {
             Navigator.pop(context);
           }
         },
-        child: Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }
@@ -144,7 +144,7 @@ class _AddCommitteeState extends State<AddCommittee> {
         await FirebaseFirestore.instance.collection('society').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    print(tempList);
+    // print(tempList);
 
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
@@ -162,7 +162,7 @@ class _AddCommitteeState extends State<AddCommittee> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
+          SizedBox(
             width: 200,
             child: Text(
               title,
@@ -170,7 +170,7 @@ class _AddCommitteeState extends State<AddCommittee> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          Container(
+          SizedBox(
             width: 450,
             child: CustomTextField(
               readonly: false,

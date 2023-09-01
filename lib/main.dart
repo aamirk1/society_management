@@ -6,7 +6,6 @@ import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
-import 'package:society_management/screen/Sidebar.dart';
 import 'package:society_management/viewScreen/side.dart';
 
 void main() async {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:society_management/viewScreen/view_excel.dart';
 
 class AddMember extends StatefulWidget {
   static const String id = "/addMember";
-  AddMember({super.key});
+  const AddMember({super.key});
 
   @override
   State<AddMember> createState() => _AddMemberState();
@@ -37,7 +36,7 @@ class _AddMemberState extends State<AddMember> {
                           style: DefaultTextStyle.of(context)
                               .style
                               .copyWith(fontStyle: FontStyle.italic),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Select Society',
                               border: OutlineInputBorder())),
                       suggestionsCallback: (pattern) async {
@@ -54,7 +53,7 @@ class _AddMemberState extends State<AddMember> {
                     )),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Align(
@@ -67,7 +66,7 @@ class _AddMemberState extends State<AddMember> {
                         // }));
                         // Navigator.pushNamed(context, '/societyList');
                       },
-                      child: Text(
+                      child: const Text(
                         "Upload Excel",
                       )),
                 )
@@ -78,7 +77,7 @@ class _AddMemberState extends State<AddMember> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {}
         },
-        child: Icon(Icons.check),
+        child: const Icon(Icons.check),
       ));
 
   getUserdata(String pattern) async {
@@ -87,7 +86,7 @@ class _AddMemberState extends State<AddMember> {
         await FirebaseFirestore.instance.collection('society').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    print(tempList);
+    // print(tempList);
 
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {

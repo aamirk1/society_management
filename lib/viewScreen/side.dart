@@ -37,7 +37,7 @@ class _customSideState extends State<customSide> {
           Container(
             padding: const EdgeInsets.only(top: 30),
             width: 250,
-            color: const Color.fromARGB(255, 231, 231, 231),
+            color: Color.fromARGB(255, 214, 214, 214),
             child: Column(
               children: [
                 Container(
@@ -69,6 +69,7 @@ class _customSideState extends State<customSide> {
   Widget customListTile(String title, dynamic icon, int index) {
     return InkWell(
       onTap: () {
+        setDesignBool();
         _selectedIndex = index;
         design[index] = !design[index];
         setState(() {});
@@ -76,15 +77,24 @@ class _customSideState extends State<customSide> {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: ListTile(
+          
           title: Icon(icon,
               size: 50,
               color: design[index]
-                  ? const Color.fromARGB(97, 94, 94, 94)
-                  : Colors.black),
+                  ? const Color.fromARGB(95, 101, 129, 255)
+                  : const Color.fromARGB(255, 165, 165, 165)),
           subtitle: Text(textAlign: TextAlign.center, title),
         ),
       ),
     );
+  }
+
+  void setDesignBool() {
+    List<bool> tempBool = [];
+    for (int i = 0; i < 3; i++) {
+      tempBool.add(false);
+    }
+    design = tempBool;
   }
 
   Widget getPage(int index) {
