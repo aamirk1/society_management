@@ -11,8 +11,9 @@ class customSide extends StatefulWidget {
   State<customSide> createState() => _customSideState();
 }
 
+// ignore: camel_case_types
 class _customSideState extends State<customSide> {
-  List<String> tabTitle = ['Society List', 'Committee List', 'Member List'];
+  List<String> tabTitle = ['Society List', 'Member List', 'Manager List'];
   List<dynamic> tabIcon = [
     Icons.apartment_outlined,
     Icons.supervised_user_circle_outlined,
@@ -24,8 +25,8 @@ class _customSideState extends State<customSide> {
 
   List<Widget> pages = [
     societyList(),
-    committeeList(),
     AddMember(),
+    const committeeList(),
   ];
 
   @override
@@ -34,21 +35,22 @@ class _customSideState extends State<customSide> {
       body: Row(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(top: 30),
             width: 250,
-            color: Color.fromARGB(255, 197, 216, 247),
+            color: const Color.fromARGB(255, 231, 231, 231),
             child: Column(
               children: [
                 Container(
                   width: 250,
                   height: 100,
                   child: Image.asset('assets/images/devlogo.png'),
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.black,
                 ),
                 ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: tabIcon.length,
                     itemBuilder: (context, index) {
@@ -75,7 +77,10 @@ class _customSideState extends State<customSide> {
         padding: const EdgeInsets.all(12.0),
         child: ListTile(
           title: Icon(icon,
-              size: 50, color: design[index] ? Colors.white : Colors.black),
+              size: 50,
+              color: design[index]
+                  ? const Color.fromARGB(97, 94, 94, 94)
+                  : Colors.black),
           subtitle: Text(textAlign: TextAlign.center, title),
         ),
       ),
@@ -84,8 +89,8 @@ class _customSideState extends State<customSide> {
 
   Widget getPage(int index) {
     if (index == 0) {
-      return AddMember();
+      return societyList();
     }
-    return Text('');
+    return const Text('');
   }
 }

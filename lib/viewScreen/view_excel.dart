@@ -187,9 +187,9 @@ class _ViewExcelState extends State<ViewExcel> {
                                               horizontal: 8.0,
                                               vertical: 5.0,
                                             ),
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               // color: white,
-                                              border: const Border(
+                                              border: Border(
                                                   left: BorderSide(
                                                     color: Colors.grey,
                                                     width: 0.2,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:society_management/viewScreen/view_excel.dart';
 
 class AddMember extends StatefulWidget {
   static const String id = "/addMember";
@@ -22,7 +23,7 @@ class _AddMemberState extends State<AddMember> {
       //   backgroundColor: Color.fromARGB(255, 0, 119, 255),
       // ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Form(
             key: _formKey,
             child: Column(
@@ -60,7 +61,11 @@ class _AddMemberState extends State<AddMember> {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/societyList');
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   ViewExcel(path: );
+                        // }));
+                        // Navigator.pushNamed(context, '/societyList');
                       },
                       child: Text(
                         "Upload Excel",
@@ -89,7 +94,7 @@ class _AddMemberState extends State<AddMember> {
         searchedList.add(tempList[i]);
       }
     }
-    print(searchedList.length);
+    // print(searchedList.length);
     return searchedList;
   }
 }
