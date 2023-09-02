@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import '../excel/uploadExcel.dart';
+
 class AddMember extends StatefulWidget {
   static const String id = "/addMember";
   const AddMember({super.key});
@@ -60,10 +62,10 @@ class _AddMemberState extends State<AddMember> {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   ViewExcel(path: );
-                        // }));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UploadExcel()));
                         // Navigator.pushNamed(context, '/societyList');
                       },
                       child: const Text(

@@ -72,12 +72,12 @@ class _committeeListState extends State<committeeList> {
                         ),
                       )),
                       const SizedBox(width: 10),
-                      Container(
+                      SizedBox(
                         height: 45,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 5.0),
                           child: ElevatedButton(
-                            style: ButtonStyle(),
+                            style: const ButtonStyle(),
                             onPressed: () {
                               Navigator.pushNamed(context, '/addCommittee');
                             },
@@ -89,7 +89,7 @@ class _committeeListState extends State<committeeList> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   ListView.builder(
