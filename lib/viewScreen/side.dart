@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:society_management/listScreen/societyListOfMember.dart';
 
 import '../listScreen/committeeList.dart';
 import '../listScreen/societyList.dart';
@@ -25,7 +26,7 @@ class _customSideState extends State<customSide> {
 
   List<Widget> pages = [
     societyList(),
-    AddMember(),
+    societyListOfMemberOfMember(),
     const committeeList(),
   ];
 
@@ -77,7 +78,6 @@ class _customSideState extends State<customSide> {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: ListTile(
-          
           title: Icon(icon,
               size: 50,
               color: design[index]
