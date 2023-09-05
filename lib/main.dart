@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
       case '/addCommittee':
         return AddCommittee();
       case '/addMember':
-        return AddMember();
+        return const AddMember();
       case '/societyList':
         return societyList();
       case '/committeeList':

@@ -36,7 +36,7 @@ class _AddCommitteeState extends State<AddCommittee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Committee"),
+        title: const Text("Add Committee"),
         backgroundColor: Color.fromARGB(255, 0, 119, 255),
       ),
       body: Padding(
@@ -53,7 +53,7 @@ class _AddCommitteeState extends State<AddCommittee> {
                     child: TypeAheadField(
                       textFieldConfiguration: TextFieldConfiguration(
                           controller: _societyNameController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Select Society',
                               border: OutlineInputBorder())),
                       suggestionsCallback: (pattern) async {
@@ -71,7 +71,7 @@ class _AddCommitteeState extends State<AddCommittee> {
                   )),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Column(

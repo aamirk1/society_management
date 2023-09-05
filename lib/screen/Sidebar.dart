@@ -32,7 +32,7 @@ class _SidebarState extends State<Sidebar> {
         break;
       case AddMember.id:
         setState(() {
-          selectedscreen = AddMember();
+          selectedscreen = const AddMember();
         });
     }
   }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import '../excel/uploadExcel.dart';
+// import '../excel/uploadExcel.dart';
 
 class UpExcel extends StatefulWidget {
   static const String id = "/UpExcel";
@@ -19,7 +19,7 @@ class _UpExcelState extends State<UpExcel> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
   List<String> searchedList = [];
-  List<List<dynamic>> data = [];
+  List<Map<String, dynamic>> data = [];
 
   bool showTable = false;
 
@@ -28,8 +28,8 @@ class _UpExcelState extends State<UpExcel> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: Text("Upload Members"),
-        backgroundColor: Color.fromARGB(255, 0, 119, 255),
+        title: const Text("Upload Members"),
+        backgroundColor: const Color.fromARGB(255, 0, 119, 255),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -45,7 +45,7 @@ class _UpExcelState extends State<UpExcel> {
                     child: TypeAheadField(
                       textFieldConfiguration: TextFieldConfiguration(
                           controller: _societyNameController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Select Society',
                               border: OutlineInputBorder())),
                       suggestionsCallback: (pattern) async {
@@ -94,21 +94,21 @@ class _UpExcelState extends State<UpExcel> {
                                   growable: true, data[0].length, (index2) {
                                 return DataCell(Padding(
                                   padding: const EdgeInsets.only(bottom: 5.0),
-                                  // child: Text(data[index1][index2]),
+                                  child: Text(data[index1][index2]),
 
-                                  child: TextFormField(
-                                      // controller: controllers[index1][index2],
-                                      onChanged: (value) {
-                                        data[index1][index2] = value;
-                                      },
-                                      decoration: InputDecoration(
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 3.0, right: 3.0),
-                                          border: const OutlineInputBorder(),
-                                          hintText: data[index1][index2],
-                                          hintStyle: const TextStyle(
-                                              fontSize: 10.0,
-                                              color: Colors.black))),
+                                  // child: TextFormField(
+                                  //     // controller: controllers[index1][index2],
+                                  //     onChanged: (value) {
+                                  //       data[index1][index2] = value;
+                                  //     },
+                                  //     decoration: InputDecoration(
+                                  //         contentPadding: const EdgeInsets.only(
+                                  //             left: 3.0, right: 3.0),
+                                  //         border: const OutlineInputBorder(),
+                                  //         hintText: data[index1][index2],
+                                  //         hintStyle: const TextStyle(
+                                  //             fontSize: 10.0,
+                                  //             color: Colors.black))),
                                 ));
                               }),
                             ),
@@ -117,6 +117,12 @@ class _UpExcelState extends State<UpExcel> {
                       ),
                     )
                   : Container(),
+              // SizedBox(height: 10),
+              // Column(children: [
+              //   Table(
+              // children: [getdat()],
+              //   ),
+              // ]),
               const SizedBox(
                 height: 15,
               ),
@@ -201,7 +207,8 @@ class _UpExcelState extends State<UpExcel> {
     return searchedList;
   }
 
-  Future<List<List<dynamic>>> selectExcelFile() async {
+  Future<List<Map<String, dynamic>>> selectExcelFile() async {
+    List<Map<String, dynamic>> rowcolumncells = [];
     final input = FileUploadInputElement()..accept = '.xlsx';
     input.click();
 
@@ -219,83 +226,71 @@ class _UpExcelState extends State<UpExcel> {
       final excel = Excel.decodeBytes(reader.result as List<int>);
       for (var table in excel.tables.keys) {
         final sheet = excel.tables[table];
+        List<dynamic> header = [];
 
-        for (var rows in sheet!.rows) {
+        if (header.isEmpty) {
+          for (var cells in sheet!.rows[0]) {
+            header.add(cells!.value);
+          }
+        }
+        // print('Header: $header');
+        for (var rows in sheet!.rows.skip(0)) {
           List<dynamic> rowData = [];
           for (var cell in rows) {
             rowData.add(cell?.value);
           }
-          data.add(rowData);
+
+          for (int i = 0; i < rowData.length; i++) {
+            rowcolumncells.add({header[i]: rowData[i]});
+          }
+
+          print(rowcolumncells);
+
+          // data.add(rowData);
         }
+        data = rowcolumncells;
       }
       data = convertSubstringsToStrings(data);
-      columnNames.add(data[0]);
+      // columnNames.add(data[0]);
       // print(columnNames);
       data.removeAt(0);
       // generateTextEditingController(data);
       showTable = true;
       setState(() {});
     }
-    print(data);
+    // print(data);
     return data;
   }
 
-  List<List<dynamic>> convertSubstringsToStrings(
-      List<List<dynamic>> listOfLists) {
-    List<List<dynamic>> result = [];
+  List<Map<String, dynamic>> convertSubstringsToStrings(
+      List<Map<String, dynamic>> listOfLists) {
+    List<Map<String, dynamic>> result = [];
 
-    for (List<dynamic> sublist in listOfLists) {
-      List<dynamic> convertedSublist =
-          sublist.map((item) => item.toString()).toList();
+    for (Map<String, dynamic> sublist in listOfLists) {
+      Map<String, dynamic> convertedSublist =
+          sublist.map((key, value) => MapEntry(key, value.toString()));
       result.add(convertedSublist);
     }
     // print(result);
     return result;
   }
+
+  getdat() async {
+    for (int i = 0; i < data.length; i++) {
+      FirebaseFirestore.instance
+          .collection('members')
+          .doc(_societyNameController.text)
+          .collection('tableData')
+          .doc('$i')
+          .set({
+        'societyName': _societyNameController.text,
+        '$i': data[i],
+      }).then((value) {
+        print('Done!');
+      });
+    }
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'dart:html';
 

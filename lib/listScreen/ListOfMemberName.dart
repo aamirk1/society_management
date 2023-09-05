@@ -1,17 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/excel/uploadExcel.dart';
 import 'package:society_management/viewScreen/societyView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class societyList extends StatefulWidget {
-  static const id = "/societyList";
-  societyList({super.key});
+class societyListOfMemberOfMember extends StatefulWidget {
+  static const id = "/societyListOfMemberOfMember";
+  societyListOfMemberOfMember({super.key});
 
   @override
-  State<societyList> createState() => _societyListState();
+  State<societyListOfMemberOfMember> createState() =>
+      _societyListOfMemberOfMemberState();
 }
 
-class _societyListState extends State<societyList> {
+class _societyListOfMemberOfMemberState
+    extends State<societyListOfMemberOfMember> {
   final TextEditingController _societyNameController = TextEditingController();
 
   List<String> searchedList = [];
@@ -21,7 +24,7 @@ class _societyListState extends State<societyList> {
     return Scaffold(
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('society').snapshots(),
+          stream: FirebaseFirestore.instance.collection('members').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -31,7 +34,7 @@ class _societyListState extends State<societyList> {
               final data = snapshot.data;
               // String cityname = '';
 
-              List<dynamic> societyNames = data!.docs.map((e) => e.id).toList();
+              List<dynamic> societyList = data!.docs.map((e) => e.id).toList();
 
               return Column(
                 children: [
@@ -59,13 +62,13 @@ class _societyListState extends State<societyList> {
                           },
                           onSuggestionSelected: (suggestion) {
                             _societyNameController.text = suggestion.toString();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => societyDetails(
-                                    societyNames: suggestion.toString()),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => societyDetails(
+                            //         societyList: suggestion.toString()),
+                            //   ),
+                            // );
                           },
                         ),
                       )),
@@ -77,7 +80,11 @@ class _societyListState extends State<societyList> {
                           child: ElevatedButton(
                             style: const ButtonStyle(),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/addSociety');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const UpExcel()),
+                              );
                             },
                             child: const Icon(
                               Icons.add,
@@ -92,19 +99,19 @@ class _societyListState extends State<societyList> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: societyNames.length,
+                    itemCount: societyList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(societyNames[index]),
+                        title: Text(societyList[index]),
                         // subtitle: Text(data.docs[index]['city']),
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => societyDetails(
-                                  societyNames: societyNames[index]),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => societyDetails(
+                          //         societyList: societyList[index]),
+                          //   ),
+                          // );
                         },
                       );
                     },
@@ -122,10 +129,10 @@ class _societyListState extends State<societyList> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('society').get();
+        await FirebaseFirestore.instance.collection('members').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    // print(tempList);
+    print(tempList);
 
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {

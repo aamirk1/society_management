@@ -114,7 +114,7 @@ class _committeeListState extends State<committeeList> {
                 ],
               );
             } else {
-              Text("Not Availabel");
+              const Text("Not Availabel");
             }
             return Container();
           },

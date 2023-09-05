@@ -48,15 +48,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextFormField(
                         // controller: adminNameController,
-                        decoration: InputDecoration(labelText: 'Admin Name'),
+                        decoration: const InputDecoration(labelText: 'Admin Name'),
                       ),
                       TextFormField(
                         // controller: contactController,
-                        decoration: InputDecoration(labelText: 'Contact'),
+                        decoration: const InputDecoration(labelText: 'Contact'),
                       ),
                       TextFormField(
                         // controller: adminEmailController,
-                        decoration: InputDecoration(labelText: 'Admin Email'),
+                        decoration: const InputDecoration(labelText: 'Admin Email'),
                       ),
                     ],
                   ),
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 // Handle form submission here
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ],
         ),

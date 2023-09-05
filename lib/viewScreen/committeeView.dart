@@ -99,10 +99,10 @@ class _committeeDetailsState extends State<committeeDetails> {
             child: Text(
               title,
               textAlign: TextAlign.start,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
-          Container(
+          SizedBox(
             width: 250,
             child: CustomTextField(
               readonly: readonly,

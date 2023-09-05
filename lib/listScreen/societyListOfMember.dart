@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/excel/uploadExcel.dart';
@@ -17,7 +19,16 @@ class _societyListOfMemberOfMemberState
     extends State<societyListOfMemberOfMember> {
   final TextEditingController _societyNameController = TextEditingController();
 
+  List<List<dynamic>> data = [];
+  List<DataColumn> CustomDataColumn = [];
   List<String> searchedList = [];
+
+  @override
+  void initState() {
+    getExceldata('Chhatrapati Shivaji Maharaj Vastu Sangrahalaya');
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +83,13 @@ class _societyListOfMemberOfMemberState
                           },
                         ),
                       )),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
                         height: 45,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 5.0),
                           child: ElevatedButton(
-                            style: ButtonStyle(),
+                            style: const ButtonStyle(),
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -86,7 +97,7 @@ class _societyListOfMemberOfMemberState
                                     builder: (context) => const UpExcel()),
                               );
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                             ),
                           ),
@@ -97,25 +108,26 @@ class _societyListOfMemberOfMemberState
                   SizedBox(
                     height: 15,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: societyList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(societyList[index]),
-                        // subtitle: Text(data.docs[index]['city']),
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => societyDetails(
-                          //         societyList: societyList[index]),
-                          //   ),
-                          // );
-                        },
-                      );
-                    },
-                  )
+
+                  // ListView.builder(
+                  //   shrinkWrap: true,
+                  //   itemCount: societyList.length,
+                  //   itemBuilder: (context, index) {
+                  //     return ListTile(
+                  //       title: Text(societyList[index]),
+                  //       // subtitle: Text(data.docs[index]['city']),
+                  //       onTap: () {
+                  //         // Navigator.push(
+                  //         //   context,
+                  //         //   MaterialPageRoute(
+                  //         //     builder: (context) => societyDetails(
+                  //         //         societyList: societyList[index]),
+                  //         //   ),
+                  //         // );
+                  //       },
+                  //     );
+                  //   },
+                  // )
                 ],
               );
             }
@@ -141,5 +153,49 @@ class _societyListOfMemberOfMemberState
     }
     // print(searchedList.length);
     return searchedList;
+  }
+
+  getdat() async {
+    for (int i = 0; i < data.length; i++) {
+      FirebaseFirestore.instance
+          .collection('members')
+          .doc(_societyNameController.text)
+          .collection('tableData')
+          .doc('$i')
+          .set({
+        'societyName': _societyNameController.text,
+        '$i': data[i],
+      }).then((value) {
+        print('Done!');
+      });
+    }
+  }
+
+  Future<List<DataRow>> getExceldata(String SelectedSociety) async {
+    List<DataRow> CustomDataRow = [];
+    List<DataColumn> CustomDataColumn = [];
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('members')
+        .doc(SelectedSociety)
+        .collection('tableData')
+        .get();
+    List<dynamic> tableList = querySnapshot.docs.map((e) => e.id).toList();
+    print(tableList);
+    for (int i = 0; i < tableList.length; i++) {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('members')
+          .doc(SelectedSociety)
+          .collection('tableData')
+          .doc('$i')
+          .get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      List<dynamic> tempList = data['$i'];
+      // print('templist - $tempList');
+      // CustomDataRow.add(row);
+    }
+    // print(CustomDataRow);
+    return CustomDataRow;
   }
 }
