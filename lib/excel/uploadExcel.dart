@@ -18,13 +18,13 @@ class UpExcel extends StatefulWidget {
 class _UpExcelState extends State<UpExcel> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
+  List<dynamic> columnName = [];
   List<String> searchedList = [];
-  List<Map<String, dynamic>> data = [];
+  List<List<dynamic>> data = [];
+  List<Map<String, dynamic>> mapExcelData = [];
 
   bool showTable = false;
 
-  List<List<TextEditingController>> controllers = [];
-  List<List<dynamic>> columnNames = [];
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
@@ -75,7 +75,7 @@ class _UpExcelState extends State<UpExcel> {
                         child: DataTable(
                           columnSpacing: 5.0,
                           dataRowMinHeight: 10.0,
-                          columns: columnNames[0]
+                          columns: columnName
                               .map((e) => DataColumn(
                                     label: Text(
                                       e,
@@ -144,38 +144,19 @@ class _UpExcelState extends State<UpExcel> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          //     .collection('members')
-          //     .doc('Chhatrapati Shivaji Maharaj Vastu Sangrahalaya')
-          //     .collection('tableData')
-          //     .get();
-          // List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-
-          // for (int i = 0; i < tempList.length; i++) {
-          //   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          //       .collection('members')
-          //       .doc('Chhatrapati Shivaji Maharaj Vastu Sangrahalaya')
-          //       .collection('tableData')
-          //       .doc('$i')
-          //       .get();
-
-          //   Map<String, dynamic> data =
-          //       documentSnapshot.data() as Map<String, dynamic>;
-
-          //   print(data);
-          // }
-
-          for (int i = 0; i < data.length; i++) {
+          for (int i = 0; i < mapExcelData.length; i++) {
             FirebaseFirestore.instance
                 .collection('members')
                 .doc(_societyNameController.text)
                 .collection('tableData')
                 .doc('$i')
                 .set({
-              'societyName': _societyNameController.text,
-              '$i': data[i],
+              '$i': mapExcelData[i],
             }).then((value) {
-              print('Done!');
+              const ScaffoldMessenger(
+                  child: SnackBar(
+                content: Text('Successfully Uploaded'),
+              ));
             });
           }
 
@@ -207,8 +188,7 @@ class _UpExcelState extends State<UpExcel> {
     return searchedList;
   }
 
-  Future<List<Map<String, dynamic>>> selectExcelFile() async {
-    List<Map<String, dynamic>> rowcolumncells = [];
+  Future<List<List<dynamic>>> selectExcelFile() async {
     final input = FileUploadInputElement()..accept = '.xlsx';
     input.click();
 
@@ -226,53 +206,35 @@ class _UpExcelState extends State<UpExcel> {
       final excel = Excel.decodeBytes(reader.result as List<int>);
       for (var table in excel.tables.keys) {
         final sheet = excel.tables[table];
-        List<dynamic> header = [];
 
-        if (header.isEmpty) {
-          for (var cells in sheet!.rows[0]) {
-            header.add(cells!.value);
-          }
-        }
-        // print('Header: $header');
         for (var rows in sheet!.rows.skip(0)) {
+          Map<String, dynamic> tempMap = {};
+          if (columnName.isEmpty) {
+            for (var cells in sheet.rows[0]) {
+              columnName.add(cells!.value.toString());
+            }
+          }
+
           List<dynamic> rowData = [];
           for (var cell in rows) {
-            rowData.add(cell?.value);
+            rowData.add(cell?.value.toString());
           }
+          data.add(rowData);
 
-          for (int i = 0; i < rowData.length; i++) {
-            rowcolumncells.add({header[i]: rowData[i]});
+          for (int i = 0; i < columnName.length; i++) {
+            tempMap[columnName[i]] = rowData[i];
           }
-
-          print(rowcolumncells);
-
-          // data.add(rowData);
+          mapExcelData.add(tempMap);
         }
-        data = rowcolumncells;
+        mapExcelData.removeAt(0);
+        print(mapExcelData);
       }
-      data = convertSubstringsToStrings(data);
-      // columnNames.add(data[0]);
-      // print(columnNames);
+
       data.removeAt(0);
-      // generateTextEditingController(data);
       showTable = true;
       setState(() {});
     }
-    // print(data);
     return data;
-  }
-
-  List<Map<String, dynamic>> convertSubstringsToStrings(
-      List<Map<String, dynamic>> listOfLists) {
-    List<Map<String, dynamic>> result = [];
-
-    for (Map<String, dynamic> sublist in listOfLists) {
-      Map<String, dynamic> convertedSublist =
-          sublist.map((key, value) => MapEntry(key, value.toString()));
-      result.add(convertedSublist);
-    }
-    // print(result);
-    return result;
   }
 
   getdat() async {
