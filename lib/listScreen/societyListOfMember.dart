@@ -6,6 +6,8 @@ import 'package:society_management/excel/uploadExcel.dart';
 import 'package:society_management/viewScreen/societyView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import 'ListOfMemberName.dart';
+
 class societyListOfMemberOfMember extends StatefulWidget {
   static const id = "/societyListOfMemberOfMember";
   societyListOfMemberOfMember({super.key});
@@ -22,6 +24,7 @@ class _societyListOfMemberOfMemberState
   List<List<dynamic>> data = [];
   List<DataColumn> CustomDataColumn = [];
   List<String> searchedList = [];
+  List<dynamic> columnName = [];
 
   @override
   void initState() {
@@ -72,14 +75,15 @@ class _societyListOfMemberOfMemberState
                             );
                           },
                           onSuggestionSelected: (suggestion) {
+                            print('help');
                             _societyNameController.text = suggestion.toString();
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => societyDetails(
-                            //         societyList: suggestion.toString()),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => societyPage(
+                                        societyName: suggestion.toString(),
+                                      )),
+                            );
                           },
                         ),
                       )),
@@ -108,26 +112,25 @@ class _societyListOfMemberOfMemberState
                   SizedBox(
                     height: 15,
                   ),
-
-                  // ListView.builder(
-                  //   shrinkWrap: true,
-                  //   itemCount: societyList.length,
-                  //   itemBuilder: (context, index) {
-                  //     return ListTile(
-                  //       title: Text(societyList[index]),
-                  //       // subtitle: Text(data.docs[index]['city']),
-                  //       onTap: () {
-                  //         // Navigator.push(
-                  //         //   context,
-                  //         //   MaterialPageRoute(
-                  //         //     builder: (context) => societyDetails(
-                  //         //         societyList: societyList[index]),
-                  //         //   ),
-                  //         // );
-                  //       },
-                  //     );
-                  //   },
-                  // )
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: societyList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(societyList[index]),
+                        // subtitle: Text(data.docs[index]['city']),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => societyPage(
+                                      societyName: societyList[index],
+                                    )),
+                          );
+                        },
+                      );
+                    },
+                  )
                 ],
               );
             }

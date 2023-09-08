@@ -21,9 +21,16 @@ class _UpExcelState extends State<UpExcel> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
-  List<Map<String, dynamic>> mapExcelData = [];
+  Map<String, dynamic> mapExcelData = Map();
+  List<dynamic> alldata = [];
 
   bool showTable = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -58,6 +65,7 @@ class _UpExcelState extends State<UpExcel> {
                       },
                       onSuggestionSelected: (suggestion) {
                         _societyNameController.text = suggestion.toString();
+                        print(_societyNameController.text);
                       },
                     ),
                   )),
@@ -144,26 +152,19 @@ class _UpExcelState extends State<UpExcel> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          for (int i = 0; i < mapExcelData.length; i++) {
-            FirebaseFirestore.instance
-                .collection('members')
-                .doc(_societyNameController.text)
-                .collection('tableData')
-                .doc('$i')
-                .set({
-              '$i': mapExcelData[i],
-            }).then((value) {
-              const ScaffoldMessenger(
-                  child: SnackBar(
-                content: Text('Successfully Uploaded'),
-              ));
-            });
-          }
-
+          // for (int i = 0; i < mapExcelData.length; i++) {
           FirebaseFirestore.instance
               .collection('members')
               .doc(_societyNameController.text)
-              .set({'societyName': _societyNameController.text});
+              .set({
+            'data': alldata,
+          }).then((value) {
+            const ScaffoldMessenger(
+                child: SnackBar(
+              content: Text('Successfully Uploaded'),
+            ));
+          });
+          //       }
           // Perform desired action with the form data
 
           _societyNameController.clear();
@@ -224,10 +225,12 @@ class _UpExcelState extends State<UpExcel> {
           for (int i = 0; i < columnName.length; i++) {
             tempMap[columnName[i]] = rowData[i];
           }
-          mapExcelData.add(tempMap);
+          // mapExcelData.add(tempMap);
+          alldata.add(tempMap);
+          tempMap = {};
         }
-        mapExcelData.removeAt(0);
-        print(mapExcelData);
+        //   mapExcelData.removeAt(0);
+        print(alldata);
       }
 
       data.removeAt(0);
