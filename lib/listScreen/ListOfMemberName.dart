@@ -33,7 +33,7 @@ class _societyPageState extends State<societyPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text("Upload Members"),
+          title: const Text("All Members"),
           backgroundColor: const Color.fromARGB(255, 0, 119, 255),
         ),
         body: Padding(
@@ -46,7 +46,7 @@ class _societyPageState extends State<societyPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularProgressIndicator(),
-                        Text('Collection Data...')
+                        Text('Collecting Data...')
                       ],
                     ),
                   )
@@ -56,6 +56,13 @@ class _societyPageState extends State<societyPage> {
                     width: MediaQuery.of(context).size.width * 0.95,
                     child: SingleChildScrollView(
                       child: DataTable(
+                        // border: const TableBorder(
+                        //     horizontalInside: BorderSide(
+                        //   color: Colors.black,
+                        // )),
+                        headingRowColor: MaterialStatePropertyAll(Colors.blue),
+                        headingTextStyle:
+                            TextStyle(color: Colors.white, fontSize: 50.0),
                         columnSpacing: 5.0,
                         dataRowMinHeight: 10.0,
                         columns: columnName
@@ -76,22 +83,23 @@ class _societyPageState extends State<societyPage> {
                             cells: List.generate(growable: true, data[0].length,
                                 (index2) {
                               return DataCell(Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text(data[index1][index2]),
+                                padding: const EdgeInsets.only(bottom: 2.0),
+                                // child: Text(data[index1][index2]),
 
-                                // child: TextFormField(
-                                //     // controller: controllers[index1][index2],
-                                //     onChanged: (value) {
-                                //       data[index1][index2] = value;
-                                //     },
-                                //     decoration: InputDecoration(
-                                //         contentPadding: const EdgeInsets.only(
-                                //             left: 3.0, right: 3.0),
-                                //         border: const OutlineInputBorder(),
-                                //         hintText: data[index1][index2],
-                                //         hintStyle: const TextStyle(
-                                //             fontSize: 10.0,
-                                //             color: Colors.black))),
+                                child: TextFormField(
+                                    style: TextStyle(fontSize: 22),
+                                    // controller: controllers[index1][index2],
+                                    onChanged: (value) {
+                                      data[index1][index2] = value;
+                                    },
+                                    decoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.only(
+                                            left: 3.0, right: 3.0),
+                                        border: const OutlineInputBorder(),
+                                        hintText: data[index1][index2],
+                                        hintStyle: const TextStyle(
+                                            fontSize: 10.0,
+                                            color: Colors.black))),
                               ));
                             }),
                           ),
@@ -119,6 +127,28 @@ class _societyPageState extends State<societyPage> {
             //   ),
             // ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            // for (int i = 0; i < mapExcelData.length; i++) {
+            await FirebaseFirestore.instance
+                .collection('members')
+                .doc(widget.societyName)
+                .update({
+              'data': alldata,
+            }).then((value) {
+              const ScaffoldMessenger(
+                  child: SnackBar(
+                content: Text('Successfully Updated'),
+                backgroundColor: Colors.green,
+              ));
+            });
+            //       }
+            // Perform desired action with the form data
+
+            // _societyNameController.clear();
+          },
+          child: const Icon(Icons.check),
         ),
       );
 

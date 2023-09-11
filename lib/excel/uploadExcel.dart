@@ -81,6 +81,17 @@ class _UpExcelState extends State<UpExcel> {
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: SingleChildScrollView(
                         child: DataTable(
+                          // border: const TableBorder(
+                          //     horizontalInside: BorderSide(
+                          //   color: Colors.black,
+                          // )),
+                          border: TableBorder.all(color: Colors.black),
+                          headingRowColor:
+                              const MaterialStatePropertyAll(Colors.blue),
+                          headingTextStyle: TextStyle(
+                              color: Colors.white,
+                              // fontSize: 24,
+                              wordSpacing: 5),
                           columnSpacing: 5.0,
                           dataRowMinHeight: 10.0,
                           columns: columnName
@@ -205,6 +216,7 @@ class _UpExcelState extends State<UpExcel> {
       await reader.onLoadEnd.first;
 
       final excel = Excel.decodeBytes(reader.result as List<int>);
+
       for (var table in excel.tables.keys) {
         final sheet = excel.tables[table];
 
