@@ -46,7 +46,7 @@ class _SidebarState extends State<Sidebar> {
       ),
       sideBar: SideBar(
         activeBackgroundColor: Color.fromARGB(255, 230, 230, 227),
-        iconColor: Colors.white,
+        iconColor: Color.fromARGB(255, 12, 12, 12),
         textStyle: const TextStyle(
           fontSize: 15,
         ),

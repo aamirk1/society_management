@@ -38,12 +38,12 @@ class _customSideState extends State<customSide> {
           Container(
             padding: const EdgeInsets.only(top: 30),
             width: 250,
-            color: Color.fromARGB(255, 214, 214, 214),
+            color: Color.fromARGB(255, 231, 239, 248),
             child: Column(
               children: [
                 Container(
-                  width: 250,
-                  height: 100,
+                  width: 100,
+                  height: 50,
                   child: Image.asset('assets/images/devlogo.png'),
                   padding: const EdgeInsets.only(bottom: 10),
                 ),

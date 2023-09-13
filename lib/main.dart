@@ -36,38 +36,40 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ExcelProvider()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Society Management',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: Theme.of(context).textTheme.apply(
-                bodyColor: Colors.blueGrey,
-              ),
-          primaryTextTheme: Theme.of(context).textTheme.apply(
-                bodyColor: Colors.purple,
-              ),
-          primaryIconTheme: const IconThemeData(
-            color: Color.fromARGB(255, 91, 3, 255),
+          debugShowCheckedModeBanner: false,
+          title: 'Society Management',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            textTheme: Theme.of(context).textTheme.apply(
+                  bodyColor: Colors.blueGrey,
+                ),
+            primaryTextTheme: Theme.of(context).textTheme.apply(
+                  bodyColor: Colors.purple,
+                ),
+            primaryIconTheme: const IconThemeData(
+              color: Color.fromARGB(255, 91, 3, 255),
+            ),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        onGenerateRoute: (settings) {
-          final page = _getPageWidget(settings);
-          if (page != null) {
-            return PageRouteBuilder(
-                settings: settings,
-                pageBuilder: (_, __, ___) => page,
-                transitionsBuilder: (_, anim, __, child) {
-                  return FadeTransition(
-                    opacity: anim,
-                    child: child,
-                  );
-                });
-          }
-          return null;
-        },
-        home: const customSide(),
-      ),
+          onGenerateRoute: (settings) {
+            final page = _getPageWidget(settings);
+            if (page != null) {
+              return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (_, __, ___) => page,
+                  transitionsBuilder: (_, anim, __, child) {
+                    return FadeTransition(
+                      opacity: anim,
+                      child: child,
+                    );
+                  });
+            }
+            return null;
+          },
+          home: customSide()
+          // home: LoginScreen(),
+          // const customSide(),
+          ),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/viewScreen/societyView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -19,6 +20,35 @@ class _societyListState extends State<societyList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Add Society",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color.fromARGB(255, 231, 239, 248),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Column(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    // signOut();
+                  },
+                ),
+                Text(
+                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('society').snapshots(),

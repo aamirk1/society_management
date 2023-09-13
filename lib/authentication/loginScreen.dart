@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/screen/Sidebar.dart';
+import 'package:society_management/viewScreen/side.dart';
 
 class LoginScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -88,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                               print('Logged in successfully: ${user.uid}');
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) {
-                                return const Sidebar();
+                                return const customSide();
                               }));
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:society_management/excel/uploadExcel.dart';
-import 'package:society_management/viewScreen/societyView.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class societyPage extends StatefulWidget {
   String societyName;
@@ -61,8 +58,8 @@ class _societyPageState extends State<societyPage> {
                         //   color: Colors.black,
                         // )),
                         headingRowColor: MaterialStatePropertyAll(Colors.blue),
-                        headingTextStyle:
-                            TextStyle(color: Colors.white, fontSize: 50.0),
+                        headingTextStyle: const TextStyle(
+                            color: Colors.white, fontSize: 50.0),
                         columnSpacing: 5.0,
                         dataRowMinHeight: 10.0,
                         columns: columnName
@@ -82,50 +79,43 @@ class _societyPageState extends State<societyPage> {
                           (index1) => DataRow(
                             cells: List.generate(growable: true, data[0].length,
                                 (index2) {
-                              return DataCell(Padding(
-                                padding: const EdgeInsets.only(bottom: 2.0),
-                                // child: Text(data[index1][index2]),
+                              print('Data - ${data[index1][index2]}');
+                              return data[index1][index2] != 'Status'
+                                  ? DataCell(Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
+                                      // child: Text(data[index1][index2]),
 
-                                child: TextFormField(
-                                    style: TextStyle(fontSize: 22),
-                                    // controller: controllers[index1][index2],
-                                    onChanged: (value) {
-                                      data[index1][index2] = value;
-                                    },
-                                    decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 3.0, right: 3.0),
-                                        border: const OutlineInputBorder(),
-                                        hintText: data[index1][index2],
-                                        hintStyle: const TextStyle(
-                                            fontSize: 10.0,
-                                            color: Colors.black))),
-                              ));
+                                      child: TextFormField(
+                                          style: const TextStyle(fontSize: 22),
+                                          // controller: controllers[index1][index2],
+                                          onChanged: (value) {
+                                            data[index1][index2] = value;
+                                          },
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 3.0, right: 3.0),
+                                              border:
+                                                  const OutlineInputBorder(),
+                                              hintText: data[index1][index2],
+                                              hintStyle: const TextStyle(
+                                                  fontSize: 10.0,
+                                                  color: Colors.black))),
+                                    ))
+                                  : DataCell(ElevatedButton(
+                                      style: const ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll(
+                                                  Colors.red)),
+                                      onPressed: () {},
+                                      child: const Text('Deactivate')));
                             }),
                           ),
                         ),
                       ),
                     ),
                   ),
-            // SizedBox(height: 10),
-            // Column(children: [
-            //   Table(
-            // children: [getdat()],
-            //   ),
-            // ]),
-
-            // Align(
-            //   alignment: Alignment.bottomRight,
-            //   child: Row(
-            //     children: [
-            //       ElevatedButton(
-            //           onPressed: selectExcelFile,
-            //           child: const Text(
-            //             "Upload Excel",
-            //           )),
-            //     ],
-            //   ),
-            // ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -188,6 +178,7 @@ class _societyPageState extends State<societyPage> {
           mapData[i]['Total'],
           mapData[i]['Unit Cost'],
           mapData[i]['Units'],
+          'Status'
         ]);
       }
       columnName = temp[0];
@@ -200,56 +191,6 @@ class _societyPageState extends State<societyPage> {
       // Use the data map as needed
     }
   }
-  // Future<List<List<dynamic>>> selectExcelFile() async {
-  //   final input = FileUploadInputElement()..accept = '.xlsx';
-  //   input.click();
-
-  //   await input.onChange.first;
-  //   final files = input.files;
-
-  //   if (files?.length == 1) {
-  //     final file = files?[0];
-  //     final reader = FileReader();
-
-  //     reader.readAsArrayBuffer(file!);
-
-  //     await reader.onLoadEnd.first;
-
-  //     final excel = Excel.decodeBytes(reader.result as List<int>);
-  //     for (var table in excel.tables.keys) {
-  //       final sheet = excel.tables[table];
-
-  //       for (var rows in sheet!.rows.skip(0)) {
-  //         Map<String, dynamic> tempMap = {};
-  //         if (columnName.isEmpty) {
-  //           for (var cells in sheet.rows[0]) {
-  //             columnName.add(cells!.value.toString());
-  //           }
-  //         }
-
-  //         List<dynamic> rowData = [];
-  //         for (var cell in rows) {
-  //           rowData.add(cell?.value.toString());
-  //         }
-  //         data.add(rowData);
-
-  //         for (int i = 0; i < columnName.length; i++) {
-  //           tempMap[columnName[i]] = rowData[i];
-  //         }
-  //         // mapExcelData.add(tempMap);
-  //         alldata.add(tempMap);
-  //         tempMap = {};
-  //       }
-  //       //   mapExcelData.removeAt(0);
-  //       print(alldata);
-  //     }
-
-  //     data.removeAt(0);
-  //     showTable = true;
-  //     setState(() {});
-  //   }
-  //   return data;
-  // }
 
   getdat() async {
     for (int i = 0; i < data.length; i++) {
