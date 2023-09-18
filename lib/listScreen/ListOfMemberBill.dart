@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class societyPage extends StatefulWidget {
+class ListOfMemberBill extends StatefulWidget {
   final String societyName;
 
-  static const id = "/societyPage";
-  const societyPage({super.key, required this.societyName});
+  static const id = "/ListOfMemberBill";
+  const ListOfMemberBill({super.key, required this.societyName});
 
   @override
-  State<societyPage> createState() => _societyPageState();
+  State<ListOfMemberBill> createState() => _ListOfMemberBillState();
 }
 
-class _societyPageState extends State<societyPage> {
+class _ListOfMemberBillState extends State<ListOfMemberBill> {
   final _formKey = GlobalKey<FormState>();
 
   List<dynamic> columnName = [];
@@ -34,7 +34,7 @@ class _societyPageState extends State<societyPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(
-            "All Members of ${widget.societyName}",
+            "All Members Account of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),
           ),
           backgroundColor: const Color.fromARGB(255, 231, 239, 248),
@@ -82,7 +82,7 @@ class _societyPageState extends State<societyPage> {
                       : Container(
                           padding: const EdgeInsets.all(2.0),
                           height: 450,
-                          width: MediaQuery.of(context).size.width * 0.99,
+                          width: MediaQuery.of(context).size.width,
                           child: SingleChildScrollView(
                             child: DataTable(
                               headingRowColor:
@@ -192,7 +192,7 @@ class _societyPageState extends State<societyPage> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('society').get();
+        await FirebaseFirestore.instance.collection('accounts').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     // print(tempList);
@@ -220,7 +220,7 @@ class _societyPageState extends State<societyPage> {
     print(mapdata);
 
     FirebaseFirestore.instance
-        .collection('members')
+        .collection('accounts')
         .doc(widget.societyName)
         .update({"data": tempMap}).whenComplete(() => const ScaffoldMessenger(
             child: SnackBar(
@@ -233,7 +233,7 @@ class _societyPageState extends State<societyPage> {
 
   Future<void> fetchMap(String societyName) async {
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-        .collection('members')
+        .collection('accounts')
         .doc(societyName)
         .get();
 

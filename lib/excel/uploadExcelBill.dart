@@ -5,18 +5,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:society_management/listScreen/societyListOfBill.dart';
 
 // import '../excel/uploadExcel.dart';
 
-class UpExcel extends StatefulWidget {
-  static const String id = "/UpExcel";
-  const UpExcel({super.key});
+class UpExcelBill extends StatefulWidget {
+  static const String id = "/UpExcelBill";
+  const UpExcelBill({super.key});
 
   @override
-  State<UpExcel> createState() => _UpExcelState();
+  State<UpExcelBill> createState() => _UpExcelBillState();
 }
 
-class _UpExcelState extends State<UpExcel> {
+class _UpExcelBillState extends State<UpExcelBill> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
   List<dynamic> columnName = [];
@@ -37,7 +38,7 @@ class _UpExcelState extends State<UpExcel> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Add Member",
+          "Add Bill",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Color.fromARGB(255, 231, 239, 248),
@@ -198,7 +199,7 @@ class _UpExcelState extends State<UpExcel> {
         onPressed: () async {
           // for (int i = 0; i < mapExcelData.length; i++) {
           FirebaseFirestore.instance
-              .collection('members')
+              .collection('accounts')
               .doc(_societyNameController.text)
               .set({
             'data': alldata,
@@ -212,6 +213,7 @@ class _UpExcelState extends State<UpExcel> {
           // Perform desired action with the form data
 
           _societyNameController.clear();
+          Navigator.pop(context);
         },
         child: const Icon(Icons.check),
       ));
@@ -289,7 +291,7 @@ class _UpExcelState extends State<UpExcel> {
   getdat() async {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
-          .collection('members')
+          .collection('accounts')
           .doc(_societyNameController.text)
           .collection('tableData')
           .doc('$i')

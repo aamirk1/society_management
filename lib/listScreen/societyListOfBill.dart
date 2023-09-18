@@ -4,22 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/excel/uploadExcel.dart';
+import 'package:society_management/excel/uploadExcelBill.dart';
+import 'package:society_management/listScreen/ListOfMemberBill.dart';
 import 'package:society_management/viewScreen/societyView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'ListOfMemberName.dart';
 
-class societyListOfMemberOfMember extends StatefulWidget {
-  static const id = "/societyListOfMemberOfMember";
-  societyListOfMemberOfMember({super.key});
+class societyListOfBill extends StatefulWidget {
+  static const id = "/societyListOfBill";
+  societyListOfBill({super.key});
 
   @override
-  State<societyListOfMemberOfMember> createState() =>
-      _societyListOfMemberOfMemberState();
+  State<societyListOfBill> createState() => _societyListOfBillState();
 }
 
-class _societyListOfMemberOfMemberState
-    extends State<societyListOfMemberOfMember> {
+class _societyListOfBillState extends State<societyListOfBill> {
   final TextEditingController _societyNameController = TextEditingController();
 
   List<List<dynamic>> data = [];
@@ -61,7 +61,7 @@ class _societyListOfMemberOfMemberState
       ),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('members').snapshots(),
+          stream: FirebaseFirestore.instance.collection('accounts').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -103,7 +103,7 @@ class _societyListOfMemberOfMemberState
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => societyPage(
+                                  builder: (context) => ListOfMemberBill(
                                         societyName: suggestion.toString(),
                                       )),
                             );
@@ -121,7 +121,7 @@ class _societyListOfMemberOfMemberState
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const UpExcel()),
+                                    builder: (context) => const UpExcelBill()),
                               );
                             },
                             child: const Icon(
@@ -146,7 +146,7 @@ class _societyListOfMemberOfMemberState
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => societyPage(
+                                builder: (context) => ListOfMemberBill(
                                       societyName: societyList[index],
                                     )),
                           );
@@ -167,7 +167,7 @@ class _societyListOfMemberOfMemberState
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('members').get();
+        await FirebaseFirestore.instance.collection('accounts').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     print(tempList);
@@ -184,7 +184,7 @@ class _societyListOfMemberOfMemberState
   getdat() async {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
-          .collection('members')
+          .collection('accounts')
           .doc(_societyNameController.text)
           .collection('tableData')
           .doc('$i')
@@ -202,7 +202,7 @@ class _societyListOfMemberOfMemberState
     List<DataColumn> CustomDataColumn = [];
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('members')
+        .collection('accounts')
         .doc(SelectedSociety)
         .collection('tableData')
         .get();
@@ -210,7 +210,7 @@ class _societyListOfMemberOfMemberState
     print(tableList);
     for (int i = 0; i < tableList.length; i++) {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('members')
+          .collection('accounts')
           .doc(SelectedSociety)
           .collection('tableData')
           .doc('$i')

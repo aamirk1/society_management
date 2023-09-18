@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../listScreen/custom_textfield.dart';
@@ -56,8 +57,33 @@ class _AddSocietyState extends State<AddSociety> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text("Add Society"),
-          backgroundColor: const Color.fromARGB(255, 0, 119, 255),
+          title: const Text(
+            "Add Society",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color.fromARGB(255, 231, 239, 248),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      // signOut();
+                    },
+                  ),
+                  Text(
+                    'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),

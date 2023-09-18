@@ -22,7 +22,7 @@ class _societyListState extends State<societyList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Add Society",
+          "All Society",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Color.fromARGB(255, 231, 239, 248),

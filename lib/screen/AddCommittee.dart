@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/listScreen/custom_textfield.dart';
@@ -36,8 +37,33 @@ class _AddCommitteeState extends State<AddCommittee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Committee"),
-        backgroundColor: Color.fromARGB(255, 0, 119, 255),
+        title: const Text(
+          "Add Committee",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color.fromARGB(255, 231, 239, 248),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Column(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    // signOut();
+                  },
+                ),
+                Text(
+                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),

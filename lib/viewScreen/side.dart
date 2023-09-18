@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:society_management/listScreen/societyListOfBill.dart';
 import 'package:society_management/listScreen/societyListOfMember.dart';
 
 import '../listScreen/committeeList.dart';
@@ -14,13 +15,19 @@ class customSide extends StatefulWidget {
 
 // ignore: camel_case_types
 class _customSideState extends State<customSide> {
-  List<String> tabTitle = ['Society List', 'Member List', 'Manager List'];
+  List<String> tabTitle = [
+    'Society List',
+    'Member List',
+    'Manager List',
+    'Accounts'
+  ];
   List<dynamic> tabIcon = [
     Icons.apartment_outlined,
     Icons.supervised_user_circle_outlined,
-    Icons.house_rounded
+    Icons.house_rounded,
+    Icons.house_outlined
   ];
-  List<bool> design = [true, false, false];
+  List<bool> design = [true, false, false, false];
 
   int _selectedIndex = 0;
 
@@ -28,6 +35,7 @@ class _customSideState extends State<customSide> {
     societyList(),
     societyListOfMemberOfMember(),
     const committeeList(),
+    societyListOfBill()
   ];
 
   @override
@@ -81,8 +89,8 @@ class _customSideState extends State<customSide> {
           title: Icon(icon,
               size: 50,
               color: design[index]
-                  ? const Color.fromARGB(95, 101, 129, 255)
-                  : const Color.fromARGB(255, 165, 165, 165)),
+                  ? Color.fromARGB(255, 0, 0, 0)
+                  : Color.fromARGB(95, 134, 134, 134)),
           subtitle: Text(textAlign: TextAlign.center, title),
         ),
       ),
@@ -91,7 +99,7 @@ class _customSideState extends State<customSide> {
 
   void setDesignBool() {
     List<bool> tempBool = [];
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       tempBool.add(false);
     }
     design = tempBool;
