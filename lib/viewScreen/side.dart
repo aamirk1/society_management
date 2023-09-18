@@ -4,7 +4,6 @@ import 'package:society_management/listScreen/societyListOfMember.dart';
 
 import '../listScreen/committeeList.dart';
 import '../listScreen/societyList.dart';
-import '../screen/AddMember.dart';
 
 class customSide extends StatefulWidget {
   const customSide({super.key});

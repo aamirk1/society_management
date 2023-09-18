@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:society_management/screen/Sidebar.dart';
 import 'package:society_management/viewScreen/side.dart';
 
 class LoginScreen extends StatelessWidget {

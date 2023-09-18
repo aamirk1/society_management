@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:society_management/authentication/loginScreen.dart';
-import 'package:society_management/excel/uploadExcel.dart';
 import 'package:society_management/listScreen/committeeList.dart';
 import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/provider/excel_provider.dart';

@@ -212,6 +212,7 @@ class _UpExcelState extends State<UpExcel> {
           // Perform desired action with the form data
 
           _societyNameController.clear();
+          Navigator.pop(context);
         },
         child: const Icon(Icons.check),
       ));
