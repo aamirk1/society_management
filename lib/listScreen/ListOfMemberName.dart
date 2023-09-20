@@ -84,73 +84,82 @@ class _societyPageState extends State<societyPage> {
                           height: 450,
                           width: MediaQuery.of(context).size.width * 0.99,
                           child: SingleChildScrollView(
-                            child: DataTable(
-                              headingRowColor:
-                                  const MaterialStatePropertyAll(Colors.blue),
-                              headingTextStyle: const TextStyle(
-                                  color: Colors.white, fontSize: 50.0),
-                              columnSpacing: 3.0,
-                              dataRowMinHeight: 1.0,
-                              columns: columnName
-                                  .map((e) => DataColumn(
-                                        label: Text(
-                                          e,
-                                          style: const TextStyle(
-                                              // overflow: TextOverflow.ellipsis,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ))
-                                  .toList(),
-                              rows: List.generate(
-                                growable: true,
-                                data.length,
-                                (index1) => DataRow(
-                                  cells: List.generate(
-                                      growable: true, data[0].length, (index2) {
-                                    return data[index1][index2] != 'Status'
-                                        ? DataCell(Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 2.0),
-                                            // child: Text(data[index1][index2]),
+                            scrollDirection: Axis.horizontal,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: DataTable(
+                                border: TableBorder.all(color: Colors.black),
+                                headingRowColor:
+                                    const MaterialStatePropertyAll(Colors.blue),
+                                headingTextStyle: const TextStyle(
+                                    color: Colors.white, fontSize: 50.0),
+                                columnSpacing: 3.0,
+                                dataRowMinHeight: 1.0,
+                                columns: columnName
+                                    .map((e) => DataColumn(
+                                          label: Text(
+                                            e,
+                                            style: const TextStyle(
+                                                // overflow: TextOverflow.ellipsis,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ))
+                                    .toList(),
+                                rows: List.generate(
+                                  growable: true,
+                                  data.length,
+                                  (index1) => DataRow(
+                                    cells: List.generate(
+                                        growable: true,
+                                        data[0].length, (index2) {
+                                      return data[index1][index2] != 'Status'
+                                          ? DataCell(Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 2.0),
+                                              // child: Text(data[index1][index2]),
 
-                                            child: TextFormField(
-                                                style: const TextStyle(
-                                                    fontSize: 22),
-                                                // controller: controllers[index1][index2],
-                                                onChanged: (value) {
-                                                  data[index1][index2] = value;
-                                                },
-                                                decoration: InputDecoration(
-                                                    contentPadding:
-                                                        const EdgeInsets.only(
-                                                            left: 3.0,
-                                                            right: 3.0),
-                                                    border:
-                                                        const OutlineInputBorder(),
-                                                    hintText: data[index1]
-                                                        [index2],
-                                                    hintStyle: const TextStyle(
-                                                        fontSize: 10.0,
-                                                        color: Colors.black))),
-                                          ))
-                                        : DataCell(ElevatedButton(
-                                            style: const ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStatePropertyAll(
-                                                        Colors.red)),
-                                            onPressed: () {
-                                              print("Deactivate");
-                                              // setState(() {
-                                              // if (status == 0) {
-                                              //   setState(() {
-                                              //     Text("Active");
-                                              //   });
-                                              // }
-                                              // });
-                                            },
-                                            child: const Text('Deactivate')));
-                                  }),
+                                              child: TextFormField(
+                                                  style: const TextStyle(
+                                                      fontSize: 22),
+                                                  // controller: controllers[index1][index2],
+                                                  onChanged: (value) {
+                                                    data[index1][index2] =
+                                                        value;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets.only(
+                                                              left: 3.0,
+                                                              right: 3.0),
+                                                      border:
+                                                          const OutlineInputBorder(),
+                                                      hintText: data[index1]
+                                                          [index2],
+                                                      hintStyle:
+                                                          const TextStyle(
+                                                              fontSize: 10.0,
+                                                              color: Colors
+                                                                  .black))),
+                                            ))
+                                          : DataCell(ElevatedButton(
+                                              style: const ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                          Colors.red)),
+                                              onPressed: () {
+                                                print("Deactivate");
+                                                // setState(() {
+                                                // if (status == 0) {
+                                                //   setState(() {
+                                                //     Text("Active");
+                                                //   });
+                                                // }
+                                                // });
+                                              },
+                                              child: const Text('Deactivate')));
+                                    }),
+                                  ),
                                 ),
                               ),
                             ),
@@ -243,13 +252,16 @@ class _societyPageState extends State<societyPage> {
       List<List<dynamic>> temp = [];
       for (int i = 0; i < mapData.length; i++) {
         temp.add([
-          mapData[i]['Item'] ?? '',
-          mapData[i]['OrderDate'] ?? '',
-          mapData[i]['Region'] ?? '',
-          mapData[i]['Rep'] ?? '',
-          mapData[i]['Total'] ?? '',
-          mapData[i]['Unit Cost'] ?? '',
-          mapData[i]['Units'] ?? '',
+          mapData[i]['Flat No.'] ?? '',
+          mapData[i]['Member Name'] ?? '',
+          mapData[i]['Area'] ?? '',
+          mapData[i]['Status'] ?? '',
+          mapData[i]['Mobile No.'] ?? '',
+          mapData[i]['Email Id'] ?? '',
+          mapData[i]['MC Member'] ?? '',
+          mapData[i]['Remarks'] ?? '',
+          mapData[i]['Parking No.'] ?? '',
+          mapData[i]['Tenant Name And Address'] ?? '',
           'Status'
         ]);
       }

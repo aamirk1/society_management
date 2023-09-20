@@ -156,7 +156,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                                                 // setState(() {
                                                 // if (status == 0) {
                                                 //   setState(() {
-                                                //     Text("Active");
+                                                //     Text("Activate");
                                                 //   });
                                                 // }
                                                 // });

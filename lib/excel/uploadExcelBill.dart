@@ -107,9 +107,9 @@ class _UpExcelBillState extends State<UpExcelBill> {
                         height: 398,
                         width: MediaQuery.of(context).size.width,
                         child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
+                          scrollDirection: Axis.horizontal,
                           child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
+                            scrollDirection: Axis.vertical,
                             child: Expanded(
                               child: DataTable(
                                 // border: const TableBorder(
