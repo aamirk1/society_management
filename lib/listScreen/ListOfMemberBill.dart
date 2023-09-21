@@ -125,7 +125,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
 
                                               child: TextFormField(
                                                   style: const TextStyle(
-                                                      fontSize: 22),
+                                                      fontSize: 12),
                                                   // controller: controllers[index1][index2],
                                                   onChanged: (value) {
                                                     data[index1][index2] =
@@ -142,7 +142,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                                                           [index2],
                                                       hintStyle:
                                                           const TextStyle(
-                                                              fontSize: 10.0,
+                                                              fontSize: 11.0,
                                                               color: Colors
                                                                   .black))),
                                             ))
@@ -153,13 +153,6 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                                                           Colors.red)),
                                               onPressed: () {
                                                 print("Deactivate");
-                                                // setState(() {
-                                                // if (status == 0) {
-                                                //   setState(() {
-                                                //     Text("Activate");
-                                                //   });
-                                                // }
-                                                // });
                                               },
                                               child: const Text('Deactivate')));
                                     }),

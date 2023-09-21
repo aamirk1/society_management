@@ -12,6 +12,14 @@ class societyPage extends StatefulWidget {
 }
 
 class _societyPageState extends State<societyPage> {
+  List<bool> isActive = [];
+
+  // void toggleActivation() {
+  //   setState(() {
+  //     isActive = !isActive;
+  //   });
+  // }
+
   final _formKey = GlobalKey<FormState>();
 
   List<dynamic> columnName = [];
@@ -121,7 +129,7 @@ class _societyPageState extends State<societyPage> {
 
                                               child: TextFormField(
                                                   style: const TextStyle(
-                                                      fontSize: 22),
+                                                      fontSize: 12),
                                                   // controller: controllers[index1][index2],
                                                   onChanged: (value) {
                                                     data[index1][index2] =
@@ -132,32 +140,65 @@ class _societyPageState extends State<societyPage> {
                                                           const EdgeInsets.only(
                                                               left: 3.0,
                                                               right: 3.0),
-                                                      border:
-                                                          const OutlineInputBorder(),
+                                                      // border:
+                                                      //     const OutlineInputBorder(),
                                                       hintText: data[index1]
                                                           [index2],
                                                       hintStyle:
                                                           const TextStyle(
-                                                              fontSize: 10.0,
+                                                              fontSize: 11.0,
                                                               color: Colors
                                                                   .black))),
                                             ))
-                                          : DataCell(ElevatedButton(
-                                              style: const ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll(
-                                                          Colors.red)),
-                                              onPressed: () {
-                                                print("Deactivate");
-                                                // setState(() {
-                                                // if (status == 0) {
-                                                //   setState(() {
-                                                //     Text("Active");
-                                                //   });
-                                                // }
-                                                // });
-                                              },
-                                              child: const Text('Deactivate')));
+                                          : DataCell(
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      isActive[index1] =
+                                                          !isActive[index1];
+                                                    });
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        isActive[index1]
+                                                            ? Colors.red
+                                                            : Colors.green,
+                                                  ),
+                                                  child: Text(
+                                                    isActive[index1]
+                                                        ? 'Deactivate'
+                                                        : 'Activate',
+                                                    style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+
+                                              // Visibility(
+                                              //   visible: isActive,
+                                              //   child: Row(
+                                              //     children: [
+                                              //       // Your row content goes here
+                                              //     ],
+                                              //   ),
+                                              // ),
+                                              // ElevatedButton(
+                                              //   style: const ButtonStyle(
+                                              //       backgroundColor:
+                                              //           MaterialStatePropertyAll(
+                                              //               Colors.red)),
+                                              //   onPressed: () {
+                                              //     print("Deactivate");
+
+                                              //   },
+                                              //   child: const Text('Deactivate'))
+                                            );
                                     }),
                                   ),
                                 ),
@@ -265,9 +306,14 @@ class _societyPageState extends State<societyPage> {
           'Status'
         ]);
       }
+
       columnName = temp[0];
       data = temp;
       data.removeAt(0);
+
+      for (int i = 0; i < data.length; i++) {
+        isActive.add(true);
+      }
 
       // Use the data map as needed
     }
