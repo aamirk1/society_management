@@ -213,22 +213,29 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   }
 
   Future<void> storeEditedData() async {
-    List<dynamic> columnNames = data[0];
-    print(columnNames);
-    Map<String, dynamic> tempMap = {};
     List<Map<String, dynamic>> mapdata = [];
+    Map<String, dynamic> temp = {};
+    // print("data - $data");
+    for (int i = 0; i < data[0].length; i++) {
+      temp[columnName[i]] = columnName[i];
+    }
+    mapdata.add(temp);
+
     for (List<dynamic> listData in data) {
+      Map<String, dynamic> tempMap = {};
       for (int i = 0; i < listData.length; i++) {
-        tempMap[columnNames[i]] = listData[i];
-        mapdata.add(tempMap);
+        tempMap[columnName[i]] = listData[i];
       }
+      mapdata.add(tempMap);
     }
     print(mapdata);
 
     FirebaseFirestore.instance
         .collection('accounts')
         .doc(widget.societyName)
-        .update({"data": tempMap}).whenComplete(() => const ScaffoldMessenger(
+        .collection('month')
+        .doc('${DateTime.now().month}')
+        .update({"data": mapdata}).whenComplete(() => const ScaffoldMessenger(
             child: SnackBar(
                 backgroundColor: Colors.green,
                 content: Text(

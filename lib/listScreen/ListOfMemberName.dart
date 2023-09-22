@@ -257,22 +257,27 @@ class _societyPageState extends State<societyPage> {
   }
 
   Future<void> storeEditedData() async {
-    List<dynamic> columnNames = data[0];
-    print(columnNames);
-    Map<String, dynamic> tempMap = {};
     List<Map<String, dynamic>> mapdata = [];
+    Map<String, dynamic> temp = {};
+    // print("data - $data");
+    for (int i = 0; i < data[0].length; i++) {
+      temp[columnName[i]] = columnName[i];
+    }
+    mapdata.add(temp);
+
     for (List<dynamic> listData in data) {
+      Map<String, dynamic> tempMap = {};
       for (int i = 0; i < listData.length; i++) {
-        tempMap[columnNames[i]] = listData[i];
-        mapdata.add(tempMap);
+        tempMap[columnName[i]] = listData[i];
       }
+      mapdata.add(tempMap);
     }
     print(mapdata);
 
     FirebaseFirestore.instance
         .collection('members')
         .doc(widget.societyName)
-        .update({"data": tempMap}).whenComplete(() => const ScaffoldMessenger(
+        .update({"data": mapdata}).whenComplete(() => const ScaffoldMessenger(
             child: SnackBar(
                 backgroundColor: Colors.green,
                 content: Text(
@@ -296,18 +301,18 @@ class _societyPageState extends State<societyPage> {
           mapData[i]['Flat No.'] ?? '',
           mapData[i]['Member Name'] ?? '',
           mapData[i]['Area'] ?? '',
-          mapData[i]['Status'] ?? '',
           mapData[i]['Mobile No.'] ?? '',
           mapData[i]['Email Id'] ?? '',
           mapData[i]['MC Member'] ?? '',
           mapData[i]['Remarks'] ?? '',
           mapData[i]['Parking No.'] ?? '',
           mapData[i]['Tenant Name And Address'] ?? '',
-          'Status'
+          mapData[i]['Status'] ?? '',
         ]);
       }
 
       columnName = temp[0];
+
       data = temp;
       data.removeAt(0);
 

@@ -204,6 +204,8 @@ class _UpExcelBillState extends State<UpExcelBill> {
           FirebaseFirestore.instance
               .collection('accounts')
               .doc(_societyNameController.text)
+              .collection('month')
+              .doc('${DateTime.now().month}')
               .set({
             'data': alldata,
           }).then((value) {
