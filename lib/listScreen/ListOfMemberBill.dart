@@ -248,6 +248,8 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
         .collection('accounts')
         .doc(societyName)
+        .collection('month')
+        .doc('9')
         .get();
 
     if (docSnapshot.exists) {
