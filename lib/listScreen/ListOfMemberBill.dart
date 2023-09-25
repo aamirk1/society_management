@@ -2,6 +2,8 @@ import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:society_management/listScreen/societyList.dart';
 
 class ListOfMemberBill extends StatefulWidget {
   final String societyName;
@@ -23,6 +25,8 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   List<dynamic> alldata = [];
   bool showTable = false;
   List<dynamic> newRow = [];
+
+  String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
 
   @override
   void initState() {
@@ -234,7 +238,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
         .collection('accounts')
         .doc(widget.societyName)
         .collection('month')
-        .doc('${DateTime.now().month}')
+        .doc(monthyear)
         .update({"data": mapdata}).whenComplete(() => const ScaffoldMessenger(
             child: SnackBar(
                 backgroundColor: Colors.green,
@@ -249,7 +253,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
         .collection('accounts')
         .doc(societyName)
         .collection('month')
-        .doc('9')
+        .doc(monthyear)
         .get();
 
     if (docSnapshot.exists) {

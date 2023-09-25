@@ -287,21 +287,21 @@ class _UpExcelState extends State<UpExcel> {
     return data;
   }
 
-  getdat() async {
-    for (int i = 0; i < data.length; i++) {
-      FirebaseFirestore.instance
-          .collection('members')
-          .doc(_societyNameController.text)
-          .collection('tableData')
-          .doc('$i')
-          .set({
-        'societyName': _societyNameController.text,
-        '$i': data[i],
-      }).then((value) {
-        print('Done!');
-      });
-    }
-  }
+  // getdat() async {
+  //   for (int i = 0; i < data.length; i++) {
+  //     FirebaseFirestore.instance
+  //         .collection('members')
+  //         .doc(_societyNameController.text)
+  //         .collection('tableData')
+  //         .doc('$i')
+  //         .set({
+  //       'societyName': _societyNameController.text,
+  //       '$i': data[i],
+  //     }).then((value) {
+  //       print('Done!');
+  //     });
+  //   }
+  // }
 }
 
 // import 'dart:html';

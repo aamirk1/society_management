@@ -19,22 +19,131 @@ class societyListOfBill extends StatefulWidget {
 
 class _societyListOfBillState extends State<societyListOfBill> {
   final TextEditingController _societyNameController = TextEditingController();
+  final TextEditingController monthyear = TextEditingController();
 
   List<List<dynamic>> data = [];
   List<DataColumn> CustomDataColumn = [];
   List<String> searchedList = [];
+  List<String> dateList = [];
   List<dynamic> columnName = [];
+  @override
+  void initState() {
+    print(searchedList);
+    print('Month Year---$dateList');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Society List",
-          style: TextStyle(color: Colors.black),
-        ),
+        // title: const Text(
+        //   "Society List",
+        //   style: TextStyle(color: Colors.black),
+        // ),
         backgroundColor: Color.fromARGB(255, 231, 239, 248),
         actions: [
+          Container(
+            child: Flexible(
+                child: Padding(
+              padding: const EdgeInsets.only(left: 5, right: 10.0),
+              child: Row(
+                children: [
+                  Container(
+                    child: const Text(
+                      "Accounts",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    width: 220,
+                    padding: const EdgeInsets.all(8),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: monthyear,
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .copyWith(fontStyle: FontStyle.italic),
+                          decoration: const InputDecoration(
+                              labelText: 'Selcet Month',
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        return await getBillMonth(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        monthyear.text = suggestion.toString();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ListOfMemberBill(
+                        //             societyName: suggestion.toString(),
+                        //           )),
+                        // );
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 550,
+                    padding: const EdgeInsets.all(8),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: _societyNameController,
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .copyWith(fontStyle: FontStyle.italic),
+                          decoration: const InputDecoration(
+                              labelText: 'Selcet Society',
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        return await getUserdata(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        _societyNameController.text = suggestion.toString();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ListOfMemberBill(
+                        //             societyName: suggestion.toString(),
+                        //           )),
+                        // );
+                        // Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: ElevatedButton(
+                        style: const ButtonStyle(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UpExcelBill()),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.add,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Column(
@@ -73,63 +182,6 @@ class _societyListOfBillState extends State<societyListOfBill> {
 
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                          child: Container(
-                        padding: const EdgeInsets.all(8),
-                        child: TypeAheadField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                              controller: _societyNameController,
-                              style: DefaultTextStyle.of(context)
-                                  .style
-                                  .copyWith(fontStyle: FontStyle.italic),
-                              decoration: const InputDecoration(
-                                  labelText: 'Search Society',
-                                  border: OutlineInputBorder())),
-                          suggestionsCallback: (pattern) async {
-                            return await getUserdata(pattern);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion.toString()),
-                            );
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            print('help');
-                            _societyNameController.text = suggestion.toString();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ListOfMemberBill(
-                                        societyName: suggestion.toString(),
-                                      )),
-                            );
-                          },
-                        ),
-                      )),
-                      const SizedBox(width: 10),
-                      Container(
-                        height: 45,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 5.0),
-                          child: ElevatedButton(
-                            style: const ButtonStyle(),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const UpExcelBill()),
-                              );
-                            },
-                            child: const Icon(
-                              Icons.add,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     height: 15,
                   ),
@@ -221,5 +273,25 @@ class _societyListOfBillState extends State<societyListOfBill> {
     }
     // print(CustomDataRow);
     return CustomDataRow;
+  }
+
+  getBillMonth(String pattern) async {
+    dateList.clear();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('accounts')
+        .doc(_societyNameController.text)
+        .collection('month')
+        .get();
+
+    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
+    print(tempList);
+
+    for (int i = 0; i < tempList.length; i++) {
+      if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
+        dateList.add(tempList[i]);
+      }
+    }
+    // print(searchedList.length);
+    return dateList;
   }
 }

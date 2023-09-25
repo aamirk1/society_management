@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:intl/intl.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -24,12 +25,14 @@ class _UpExcelBillState extends State<UpExcelBill> {
   List<List<dynamic>> data = [];
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
+  String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
 
   bool showTable = false;
 
   @override
   void initState() {
     // TODO: implement initState
+    print(monthyear);
     super.initState();
   }
 
@@ -205,7 +208,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
               .collection('accounts')
               .doc(_societyNameController.text)
               .collection('month')
-              .doc('${DateTime.now().month}')
+              .doc(monthyear)
               .set({
             'data': alldata,
           }).then((value) {
@@ -214,6 +217,11 @@ class _UpExcelBillState extends State<UpExcelBill> {
               content: Text('Successfully Uploaded'),
             ));
           });
+
+          FirebaseFirestore.instance
+              .collection('accounts')
+              .doc(_societyNameController.text)
+              .set({'name': _societyNameController.text});
           //       }
           // Perform desired action with the form data
 
