@@ -37,6 +37,7 @@ class _AddCommitteeState extends State<AddCommittee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: const Text(
           "Add Committee",
           style: TextStyle(color: Colors.black),

@@ -28,6 +28,7 @@ class _societyListOfBillState extends State<societyListOfBill> {
   List<dynamic> columnName = [];
   @override
   void initState() {
+    print('hellolo $getBillMonth');
     print(searchedList);
     print('Month Year---$dateList');
     super.initState();
@@ -53,38 +54,6 @@ class _societyListOfBillState extends State<societyListOfBill> {
                     child: const Text(
                       "Accounts",
                       style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ),
-                  Container(
-                    width: 220,
-                    padding: const EdgeInsets.all(8),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: monthyear,
-                          style: DefaultTextStyle.of(context)
-                              .style
-                              .copyWith(fontStyle: FontStyle.italic),
-                          decoration: const InputDecoration(
-                              labelText: 'Selcet Month',
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        return await getBillMonth(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        monthyear.text = suggestion.toString();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ListOfMemberBill(
-                        //             societyName: suggestion.toString(),
-                        //           )),
-                        // );
-                      },
                     ),
                   ),
                   Container(
@@ -120,9 +89,41 @@ class _societyListOfBillState extends State<societyListOfBill> {
                       },
                     ),
                   ),
+                  Container(
+                    width: 220,
+                    padding: const EdgeInsets.all(8),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: monthyear,
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .copyWith(fontStyle: FontStyle.italic),
+                          decoration: const InputDecoration(
+                              labelText: 'Selcet Month',
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        return await getBillMonth(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        monthyear.text = suggestion.toString();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ListOfMemberBill(
+                        //             societyName: suggestion.toString(),
+                        //           )),
+                        // );
+                      },
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   Container(
-                    height: 45,
+                    height: 40,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 5.0),
                       child: ElevatedButton(
@@ -289,6 +290,8 @@ class _societyListOfBillState extends State<societyListOfBill> {
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
         dateList.add(tempList[i]);
+      } else {
+        dateList.add('Not Availabel');
       }
     }
     // print(searchedList.length);

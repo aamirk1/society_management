@@ -31,6 +31,7 @@ class _societyListOfMemberOfMemberState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: const Text(
           "Society List",
           style: TextStyle(color: Colors.black),

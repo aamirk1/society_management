@@ -39,6 +39,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
           title: Text(
             "All Members Account of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),

@@ -21,6 +21,7 @@ class _committeeListState extends State<committeeList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: const Text(
           "Manager List",
           style: TextStyle(color: Colors.black),

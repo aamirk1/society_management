@@ -57,6 +57,7 @@ class _AddSocietyState extends State<AddSociety> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
           title: const Text(
             "Add Society",
             style: TextStyle(color: Colors.black),

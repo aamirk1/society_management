@@ -39,6 +39,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: const Text(
           "Add Bill",
           style: TextStyle(color: Colors.black),

@@ -41,6 +41,7 @@ class _societyPageState extends State<societyPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
           title: Text(
             "All Members of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),

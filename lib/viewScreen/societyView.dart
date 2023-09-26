@@ -57,6 +57,7 @@ class _societyDetailsState extends State<societyDetails> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           title: Text(widget.societyNames),
           backgroundColor: const Color.fromARGB(255, 0, 119, 255),
         ),

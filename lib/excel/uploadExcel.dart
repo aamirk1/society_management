@@ -36,6 +36,7 @@ class _UpExcelState extends State<UpExcel> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: const Text(
           "Add Member",
           style: TextStyle(color: Colors.black),

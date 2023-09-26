@@ -31,6 +31,7 @@ class _committeeDetailsState extends State<committeeDetails> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
           title: Text(widget.name),
           backgroundColor: Color.fromARGB(255, 0, 119, 255),
         ),
