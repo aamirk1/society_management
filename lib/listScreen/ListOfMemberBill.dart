@@ -39,7 +39,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.black),
           title: Text(
             "All Members Account of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),
@@ -90,10 +90,10 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                           padding: const EdgeInsets.all(2.0),
                           height: 450,
                           width: MediaQuery.of(context).size.width,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
+                          child: InteractiveViewer(
+                            constrained: false,
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+                              scrollDirection: Axis.vertical,
                               child: DataTable(
                                 border: TableBorder.all(color: Colors.black),
                                 headingRowColor:
@@ -196,7 +196,9 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                 ),
               )
             ],
+            
           ),
+          
         ),
       );
 

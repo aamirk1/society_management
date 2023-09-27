@@ -39,12 +39,12 @@ class _UpExcelBillState extends State<UpExcelBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           "Add Bill",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -61,7 +61,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
                 ),
                 Text(
                   'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),

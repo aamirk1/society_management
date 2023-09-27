@@ -28,9 +28,9 @@ class _societyListOfBillState extends State<societyListOfBill> {
   List<dynamic> columnName = [];
   @override
   void initState() {
-    print('hellolo $getBillMonth');
-    print(searchedList);
-    print('Month Year---$dateList');
+    // print('hellolo $getBillMonth');
+    // print(searchedList);
+    // print('Month Year---$dateList');
     super.initState();
   }
 
@@ -44,107 +44,103 @@ class _societyListOfBillState extends State<societyListOfBill> {
         // ),
         backgroundColor: Color.fromARGB(255, 231, 239, 248),
         actions: [
-          Container(
-            child: Flexible(
-                child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 10.0),
-              child: Row(
-                children: [
-                  Container(
-                    child: const Text(
-                      "Accounts",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
+          Flexible(
+              child: Padding(
+            padding: const EdgeInsets.only(left: 5, right: 10.0),
+            child: Row(
+              children: [
+                const Text(
+                  "Accounts",
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+                Container(
+                  width: 550,
+                  padding: const EdgeInsets.all(8),
+                  child: TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                        controller: _societyNameController,
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .copyWith(fontStyle: FontStyle.italic),
+                        decoration: const InputDecoration(
+                            labelText: 'Selcet Society',
+                            border: OutlineInputBorder())),
+                    suggestionsCallback: (pattern) async {
+                      return await getUserdata(pattern);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion.toString()),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      _societyNameController.text = suggestion.toString();
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => ListOfMemberBill(
+                      //             societyName: suggestion.toString(),
+                      //           )),
+                      // );
+                      // Navigator.pop(context);
+                    },
                   ),
-                  Container(
-                    width: 550,
-                    padding: const EdgeInsets.all(8),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: _societyNameController,
-                          style: DefaultTextStyle.of(context)
-                              .style
-                              .copyWith(fontStyle: FontStyle.italic),
-                          decoration: const InputDecoration(
-                              labelText: 'Selcet Society',
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        return await getUserdata(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
+                ),
+                Container(
+                  width: 220,
+                  padding: const EdgeInsets.all(8),
+                  child: TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                        controller: monthyear,
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .copyWith(fontStyle: FontStyle.italic),
+                        decoration: const InputDecoration(
+                            labelText: 'Selcet Month',
+                            border: OutlineInputBorder())),
+                    suggestionsCallback: (pattern) async {
+                      return await getBillMonth(pattern);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion.toString()),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      monthyear.text = suggestion.toString();
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => ListOfMemberBill(
+                      //             societyName: suggestion.toString(),
+                      //           )),
+                      // );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                SizedBox(
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: ElevatedButton(
+                      style: const ButtonStyle(),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UpExcelBill()),
                         );
                       },
-                      onSuggestionSelected: (suggestion) {
-                        _societyNameController.text = suggestion.toString();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ListOfMemberBill(
-                        //             societyName: suggestion.toString(),
-                        //           )),
-                        // );
-                        // Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: 220,
-                    padding: const EdgeInsets.all(8),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: monthyear,
-                          style: DefaultTextStyle.of(context)
-                              .style
-                              .copyWith(fontStyle: FontStyle.italic),
-                          decoration: const InputDecoration(
-                              labelText: 'Selcet Month',
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        return await getBillMonth(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        monthyear.text = suggestion.toString();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ListOfMemberBill(
-                        //             societyName: suggestion.toString(),
-                        //           )),
-                        // );
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    height: 40,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 5.0),
-                      child: ElevatedButton(
-                        style: const ButtonStyle(),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UpExcelBill()),
-                          );
-                        },
-                        child: const Icon(
-                          Icons.add,
-                        ),
+                      child: const Icon(
+                        Icons.add,
                       ),
                     ),
                   ),
-                ],
-              ),
-            )),
-          ),
+                ),
+              ],
+            ),
+          )),
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Column(
@@ -160,7 +156,7 @@ class _societyListOfBillState extends State<societyListOfBill> {
                 ),
                 Text(
                   'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -183,7 +179,7 @@ class _societyListOfBillState extends State<societyListOfBill> {
 
               return Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   ListView.builder(
@@ -258,7 +254,6 @@ class _societyListOfBillState extends State<societyListOfBill> {
         .collection('tableData')
         .get();
     List<dynamic> tableList = querySnapshot.docs.map((e) => e.id).toList();
-    print(tableList);
     for (int i = 0; i < tableList.length; i++) {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('accounts')
