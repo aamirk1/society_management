@@ -41,7 +41,7 @@ class _societyPageState extends State<societyPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.black),
           title: Text(
             "All Members of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),
@@ -222,7 +222,6 @@ class _societyPageState extends State<societyPage> {
                           newRow = List.filled(data[0].length - 1, '');
                           newRow.add('Status');
                           data.add(newRow);
-
                           setState(() {});
                         },
                         child: const Icon(Icons.add),
@@ -278,13 +277,17 @@ class _societyPageState extends State<societyPage> {
     FirebaseFirestore.instance
         .collection('members')
         .doc(widget.societyName)
-        .update({"data": mapdata}).whenComplete(() => const ScaffoldMessenger(
-            child: SnackBar(
-                backgroundColor: Colors.green,
-                content: Text(
-                  'Data Saved Successfully',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ))));
+        .update({"data": mapdata}).whenComplete(
+      () => const ScaffoldMessenger(
+        child: SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(
+            'Data Saved Successfully',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> fetchMap(String societyName) async {
@@ -311,7 +314,6 @@ class _societyPageState extends State<societyPage> {
           mapData[i]['Status'] ?? '',
         ]);
       }
-
       columnName = temp[0];
 
       data = temp;
@@ -320,8 +322,6 @@ class _societyPageState extends State<societyPage> {
       for (int i = 0; i < data.length; i++) {
         isActive.add(true);
       }
-
-      // Use the data map as needed
     }
   }
 }

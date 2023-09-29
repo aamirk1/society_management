@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/excel/uploadExcel.dart';
-import 'package:society_management/viewScreen/societyView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'ListOfMemberName.dart';
@@ -112,7 +111,7 @@ class _societyListOfMemberOfMemberState
                         ),
                       )),
                       const SizedBox(width: 10),
-                      Container(
+                      SizedBox(
                         height: 45,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 5.0),
@@ -133,7 +132,7 @@ class _societyListOfMemberOfMemberState
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   ListView.builder(

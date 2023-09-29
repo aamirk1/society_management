@@ -3,7 +3,7 @@ import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:society_management/listScreen/societyList.dart';
+import 'package:path/path.dart';
 
 class ListOfMemberBill extends StatefulWidget {
   final String societyName;
@@ -155,11 +155,11 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                                               style: const ButtonStyle(
                                                   backgroundColor:
                                                       MaterialStatePropertyAll(
-                                                          Colors.red)),
+                                                          Colors.blue)),
                                               onPressed: () {
-                                                print("Deactivate");
+                                                print("Paid");
                                               },
-                                              child: const Text('Deactivate')));
+                                              child: const Text('Pay')));
                                     }),
                                   ),
                                 ),
@@ -196,9 +196,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                 ),
               )
             ],
-            
           ),
-          
         ),
       );
 

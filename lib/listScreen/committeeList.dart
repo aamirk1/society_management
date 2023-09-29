@@ -121,27 +121,36 @@ class _committeeListState extends State<committeeList> {
                     ],
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 10,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: committeeNames.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(committeeNames[index]),
-                        subtitle: Text(data.docs[index]['designation']),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  committeeDetails(name: committeeNames[index]),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                  SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: committeeNames.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(committeeNames[index]),
+                          subtitle: Text(data.docs[index]['designation']),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => committeeDetails(
+                                    name: committeeNames[index]),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
+                  // const Text('Roll Assign'),
+                  // const SizedBox(
+                  //   child: Expanded(
+                  //     child: Text('Assign'),
+                  //   ),
+                  // )
                 ],
               );
             } else {

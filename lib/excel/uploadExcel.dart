@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:society_management/listScreen/custom_textfield.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -19,11 +20,23 @@ class UpExcel extends StatefulWidget {
 class _UpExcelState extends State<UpExcel> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
+  final TextEditingController s_flatNo = TextEditingController();
+  final TextEditingController s_name = TextEditingController();
+  final TextEditingController s_email = TextEditingController();
+  final TextEditingController s_mobile = TextEditingController();
+  final TextEditingController s_mc = TextEditingController();
+  final TextEditingController s_remarks = TextEditingController();
+  final TextEditingController s_parking = TextEditingController();
+  final TextEditingController s_tenant = TextEditingController();
+  final TextEditingController s_area = TextEditingController();
+  final TextEditingController s_status = TextEditingController();
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
+  Map<String, dynamic> fieldMap = {};
+  List<dynamic> fielddata = [];
 
   bool showTable = false;
 
@@ -99,7 +112,45 @@ class _UpExcelState extends State<UpExcel> {
                 ],
               ),
               const SizedBox(
-                height: 15,
+                height: 5,
+              ),
+
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      OverviewField('Flat No.: ', s_flatNo),
+                      OverviewField('Member Name: ', s_name),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Area', s_area),
+                      OverviewField('Status', s_status),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Mobile No.:', s_mobile),
+                      OverviewField(
+                        'Email Id:',
+                        s_email,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('MC Member', s_mc),
+                      OverviewField('Remarks', s_remarks),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      OverviewField('Parking No.', s_parking),
+                      OverviewField('Tenant Name And Address', s_tenant),
+                    ],
+                  ),
+                ],
               ),
               showTable
                   ? Expanded(
@@ -177,7 +228,7 @@ class _UpExcelState extends State<UpExcel> {
               //   ),
               // ]),
               const SizedBox(
-                height: 15,
+                height: 5,
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -197,23 +248,46 @@ class _UpExcelState extends State<UpExcel> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          fieldMap['Flat No.: '] = s_flatNo.text;
+          fieldMap['Member Name: '] = s_name.text;
+          fieldMap['Area: '] = s_area.text;
+          fieldMap['Status: '] = s_status.text;
+          fieldMap['Mobile No.: '] = s_mobile.text;
+          fieldMap['Email Id: '] = s_email.text;
+          fieldMap['MC Member: '] = s_mc.text;
+          fieldMap['Remarks: '] = s_remarks.text;
+          fieldMap['Parking No: '] = s_parking.text;
+          fieldMap['Tenant Name And Address: '] = s_tenant.text;
+          fielddata.add(alldata);
+          fielddata.add(fieldMap);
           // for (int i = 0; i < mapExcelData.length; i++) {
-          FirebaseFirestore.instance
-              .collection('members')
-              .doc(_societyNameController.text)
-              .set({
-            'data': alldata,
-          }).then((value) {
-            const ScaffoldMessenger(
-                child: SnackBar(
-              content: Text('Successfully Uploaded'),
-            ));
-          });
+          alldata.length != 0
+              ? FirebaseFirestore.instance
+                  .collection('members')
+                  .doc(_societyNameController.text)
+                  .set({
+                  'data': alldata,
+                }).then((value) {
+                  const ScaffoldMessenger(
+                      child: SnackBar(
+                    content: Text('Successfully Uploaded'),
+                  ));
+                })
+              : FirebaseFirestore.instance
+                  .collection('members')
+                  .doc(_societyNameController.text)
+                  .set({'data': fielddata}).then((value) {
+                  const ScaffoldMessenger(
+                      child: SnackBar(
+                    content: Text('Successfully Uploaded'),
+                  ));
+                });
+
           //       }
           // Perform desired action with the form data
 
-          _societyNameController.clear();
-          Navigator.pop(context);
+          // _societyNameController.clear();
+          // Navigator.pop(context);
         },
         child: const Icon(Icons.check),
       ));
@@ -288,21 +362,32 @@ class _UpExcelState extends State<UpExcel> {
     return data;
   }
 
-  // getdat() async {
-  //   for (int i = 0; i < data.length; i++) {
-  //     FirebaseFirestore.instance
-  //         .collection('members')
-  //         .doc(_societyNameController.text)
-  //         .collection('tableData')
-  //         .doc('$i')
-  //         .set({
-  //       'societyName': _societyNameController.text,
-  //       '$i': data[i],
-  //     }).then((value) {
-  //       print('Done!');
-  //     });
-  //   }
-  // }
+  OverviewField(String title, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            width: 200,
+            child: Text(
+              title,
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          Container(
+            width: 250,
+            child: CustomTextField(
+              readonly: false,
+              controller: controller,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // import 'dart:html';
