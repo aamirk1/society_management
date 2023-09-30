@@ -222,7 +222,12 @@ class _societyPageState extends State<societyPage> {
                           newRow = List.filled(data[0].length - 1, '');
                           newRow.add('Status');
                           data.add(newRow);
-                          setState(() {});
+                          setState(() {
+                            mapExcelData.addAll({
+                              widget.societyName:
+                                  data.map((e) => e.map((e) => e).toList())
+                            });
+                          });
                         },
                         child: const Icon(Icons.add),
                       ),

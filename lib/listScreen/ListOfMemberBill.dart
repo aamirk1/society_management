@@ -27,7 +27,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   List<dynamic> newRow = [];
 
   String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
-
+  String fetch = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
     fetchMap(widget.societyName)
@@ -39,7 +39,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           title: Text(
             "All Members Account of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),
@@ -183,7 +183,12 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                           newRow.add('Status');
                           data.add(newRow);
 
-                          setState(() {});
+                          setState(() {
+                            // const ListTile(
+                            //   title: Text('Pay'),
+                            //   trailing: Icon(Icons.check),
+                            // );
+                          });
                         },
                         child: const Icon(Icons.add),
                       ),
@@ -240,13 +245,17 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
         .doc(widget.societyName)
         .collection('month')
         .doc(monthyear)
-        .update({"data": mapdata}).whenComplete(() => const ScaffoldMessenger(
-            child: SnackBar(
-                backgroundColor: Colors.green,
-                content: Text(
-                  'Data Saved Successfully',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ))));
+        .update({"data": mapdata}).whenComplete(
+      () => const ScaffoldMessenger(
+        child: SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(
+            'Data Saved Successfully',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> fetchMap(String societyName) async {

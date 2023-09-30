@@ -146,9 +146,10 @@ class _societyListOfMemberOfMemberState
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => societyPage(
-                                      societyName: societyList[index],
-                                    )),
+                              builder: (context) => societyPage(
+                                societyName: societyList[index],
+                              ),
+                            ),
                           );
                         },
                       );
