@@ -93,7 +93,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                           child: InteractiveViewer(
                             constrained: false,
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
+                              scrollDirection: Axis.horizontal,
                               child: DataTable(
                                 border: TableBorder.all(color: Colors.black),
                                 headingRowColor:

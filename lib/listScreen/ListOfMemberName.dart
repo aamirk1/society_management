@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,10 @@ class societyPage extends StatefulWidget {
 }
 
 class _societyPageState extends State<societyPage> {
+  final StreamController<List<List<dynamic>>> _data =
+      StreamController<List<List<dynamic>>>();
+
+  Stream<List<List<dynamic>>> get _streamData => _data.stream;
   List<bool> isActive = [];
 
   // void toggleActivation() {
@@ -25,13 +31,12 @@ class _societyPageState extends State<societyPage> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
-  Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
   bool showTable = false;
-  List<dynamic> newRow = [];
 
   @override
   void initState() {
+    addData();
     fetchMap(widget.societyName)
         .whenComplete(() => {showTable = true, setState(() {})});
 
@@ -93,117 +98,142 @@ class _societyPageState extends State<societyPage> {
                           height: 450,
                           width: MediaQuery.of(context).size.width * 0.99,
                           child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
+                            scrollDirection: Axis.vertical,
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: DataTable(
-                                border: TableBorder.all(color: Colors.black),
-                                headingRowColor:
-                                    const MaterialStatePropertyAll(Colors.blue),
-                                headingTextStyle: const TextStyle(
-                                    color: Colors.white, fontSize: 50.0),
-                                columnSpacing: 3.0,
-                                dataRowMinHeight: 1.0,
-                                columns: columnName
-                                    .map((e) => DataColumn(
-                                          label: Text(
-                                            e,
-                                            style: const TextStyle(
-                                                // overflow: TextOverflow.ellipsis,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ))
-                                    .toList(),
-                                rows: List.generate(
-                                  growable: true,
-                                  data.length,
-                                  (index1) => DataRow(
-                                    cells: List.generate(
-                                        growable: true,
-                                        data[0].length, (index2) {
-                                      return data[index1][index2] != 'Status'
-                                          ? DataCell(Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 2.0),
-                                              // child: Text(data[index1][index2]),
+                              scrollDirection: Axis.horizontal,
+                              child: StreamBuilder<List<List<dynamic>>>(
+                                  stream: _streamData,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
 
-                                              child: TextFormField(
+                                    return DataTable(
+                                      border:
+                                          TableBorder.all(color: Colors.black),
+                                      headingRowColor:
+                                          const MaterialStatePropertyAll(
+                                              Colors.blue),
+                                      headingTextStyle: const TextStyle(
+                                          color: Colors.white, fontSize: 50.0),
+                                      columnSpacing: 3.0,
+                                      dataRowMinHeight: 1.0,
+                                      columns: columnName
+                                          .map((e) => DataColumn(
+                                                label: Text(
+                                                  e,
                                                   style: const TextStyle(
-                                                      fontSize: 12),
-                                                  // controller: controllers[index1][index2],
-                                                  onChanged: (value) {
-                                                    data[index1][index2] =
-                                                        value;
-                                                  },
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          const EdgeInsets.only(
-                                                              left: 3.0,
-                                                              right: 3.0),
-                                                      // border:
-                                                      //     const OutlineInputBorder(),
-                                                      hintText: data[index1]
-                                                          [index2],
-                                                      hintStyle:
-                                                          const TextStyle(
-                                                              fontSize: 11.0,
-                                                              color: Colors
-                                                                  .black))),
-                                            ))
-                                          : DataCell(
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      isActive[index1] =
-                                                          !isActive[index1];
-                                                    });
-                                                  },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        isActive[index1]
-                                                            ? Colors.red
-                                                            : Colors.green,
-                                                  ),
-                                                  child: Text(
-                                                    isActive[index1]
-                                                        ? 'Deactivate'
-                                                        : 'Activate',
-                                                    style: const TextStyle(
-                                                      fontSize: 18.0,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
+                                                      // overflow: TextOverflow.ellipsis,
+                                                      fontSize: 12.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
-                                              ),
+                                              ))
+                                          .toList(),
+                                      rows: List.generate(
+                                        growable: true,
+                                        data.length,
+                                        (index1) => DataRow(
+                                          cells: List.generate(
+                                              growable: true,
+                                              data[0].length, (index2) {
+                                            return data[index1][index2] !=
+                                                    'Status'
+                                                ? DataCell(Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 2.0),
+                                                    // child: Text(data[index1][index2]),
 
-                                              // Visibility(
-                                              //   visible: isActive,
-                                              //   child: Row(
-                                              //     children: [
-                                              //       // Your row content goes here
-                                              //     ],
-                                              //   ),
-                                              // ),
-                                              // ElevatedButton(
-                                              //   style: const ButtonStyle(
-                                              //       backgroundColor:
-                                              //           MaterialStatePropertyAll(
-                                              //               Colors.red)),
-                                              //   onPressed: () {
-                                              //     print("Deactivate");
+                                                    child: TextFormField(
+                                                        style: const TextStyle(
+                                                            fontSize: 12),
+                                                        // controller: controllers[index1][index2],
+                                                        onChanged: (value) {
+                                                          data[index1][index2] =
+                                                              value;
+                                                        },
+                                                        decoration:
+                                                            InputDecoration(
+                                                                contentPadding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            3.0,
+                                                                        right:
+                                                                            3.0),
+                                                                // border:
+                                                                //     const OutlineInputBorder(),
+                                                                hintText: data[
+                                                                        index1]
+                                                                    [index2],
+                                                                hintStyle: const TextStyle(
+                                                                    fontSize:
+                                                                        11.0,
+                                                                    color: Colors
+                                                                        .black))),
+                                                  ))
+                                                : DataCell(
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0),
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            isActive[index1] =
+                                                                !isActive[
+                                                                    index1];
+                                                          });
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              isActive[index1]
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .green,
+                                                        ),
+                                                        child: Text(
+                                                          isActive[index1]
+                                                              ? 'Deactivate'
+                                                              : 'Activate',
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
 
-                                              //   },
-                                              //   child: const Text('Deactivate'))
-                                            );
-                                    }),
-                                  ),
-                                ),
-                              ),
+                                                    // Visibility(
+                                                    //   visible: isActive,
+                                                    //   child: Row(
+                                                    //     children: [
+                                                    //       // Your row content goes here
+                                                    //     ],
+                                                    //   ),
+                                                    // ),
+                                                    // ElevatedButton(
+                                                    //   style: const ButtonStyle(
+                                                    //       backgroundColor:
+                                                    //           MaterialStatePropertyAll(
+                                                    //               Colors.red)),
+                                                    //   onPressed: () {
+                                                    //     print("Deactivate");
+
+                                                    //   },
+                                                    //   child: const Text('Deactivate'))
+                                                  );
+                                          }),
+                                        ),
+                                      ),
+                                    );
+                                  }),
                             ),
                           ),
                         ),
@@ -219,15 +249,12 @@ class _societyPageState extends State<societyPage> {
                       padding: const EdgeInsets.only(right: 5),
                       child: FloatingActionButton(
                         onPressed: () {
-                          newRow = List.filled(data[0].length - 1, '');
-                          newRow.add('Status');
-                          data.add(newRow);
-                          setState(() {
-                            mapExcelData.addAll({
-                              widget.societyName:
-                                  data.map((e) => e.map((e) => e).toList())
-                            });
-                          });
+                          addRow();
+                          print('addddddddd');
+                          // newRow = List.filled(data[0].length - 1, '');
+                          // newRow.add('Status');
+                          // data.add(newRow);
+                          // setState(() {});
                         },
                         child: const Icon(Icons.add),
                       ),
@@ -317,6 +344,7 @@ class _societyPageState extends State<societyPage> {
           mapData[i]['Parking No.'] ?? '',
           mapData[i]['Tenant Name And Address'] ?? '',
           mapData[i]['Status'] ?? '',
+          'Status'
         ]);
       }
       columnName = temp[0];
@@ -328,5 +356,15 @@ class _societyPageState extends State<societyPage> {
         isActive.add(true);
       }
     }
+  }
+
+  addData() {
+    _data.add(data);
+  }
+
+  addRow() {
+    List<dynamic> _blankRow = List.generate(data[0].length, (_) => '');
+    data.add(_blankRow);
+    _data.add(data);
   }
 }
