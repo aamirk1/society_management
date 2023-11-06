@@ -5,10 +5,13 @@ import 'package:society_management/authentication/loginScreen.dart';
 import 'package:society_management/listScreen/committeeList.dart';
 import 'package:society_management/listScreen/societyList.dart';
 import 'package:society_management/provider/excel_provider.dart';
+import 'package:society_management/provider/filteration_provider.dart';
+import 'package:society_management/provider/menuUserPageProvider.dart';
 import 'package:society_management/screen/AddBill.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
+import 'package:society_management/screen/assignRoll/user.dart';
 import 'package:society_management/viewScreen/side.dart';
 
 void main() async {
@@ -35,6 +38,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ExcelProvider()),
+        ChangeNotifierProvider(create: (_) => FilterProvider()),
+        ChangeNotifierProvider(create: (_) => MenuUserPageProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -67,7 +72,8 @@ class MyApp extends StatelessWidget {
             }
             return null;
           },
-          home: customSide()
+          home: MenuUserPage()
+          // customSide()
           // UpExcel()
           //customSide()
           // home: LoginScreen(),

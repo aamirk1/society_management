@@ -55,20 +55,26 @@ class _CustomDataTableState extends State<CustomDataTable> {
                     if (snapshot.hasData) {
                       List<List<dynamic>>? data = snapshot.data;
                       return DataTable(
-                          columns: columns
-                              .map((cell) => DataColumn(label: Text(cell)))
-                              .toList(),
-                          rows: List.generate(
-                              data!.length,
-                              (index1) => DataRow(
-                                  cells: List.generate(
-                                      data[index1].length,
-                                      (index2) => DataCell(TextFormField(
-                                            initialValue: data[index1][index2],
-                                            decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: data[index1][index2]),
-                                          ))))));
+                        columns: columns
+                            .map((cell) => DataColumn(label: Text(cell)))
+                            .toList(),
+                        rows: List.generate(
+                          data!.length,
+                          (index1) => DataRow(
+                            cells: List.generate(
+                              data[index1].length,
+                              (index2) => DataCell(
+                                TextFormField(
+                                  initialValue: data[index1][index2],
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: data[index1][index2]),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     }
                     return Container();
                   }),

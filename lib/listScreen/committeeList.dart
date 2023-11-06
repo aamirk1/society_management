@@ -145,18 +145,23 @@ class _committeeListState extends State<committeeList> {
                       },
                     ),
                   ),
-                  // const Text('Roll Assign'),
-                  // const SizedBox(
-                  //   child: Expanded(
-                  //     child: Text('Assign'),
-                  //   ),
-                  // )
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Roll Assign'),
+                  ),
+                  const SizedBox(
+                    child: Expanded(
+                      child: Text('Assign '),
+                    ),
+                  )
                 ],
               );
             } else {
               const Text("Not Availabel");
             }
-            return Container();
+            return Container(
+              
+            );
           },
         ),
       ),
