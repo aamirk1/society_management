@@ -37,7 +37,11 @@ class _TotalUsersState extends State<TotalUsers> {
             appBar: PreferredSize(
                 preferredSize: Size(MediaQuery.of(context).size.width, 50),
                 child: AppBar(
-                  title: const Text('Total Comittee Members'),
+                  title: const Text(
+                    'Total Comittee Members',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  backgroundColor: Color.fromARGB(255, 231, 239, 248),
                 )),
             body: Column(
               children: [

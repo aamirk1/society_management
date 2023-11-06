@@ -34,7 +34,11 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
         appBar: PreferredSize(
             preferredSize: Size(MediaQuery.of(context).size.width, 50),
             child: AppBar(
-              title: const Text('UnAssigned Members'),
+              title: const Text(
+                'UnAssigned Members',
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Color.fromARGB(255, 231, 239, 248),
             )),
         body: Column(
           children: [

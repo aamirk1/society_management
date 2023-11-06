@@ -37,10 +37,14 @@ class _AssignedUserState extends State<AssignedUser> {
         ? CircularProgressIndicator()
         : Scaffold(
             appBar: PreferredSize(
-                preferredSize: Size(MediaQuery.of(context).size.width, 50),
-                child: AppBar(
-                  title: const Text('Assigned Members'),
-                )),
+              preferredSize: Size(MediaQuery.of(context).size.width, 50),
+              child: AppBar(
+                  title: const Text(
+                    'Assigned Members',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  backgroundColor: Color.fromARGB(255, 231, 239, 248)),
+            ),
             body: Column(
               children: [
                 Consumer<FilterProvider>(
