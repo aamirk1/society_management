@@ -185,9 +185,9 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
             SizedBox(
               width: 120,
               child: Text(
-                user,
+                user.split("&")[0].toString(),
                 style: GoogleFonts.average(
-                  fontSize: 18,
+                  fontSize: 14,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:society_management/provider/filteration_provider.dart';
 import 'package:society_management/provider/menuUserPageProvider.dart';
+import 'package:society_management/viewScreen/committeeView.dart';
 import 'menu_screen/assigned_user.dart';
 import 'menu_screen/totalUser.dart';
 import 'menu_screen/unAssignedUserPage.dart';
@@ -49,6 +50,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
   bool isLoading = true;
   bool getDepooData = false;
   TextEditingController unAssignedUserController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   List<String> designation = ['Admin', 'Secretary', 'Treasurer'];
 
@@ -78,7 +80,10 @@ class _MenuUserPageState extends State<MenuUserPage> {
           if (mounted) {setState(() {})}
         });
     getDesigationLen();
-    getTotalUsers();
+    getTotalUsers().whenComplete(() => {
+          isLoading = false,
+          if (mounted) {setState(() {})}
+        });
 
     _stream = FirebaseFirestore.instance
         .collection('User')
@@ -96,8 +101,8 @@ class _MenuUserPageState extends State<MenuUserPage> {
           ? CircularProgressIndicator()
           : Container(
               padding: const EdgeInsets.all(5.0),
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.9,
+              width: MediaQuery.of(context).size.width * 0.98,
+              height: MediaQuery.of(context).size.height * 0.98,
               child: Column(
                 children: [
                   Consumer<MenuUserPageProvider>(
@@ -117,7 +122,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.7,
                     child: StreamBuilder(
                       stream: _stream,
@@ -148,7 +153,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                               Colors.grey)),
                                                   onPressed: () {},
                                                   child: const Text(
-                                                    ' Select Society :',
+                                                    ' Select Society:',
                                                     style: TextStyle(
                                                         fontSize: 10,
                                                         fontWeight:
@@ -221,7 +226,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                             Colors.grey)),
                                                 onPressed: () {},
                                                 child: const Text(
-                                                  'Select member : ',
+                                                  'Select Member: ',
                                                   style: TextStyle(
                                                       fontSize: 10,
                                                       fontWeight:
@@ -253,7 +258,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                                     color: Colors
                                                                         .black)),
                                                             labelText:
-                                                                'Select member',
+                                                                'Select Member',
                                                             labelStyle: TextStyle(
                                                                 fontStyle:
                                                                     FontStyle
@@ -523,6 +528,154 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                           ),
                                         ),
                                         const SizedBox(height: 10),
+                                        SingleChildScrollView(
+                                          child: StreamBuilder<QuerySnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('committee')
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              } else if (snapshot.hasData) {
+                                                final data = snapshot.data;
+                                                // String cityname = '';
+
+                                                List<dynamic> committeeNames =
+                                                    data!.docs
+                                                        .map((e) => e.id)
+                                                        .toList();
+
+                                                return Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Flexible(
+                                                            child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          child: TypeAheadField(
+                                                            textFieldConfiguration: TextFieldConfiguration(
+                                                                controller:
+                                                                    _nameController,
+                                                                style: DefaultTextStyle.of(
+                                                                        context)
+                                                                    .style
+                                                                    .copyWith(
+                                                                        fontStyle:
+                                                                            FontStyle
+                                                                                .italic),
+                                                                decoration: const InputDecoration(
+                                                                    labelText:
+                                                                        'Search Committee Members',
+                                                                    border:
+                                                                        OutlineInputBorder())),
+                                                            suggestionsCallback:
+                                                                (pattern) async {
+                                                              return await getUserdata(
+                                                                  pattern);
+                                                            },
+                                                            itemBuilder:
+                                                                (context,
+                                                                    suggestion) {
+                                                              return ListTile(
+                                                                title: Text(
+                                                                    suggestion
+                                                                        .toString()),
+                                                              );
+                                                            },
+                                                            onSuggestionSelected:
+                                                                (suggestion) {
+                                                              _nameController
+                                                                      .text =
+                                                                  suggestion
+                                                                      .toString();
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      committeeDetails(
+                                                                          name:
+                                                                              suggestion.toString()),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        )),
+                                                        const SizedBox(
+                                                            width: 10),
+                                                        SizedBox(
+                                                          height: 45,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 5.0),
+                                                            child:
+                                                                ElevatedButton(
+                                                              style:
+                                                                  const ButtonStyle(),
+                                                              onPressed: () {
+                                                                Navigator.pushNamed(
+                                                                    context,
+                                                                    '/addCommittee');
+                                                              },
+                                                              child: const Icon(
+                                                                Icons.add,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 200,
+                                                      child: ListView.builder(
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            committeeNames
+                                                                .length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            title: Text(
+                                                                committeeNames[
+                                                                    index]),
+                                                            subtitle: Text(data
+                                                                    .docs[index]
+                                                                [
+                                                                'designation']),
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      committeeDetails(
+                                                                          name:
+                                                                              committeeNames[index]),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              } else {
+                                                const Text("Not Availabel");
+                                              }
+                                              return Container();
+                                            },
+                                          ),
+                                        ),
+
                                         // Container(
                                         //   padding: const EdgeInsets.only(
                                         //       left: 10.0,
@@ -995,67 +1148,76 @@ class _MenuUserPageState extends State<MenuUserPage> {
       Widget name) {
     final menuProvider =
         Provider.of<MenuUserPageProvider>(context, listen: true);
-    return Container(
-      width: 300,
-      height: 100,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: color,
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              '$number',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
-            Text(title, style: TextStyle(fontSize: 13, color: Colors.white)),
-          ]),
-          Row(
+    return Column(
+      children: [
+        Container(
+          width: 300,
+          height: 100,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: color,
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return MultiProvider(providers: [
-                      ChangeNotifierProvider(
-                          create: (context) => MenuUserPageProvider()),
-                      ChangeNotifierProvider(
-                        create: (context) => FilterProvider(),
-                      )
-                    ], child: name);
-                  })).then((value) {
-                    getTotalUsers().whenComplete(() async {
-                      isRemoveDepo =
-                          List.generate(cityData.length, (index) => true);
-                      errorMessage = '';
-                      _controllerSociety.text = '';
-                      _controllerForUser.text = '';
-                      isProjectManager = false;
-                      getDepoLen();
-                      getCityLen();
-                      getDesigationLen();
-                      selectedDepo.clear();
-                      role.clear();
-                      removeCityDepo(selectedCity).then((_) {
-                        selectedCity.clear();
-                        menuProvider.setLoadWidget(true);
-                      });
-                    });
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: color,
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  '$number',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-                child: const Text('More Info'),
+                Text(title,
+                    style: TextStyle(fontSize: 13, color: Colors.white)),
+              ]),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return MultiProvider(providers: [
+                          ChangeNotifierProvider(
+                              create: (context) => MenuUserPageProvider()),
+                          ChangeNotifierProvider(
+                            create: (context) => FilterProvider(),
+                          )
+                        ], child: name);
+                      })).then((value) {
+                        getTotalUsers().whenComplete(() async {
+                          isRemoveDepo =
+                              List.generate(cityData.length, (index) => true);
+                          errorMessage = '';
+                          _controllerSociety.text = '';
+                          _controllerForUser.text = '';
+                          isProjectManager = false;
+                          getDepoLen();
+                          getCityLen();
+                          getDesigationLen();
+                          selectedDepo.clear();
+                          role.clear();
+                          removeCityDepo(selectedCity).then((_) {
+                            selectedCity.clear();
+                            menuProvider.setLoadWidget(true);
+                          });
+                        });
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color,
+                    ),
+                    child: const Text('More Info'),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(Icons.forward),
+                ],
               ),
-              const SizedBox(width: 10),
-              const Icon(Icons.forward),
             ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 

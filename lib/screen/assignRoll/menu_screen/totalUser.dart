@@ -168,17 +168,17 @@ class _TotalUsersState extends State<TotalUsers> {
                                         'Assigned') {
                                       List<dynamic> roles =
                                           data.docs[index]['roles'];
-                                      List<dynamic> cities =
-                                          data.docs[index]['cities'];
-                                      List<dynamic> depots =
-                                          data.docs[index]['depots'];
+                                      // List<dynamic> cities =
+                                      //     data.docs[index]['cities'];
+                                      // List<dynamic> depots =
+                                      //     data.docs[index]['depots'];
                                       String societyname =
                                           data.docs[index]['societyname'];
 
                                       return InkWell(
                                         onTap: () {
-                                          customDialogBox(user[index], roles,
-                                              societyname, cities, depots);
+                                          customDialogBox(
+                                              user[index], roles, societyname);
                                         },
                                         child: customCard(user[index], index,
                                             roles, societyname),
@@ -287,11 +287,11 @@ class _TotalUsersState extends State<TotalUsers> {
     return Card(
       elevation: 15,
       child: Container(
-        decoration: BoxDecoration(
-            image: const DecorationImage(
-                image: AssetImage('assets/tata_power_card.jpeg'),
-                fit: BoxFit.cover),
-            borderRadius: BorderRadius.circular(10.0)),
+        // decoration: BoxDecoration(
+        //     image: const DecorationImage(
+        //         image: AssetImage('assets/tata_power_card.jpeg'),
+        //         fit: BoxFit.cover),
+        //     borderRadius: BorderRadius.circular(10.0)),
         height: 260,
         width: 180,
         child: Column(
@@ -305,9 +305,9 @@ class _TotalUsersState extends State<TotalUsers> {
                   SizedBox(
                     width: 120,
                     child: Text(
-                      user,
+                      user.split("&")[0].toString(),
                       style: GoogleFonts.average(
-                        fontSize: 18,
+                        fontSize: 14,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -446,14 +446,17 @@ class _TotalUsersState extends State<TotalUsers> {
               padding: const EdgeInsets.only(left: 12.0),
               child: Row(
                 children: [
-                  Text(
-                    currentReportingmanager.isNotEmpty
-                        ? currentReportingmanager
-                        : '',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      currentReportingmanager.isNotEmpty
+                          ? currentReportingmanager
+                          : '',
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),
@@ -513,8 +516,8 @@ class _TotalUsersState extends State<TotalUsers> {
     );
   }
 
-  customDialogBox(String user, List<dynamic> currentRoles,
-      String currentsocietyname, List<dynamic> cities, List<dynamic> depots) {
+  customDialogBox(
+      String user, List<dynamic> currentRoles, String currentsocietyname) {
     return showDialog(
         context: context,
         builder: (_) => Dialog(
@@ -522,12 +525,12 @@ class _TotalUsersState extends State<TotalUsers> {
               elevation: 10,
               shadowColor: Colors.black,
               child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/tata_dialog_background.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                // decoration: const BoxDecoration(
+                //   image: DecorationImage(
+                //     image: AssetImage('assets/tata_dialog_background.png'),
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
                 padding: const EdgeInsets.all(10.0),
                 height: 550,
                 width: 1000,
@@ -649,12 +652,12 @@ class _TotalUsersState extends State<TotalUsers> {
                       //     ],
                       //   ),
                       // ),
-                      SizedBox(
-                          width: 900,
-                          height: 120,
-                          child: SingleChildScrollView(
-                            child: customRowGridBuilder(depots),
-                          ))
+                      // SizedBox(
+                      //     width: 900,
+                      //     height: 120,
+                      //     child: SingleChildScrollView(
+                      //       child: customRowGridBuilder(depots),
+                      //     ))
                     ]),
               ),
             )));
@@ -666,11 +669,11 @@ class _TotalUsersState extends State<TotalUsers> {
     return Card(
       elevation: 15,
       child: Container(
-        decoration: BoxDecoration(
-            image: const DecorationImage(
-                image: AssetImage('assets/unAssigned_background2.jpeg'),
-                fit: BoxFit.cover),
-            borderRadius: BorderRadius.circular(10.0)),
+        // decoration: BoxDecoration(
+        //     image: const DecorationImage(
+        //         image: AssetImage('assets/unAssigned_background2.jpeg'),
+        //         fit: BoxFit.cover),
+        //     borderRadius: BorderRadius.circular(10.0)),
         padding: const EdgeInsets.all(5.0),
         height: 500,
         width: 170,

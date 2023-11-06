@@ -164,7 +164,7 @@ class _AssignedUserState extends State<AssignedUser> {
                                           childAspectRatio: 6,
                                           crossAxisSpacing: 20,
                                           mainAxisSpacing: 10,
-                                          mainAxisExtent: 270),
+                                          mainAxisExtent: 310),
                                   itemCount: user.length,
                                   itemBuilder: (context, index) {
                                     List<dynamic> roles =
@@ -300,9 +300,9 @@ class _AssignedUserState extends State<AssignedUser> {
                   SizedBox(
                     width: 120,
                     child: Text(
-                      user,
+                      user.split("&")[0].toString(),
                       style: GoogleFonts.average(
-                        fontSize: 18,
+                        fontSize: 14,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -441,14 +441,17 @@ class _AssignedUserState extends State<AssignedUser> {
               padding: const EdgeInsets.only(left: 12.0),
               child: Row(
                 children: [
-                  Text(
-                    currentReportingmanager.isNotEmpty
-                        ? currentReportingmanager
-                        : '',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      currentReportingmanager.isNotEmpty
+                          ? currentReportingmanager
+                          : '',
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:society_management/listScreen/societyListOfBill.dart';
 import 'package:society_management/listScreen/societyListOfMember.dart';
+import 'package:society_management/screen/assignRoll/user.dart';
 
 import '../listScreen/committeeList.dart';
 import '../listScreen/societyList.dart';
@@ -17,7 +18,7 @@ class _customSideState extends State<customSide> {
   List<String> tabTitle = [
     'Society List',
     'Member List',
-    'Manager List',
+    'Role List',
     'Accounts'
   ];
   List<dynamic> tabIcon = [
@@ -33,7 +34,7 @@ class _customSideState extends State<customSide> {
   List<Widget> pages = [
     societyList(),
     societyListOfMemberOfMember(),
-    const committeeList(),
+    const MenuUserPage(),
     societyListOfBill()
   ];
 
