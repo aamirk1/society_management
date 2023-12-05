@@ -8,20 +8,23 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'ListOfMemberName.dart';
 
+// ignore: camel_case_types
 class societyListOfMemberOfMember extends StatefulWidget {
   static const id = "/societyListOfMemberOfMember";
-  societyListOfMemberOfMember({super.key});
+  const societyListOfMemberOfMember({super.key});
 
   @override
   State<societyListOfMemberOfMember> createState() =>
       _societyListOfMemberOfMemberState();
 }
 
+// ignore: camel_case_types
 class _societyListOfMemberOfMemberState
     extends State<societyListOfMemberOfMember> {
   final TextEditingController _societyNameController = TextEditingController();
 
   List<List<dynamic>> data = [];
+  // ignore: non_constant_identifier_names
   List<DataColumn> CustomDataColumn = [];
   List<String> searchedList = [];
   List<dynamic> columnName = [];
@@ -98,6 +101,7 @@ class _societyListOfMemberOfMemberState
                             );
                           },
                           onSuggestionSelected: (suggestion) {
+                            // ignore: avoid_print
                             print('help');
                             _societyNameController.text = suggestion.toString();
                             Navigator.push(
@@ -198,9 +202,10 @@ class _societyListOfMemberOfMemberState
     }
   }
 
+  // ignore: non_constant_identifier_names
   Future<List<DataRow>> getExceldata(String SelectedSociety) async {
+    // ignore: non_constant_identifier_names
     List<DataRow> CustomDataRow = [];
-    List<DataColumn> CustomDataColumn = [];
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('members')

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import '../../../provider/filteration_provider.dart';
-import 'LoadingForMenuUser.dart';
 
 class TotalUsers extends StatefulWidget {
   const TotalUsers({super.key});
@@ -41,7 +41,7 @@ class _TotalUsersState extends State<TotalUsers> {
                     'Total Comittee Members',
                     style: TextStyle(color: Colors.black),
                   ),
-                  backgroundColor: Color.fromARGB(255, 231, 239, 248),
+                  backgroundColor: const Color.fromARGB(255, 231, 239, 248),
                 )),
             body: Column(
               children: [
@@ -130,9 +130,9 @@ class _TotalUsersState extends State<TotalUsers> {
                             .where('alphabet', isEqualTo: selectedAlphabet)
                             .snapshots(),
                     builder: ((context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const LoadingForMenuUser();
-                      }
+                      // if (snapshot.connectionState == ConnectionState.waiting) {
+                      //   return const LoadingForMenuUser();
+                      // }
                       if (snapshot.hasError) {
                         return const Center(
                           child: Text('Error Occured'),
@@ -290,7 +290,7 @@ class _TotalUsersState extends State<TotalUsers> {
       String currentReportingmanager) {
     return Card(
       elevation: 15,
-      child: Container(
+      child: SizedBox(
         // decoration: BoxDecoration(
         //     image: const DecorationImage(
         //         image: AssetImage('assets/tata_power_card.jpeg'),
@@ -763,12 +763,12 @@ class _TotalUsersState extends State<TotalUsers> {
             //     ],
             //   ),
             // ),
-            Container(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Row(
-                children: [],
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.only(left: 12.0),
+            //   child: Row(
+            //     children: [],
+            //   ),
+            // ),
             Container(
               padding: const EdgeInsets.only(left: 12.0),
               child: const Row(
@@ -855,7 +855,6 @@ class _TotalUsersState extends State<TotalUsers> {
   }
 
   void setColor() {
-    List<bool> elevation = [];
     List<bool> tempBool = [];
     for (int i = 0; i < 27; i++) {
       tempBool.add(false);

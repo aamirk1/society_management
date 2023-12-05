@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,7 +39,7 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
                 'UnAssigned Members',
                 style: TextStyle(color: Colors.black),
               ),
-              backgroundColor: Color.fromARGB(255, 231, 239, 248),
+              backgroundColor: const Color.fromARGB(255, 231, 239, 248),
             )),
         body: Column(
           children: [
@@ -241,8 +242,8 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 12.0),
-              child: Row(
-                children: const [Text('')],
+              child: const Row(
+                children: [Text('')],
               ),
             ),
             // Container(
@@ -268,7 +269,7 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
             // ),
             Container(
               padding: const EdgeInsets.only(left: 12.0),
-              child: Row(
+              child: const Row(
                 children: [],
               ),
             ),
@@ -328,7 +329,6 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
   }
 
   void setColor() {
-    List<bool> elevation = [];
     List<bool> tempBool = [];
     for (int i = 0; i < 27; i++) {
       tempBool.add(false);

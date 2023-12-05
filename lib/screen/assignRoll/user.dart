@@ -1,11 +1,13 @@
 import 'dart:async';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:society_management/provider/filteration_provider.dart';
 import 'package:society_management/provider/menuUserPageProvider.dart';
 import 'package:society_management/viewScreen/committeeView.dart';
+
 import 'menu_screen/assigned_user.dart';
 import 'menu_screen/totalUser.dart';
 import 'menu_screen/unAssignedUserPage.dart';
@@ -69,7 +71,6 @@ class _MenuUserPageState extends State<MenuUserPage> {
   List<dynamic> depodata = [];
   bool isProjectManager = false;
 
-  List<String> _testList = [];
   TextEditingController myController = TextEditingController();
 
   @override
@@ -135,7 +136,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                               ),
                               padding: const EdgeInsets.only(left: 10.0),
                               child: getDepooData
-                                  ? CircularProgressIndicator()
+                                  ? const CircularProgressIndicator()
                                   : Column(
                                       children: [
                                         Padding(
@@ -147,7 +148,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                 padding: const EdgeInsets.only(
                                                     left: 10),
                                                 child: TextButton(
-                                                  style: ButtonStyle(
+                                                  style: const ButtonStyle(
                                                       backgroundColor:
                                                           MaterialStatePropertyAll(
                                                               Colors.grey)),
@@ -220,7 +221,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                 width: 100,
                                               ),
                                               TextButton(
-                                                style: ButtonStyle(
+                                                style: const ButtonStyle(
                                                     backgroundColor:
                                                         MaterialStatePropertyAll(
                                                             Colors.grey)),
@@ -323,8 +324,6 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                             MaterialStatePropertyAll(
                                                                 Colors.green)),
                                                     onPressed: () async {
-                                                      bool isDefined = false;
-
                                                       for (int i = 0;
                                                           i < assignedUsers;
                                                           i++) {
@@ -941,7 +940,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                             ),
                           );
                         } else {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                       },
                     ),
@@ -956,10 +955,8 @@ class _MenuUserPageState extends State<MenuUserPage> {
   Future<void> getTotalUsers() async {
     await getAssignedUsers();
     await getUnAssignedUser();
-    List<dynamic> tempList1 = [];
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('TotalUsers').get();
-    tempList1 = querySnapshot.docs.map((doc) => doc.id).toList();
     totalUsers = querySnapshot.docs.length;
   }
 
@@ -1015,7 +1012,6 @@ class _MenuUserPageState extends State<MenuUserPage> {
 
 //Function to fetch depo name when any city name is clicked on the pag Ce
   Future getDepoNames(String selectedCity) async {
-    List<dynamic> tempDepo = [];
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('DepoName')
         .doc(selectedCity)
@@ -1164,10 +1160,10 @@ class _MenuUserPageState extends State<MenuUserPage> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
                   '$number',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 Text(title,
-                    style: TextStyle(fontSize: 13, color: Colors.white)),
+                    style: const TextStyle(fontSize: 13, color: Colors.white)),
               ]),
               Row(
                 children: [

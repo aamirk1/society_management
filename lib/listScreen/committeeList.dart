@@ -21,12 +21,12 @@ class _committeeListState extends State<committeeList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           "Manager List",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -43,7 +43,7 @@ class _committeeListState extends State<committeeList> {
                 ),
                 Text(
                   'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),

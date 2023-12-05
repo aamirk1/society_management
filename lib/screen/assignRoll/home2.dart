@@ -6,10 +6,8 @@ class Home2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Image(
-        image: AssetImage('assets/HomePage.jpeg'),
-      ),
+    return const Image(
+      image: AssetImage('assets/HomePage.jpeg'),
     );
   }
 }

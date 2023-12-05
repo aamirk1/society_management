@@ -28,27 +28,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextFormField(
                         // controller: uniqueIdController,
-                        decoration: InputDecoration(labelText: 'Unique ID'),
+                        decoration:
+                            const InputDecoration(labelText: 'Unique ID'),
                       ),
                       TextFormField(
                         // controller: regNoController,
-                        decoration: InputDecoration(labelText: 'Reg No'),
+                        decoration: const InputDecoration(labelText: 'Reg No'),
                       ),
                       TextFormField(
                         // controller: emailController,
-                        decoration: InputDecoration(labelText: 'Email'),
+                        decoration: const InputDecoration(labelText: 'Email'),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 16.0), // Add spacing between columns
+                const SizedBox(width: 16.0), // Add spacing between columns
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextFormField(
                         // controller: adminNameController,
-                        decoration: const InputDecoration(labelText: 'Admin Name'),
+                        decoration:
+                            const InputDecoration(labelText: 'Admin Name'),
                       ),
                       TextFormField(
                         // controller: contactController,
@@ -56,14 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextFormField(
                         // controller: adminEmailController,
-                        decoration: const InputDecoration(labelText: 'Admin Email'),
+                        decoration:
+                            const InputDecoration(labelText: 'Admin Email'),
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16.0), // Add spacing between rows
+            const SizedBox(height: 16.0), // Add spacing between rows
             ElevatedButton(
               onPressed: () {
                 // Handle form submission here

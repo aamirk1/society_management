@@ -57,7 +57,7 @@ class _AddSocietyState extends State<AddSociety> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
           title: const Text(
             "Add Society",
             style: TextStyle(color: Colors.black),
@@ -79,7 +79,7 @@ class _AddSocietyState extends State<AddSociety> {
                   ),
                   Text(
                     'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
                 ],
               ),
@@ -221,7 +221,7 @@ class _AddSocietyState extends State<AddSociety> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
+          SizedBox(
             width: 200,
             child: Text(
               title,
@@ -229,7 +229,7 @@ class _AddSocietyState extends State<AddSociety> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          Container(
+          SizedBox(
             width: 250,
             child: CustomTextField(
               readonly: false,

@@ -4,14 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/listScreen/custom_textfield.dart';
 
+// ignore: camel_case_types
 class societyDetails extends StatefulWidget {
   final String societyNames;
-  societyDetails({super.key, required this.societyNames});
+  const societyDetails({super.key, required this.societyNames});
 
   @override
   State<societyDetails> createState() => _societyDetailsState();
 }
 
+// ignore: camel_case_types
 class _societyDetailsState extends State<societyDetails> {
   @override
   void initState() {
@@ -57,7 +59,7 @@ class _societyDetailsState extends State<societyDetails> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           title: Text(widget.societyNames),
           backgroundColor: const Color.fromARGB(255, 0, 119, 255),
         ),
@@ -140,13 +142,14 @@ class _societyDetailsState extends State<societyDetails> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
             ),
           ),
         ),
       );
 
+  // ignore: non_constant_identifier_names
   OverviewField(String title, TextEditingController controller, bool readonly) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

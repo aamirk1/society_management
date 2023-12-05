@@ -9,15 +9,15 @@ import 'package:intl/intl.dart';
 
 // import '../excel/uploadExcel.dart';
 
-class UpExcelBill extends StatefulWidget {
-  static const String id = "/UpExcelBill";
-  const UpExcelBill({super.key});
+class UpExcelBillLadger extends StatefulWidget {
+  static const String id = "/UpExcelBillLadger";
+  const UpExcelBillLadger({super.key});
 
   @override
-  State<UpExcelBill> createState() => _UpExcelBillState();
+  State<UpExcelBillLadger> createState() => _UpExcelBillLadgerState();
 }
 
-class _UpExcelBillState extends State<UpExcelBill> {
+class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
   List<dynamic> columnName = [];
@@ -41,7 +41,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
-          "Add Bill",
+          "Upload Excel",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: const Color.fromARGB(255, 231, 239, 248),
@@ -208,8 +208,8 @@ class _UpExcelBillState extends State<UpExcelBill> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           // for (int i = 0; i < mapExcelData.length; i++) {
-          FirebaseFirestore.instance
-              .collection('accounts')
+          await FirebaseFirestore.instance
+              .collection('ladgerBill')
               .doc(_societyNameController.text)
               .collection('month')
               .doc(monthyear)
@@ -223,7 +223,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
           });
 
           FirebaseFirestore.instance
-              .collection('accounts')
+              .collection('ladgerBill')
               .doc(_societyNameController.text)
               .set({'name': _societyNameController.text});
           //       }
@@ -306,7 +306,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
   getdat() async {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
-          .collection('accounts')
+          .collection('ladgerBill')
           .doc(_societyNameController.text)
           .collection('tableData')
           .doc('$i')

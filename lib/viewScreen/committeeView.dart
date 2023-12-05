@@ -31,9 +31,9 @@ class _committeeDetailsState extends State<committeeDetails> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           title: Text(widget.name),
-          backgroundColor: Color.fromARGB(255, 0, 119, 255),
+          backgroundColor: const Color.fromARGB(255, 0, 119, 255),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
@@ -81,13 +81,14 @@ class _committeeDetailsState extends State<committeeDetails> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 10),
               ],
             ),
           ),
         ),
       );
 
+  // ignore: non_constant_identifier_names
   OverviewField(String title, TextEditingController controller, bool readonly) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -95,7 +96,7 @@ class _committeeDetailsState extends State<committeeDetails> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
+          SizedBox(
             width: 200,
             child: Text(
               title,

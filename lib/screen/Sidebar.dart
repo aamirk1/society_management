@@ -27,7 +27,7 @@ class _SidebarState extends State<Sidebar> {
         break;
       case committeeList.id:
         setState(() {
-          selectedscreen = committeeList();
+          selectedscreen = const committeeList();
         });
         break;
       case AddMember.id:
@@ -45,8 +45,8 @@ class _SidebarState extends State<Sidebar> {
         backgroundColor: Colors.blue.shade700,
       ),
       sideBar: SideBar(
-        activeBackgroundColor: Color.fromARGB(255, 230, 230, 227),
-        iconColor: Color.fromARGB(255, 12, 12, 12),
+        activeBackgroundColor: const Color.fromARGB(255, 230, 230, 227),
+        iconColor: const Color.fromARGB(255, 12, 12, 12),
         textStyle: const TextStyle(
           fontSize: 15,
         ),

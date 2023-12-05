@@ -25,7 +25,7 @@ class _societyListState extends State<societyList> {
           "All Society",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),

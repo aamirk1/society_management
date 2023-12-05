@@ -34,7 +34,7 @@ class _AssignedUserState extends State<AssignedUser> {
   Widget build(BuildContext context) {
     final provider = Provider.of<FilterProvider>(context, listen: true);
     return isLoading
-        ? CircularProgressIndicator()
+        ? const CircularProgressIndicator()
         : Scaffold(
             appBar: PreferredSize(
               preferredSize: Size(MediaQuery.of(context).size.width, 50),
@@ -43,7 +43,7 @@ class _AssignedUserState extends State<AssignedUser> {
                     'Assigned Members',
                     style: TextStyle(color: Colors.black),
                   ),
-                  backgroundColor: Color.fromARGB(255, 231, 239, 248)),
+                  backgroundColor: const Color.fromARGB(255, 231, 239, 248)),
             ),
             body: Column(
               children: [
@@ -62,7 +62,7 @@ class _AssignedUserState extends State<AssignedUser> {
                               height: 32,
                               width: 60,
                               child: ElevatedButton(
-                                  style: ButtonStyle(
+                                  style: ButtonStyle  (
                                       backgroundColor:
                                           MaterialStateProperty.all(
                                     selectedDesign[26]
@@ -526,7 +526,7 @@ class _AssignedUserState extends State<AssignedUser> {
         content: Text('Role Removed Successfully'),
       ));
     });
-    print('Role unAssigned Successfully');
+    // print('Role unAssigned Successfully');
 
     //Deleting role from the assigned users
     DocumentReference assginedUsersDoc =
@@ -726,7 +726,6 @@ class _AssignedUserState extends State<AssignedUser> {
   }
 
   void setColor() async {
-    List<bool> elevation = [];
     List<bool> tempBool = [];
     for (int i = 0; i < 27; i++) {
       tempBool.add(false);

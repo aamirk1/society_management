@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LoadingForMenuUser extends StatelessWidget {
   const LoadingForMenuUser({super.key});
@@ -9,17 +10,17 @@ class LoadingForMenuUser extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.only(top: 150),
         alignment: Alignment.center,
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('animations/loading_animation.gif'),
-            const SizedBox(height: 10),
-            const Text(
-              'Loading...',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )
-          ],
+          // children: [
+          //   Image.asset('animations/loading_animation.gif'),
+          //   const SizedBox(height: 10),
+          //   const Text(
+          //     'Loading...',
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   )
+          // ],
         ));
   }
 }

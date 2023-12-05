@@ -4,17 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:society_management/excel/uploadExcelBill.dart';
+import 'package:society_management/excel/uploadExcelBillLadger.dart';
 
-class AddBill extends StatefulWidget {
-  static const String id = "/addBill";
-  const AddBill({super.key});
+class AddLadger extends StatefulWidget {
+  static const String id = "/addReciept";
+  const AddLadger({super.key});
 
   @override
-  State<AddBill> createState() => _AddBillState();
+  State<AddLadger> createState() => _AddLadgerState();
 }
 
-class _AddBillState extends State<AddBill> {
+class _AddLadgerState extends State<AddLadger> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
   List<String> searchedList = [];
@@ -82,7 +82,8 @@ class _AddBillState extends State<AddBill> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const UpExcelBill()),
+                                builder: (context) =>
+                                    const UpExcelBillLadger()),
                           );
                         },
                         child: const Icon(
@@ -183,7 +184,7 @@ class _AddBillState extends State<AddBill> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('society').get();
+        await FirebaseFirestore.instance.collection('ladgerBill').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     // print(tempList);

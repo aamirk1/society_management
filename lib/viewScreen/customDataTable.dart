@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+// ignore: implementation_imports, unnecessary_import
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+// ignore: unnecessary_import
 import 'package:flutter/widgets.dart';
 
 class CustomDataTable extends StatefulWidget {

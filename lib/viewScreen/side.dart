@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:society_management/listScreen/Ladger/ListOfBillLadger.dart';
 import 'package:society_management/listScreen/societyListOfBill.dart';
 import 'package:society_management/listScreen/societyListOfMember.dart';
 import 'package:society_management/screen/assignRoll/user.dart';
 
-import '../listScreen/committeeList.dart';
 import '../listScreen/societyList.dart';
 
 class customSide extends StatefulWidget {
@@ -19,23 +19,26 @@ class _customSideState extends State<customSide> {
     'Society List',
     'Member List',
     'Role List',
-    'Accounts'
+    'Accounts',
+    'Ladger Bill',
   ];
   List<dynamic> tabIcon = [
     Icons.apartment_outlined,
     Icons.supervised_user_circle_outlined,
     Icons.house_rounded,
-    Icons.house_outlined
+    Icons.house_outlined,
+    Icons.account_balance_outlined,
   ];
-  List<bool> design = [true, false, false, false];
+  List<bool> design = [true, false, false, false, false];
 
   int _selectedIndex = 0;
 
   List<Widget> pages = [
     societyList(),
-    societyListOfMemberOfMember(),
+    const societyListOfMemberOfMember(),
     const MenuUserPage(),
-    societyListOfBill()
+    const societyListOfBill(),
+    const ListOfBillLadger(),
   ];
 
   @override
@@ -44,14 +47,14 @@ class _customSideState extends State<customSide> {
       body: Row(
         children: [
           Container(
-            padding: const EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(top: 20),
             width: 250,
             color: Color.fromARGB(255, 231, 239, 248),
             child: Column(
               children: [
                 Container(
                   width: 100,
-                  height: 50,
+                  height: 40,
                   child: Image.asset('assets/images/devlogo.png'),
                   padding: const EdgeInsets.only(bottom: 10),
                 ),
@@ -87,10 +90,10 @@ class _customSideState extends State<customSide> {
         padding: const EdgeInsets.all(12.0),
         child: ListTile(
           title: Icon(icon,
-              size: 50,
+              size: 30,
               color: design[index]
-                  ? Color.fromARGB(255, 0, 0, 0)
-                  : Color.fromARGB(95, 134, 134, 134)),
+                  ? Color.fromARGB(255, 8, 8, 8)
+                  : const Color.fromARGB(95, 134, 134, 134)),
           subtitle: Text(textAlign: TextAlign.center, title),
         ),
       ),
@@ -99,7 +102,7 @@ class _customSideState extends State<customSide> {
 
   void setDesignBool() {
     List<bool> tempBool = [];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
       tempBool.add(false);
     }
     design = tempBool;
