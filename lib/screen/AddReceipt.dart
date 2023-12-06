@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:society_management/excel/uploadExcelBillLadger.dart';
+import 'package:society_management/excel/uploadExcelBillReceipt.dart';
 
 class AddLadger extends StatefulWidget {
   static const String id = "/addReciept";
@@ -83,7 +83,7 @@ class _AddLadgerState extends State<AddLadger> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const UpExcelBillLadger()),
+                                    const UpExcelBillReceipt()),
                           );
                         },
                         child: const Icon(
@@ -184,7 +184,7 @@ class _AddLadgerState extends State<AddLadger> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('ladgerBill').get();
+        await FirebaseFirestore.instance.collection('ladgerReceipt').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     // print(tempList);

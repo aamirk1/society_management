@@ -5,22 +5,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:society_management/excel/uploadExcelBillLadger.dart';
+import 'package:society_management/excel/uploadExcelBillReceipt.dart';
 import 'package:society_management/listScreen/Ladger/MemberBillLadger.dart';
+import 'package:society_management/listScreen/Receipt/MemberBillReceipt.dart';
 
 // import 'ListOfMemberName.dart';
 
 // ignore: camel_case_types
-class ListOfBillLadger extends StatefulWidget {
+class ListOfBillReceipt extends StatefulWidget {
   static const id = "/ListOfBillReceipt";
-  const ListOfBillLadger({super.key});
+  const ListOfBillReceipt({super.key});
 
   @override
-  State<ListOfBillLadger> createState() => _ListOfBillLadgerState();
+  State<ListOfBillReceipt> createState() => _ListOfBillReceiptState();
 }
 
 // ignore: camel_case_types
-class _ListOfBillLadgerState extends State<ListOfBillLadger> {
+class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController monthyear = TextEditingController();
 
@@ -54,7 +55,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
             child: Row(
               children: [
                 const Text(
-                  "Member Receipts",
+                  "Receipts",
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 Container(
@@ -133,7 +134,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const UpExcelBillLadger()),
+                              builder: (context) => const UpExcelBillReceipt()),
                         );
                       },
                       child: const Icon(
@@ -169,8 +170,9 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
       ),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream:
-              FirebaseFirestore.instance.collection('ladgerBill').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('ladgerReceipt')
+              .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -198,7 +200,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MemberBillLadger(
+                              builder: (context) => MemberBillReceipt(
                                 societyName: societyList[index],
                               ),
                             ),
@@ -220,7 +222,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('ladgerBill').get();
+        await FirebaseFirestore.instance.collection('ladgerReceipt').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     // ignore: avoid_print
@@ -238,7 +240,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
   getdat() async {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
-          .collection('ladgerBill')
+          .collection('ladgerReceipt')
           .doc(_societyNameController.text)
           .collection('tableData')
           .doc('$i')
@@ -256,14 +258,14 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
     List<DataRow> CustomDataRow = [];
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('ladgerBill')
+        .collection('ladgerReceipt')
         .doc(SelectedSociety)
         .collection('tableData')
         .get();
     List<dynamic> tableList = querySnapshot.docs.map((e) => e.id).toList();
     for (int i = 0; i < tableList.length; i++) {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('ladgerBill')
+          .collection('ladgerReceipt')
           .doc(SelectedSociety)
           .collection('tableData')
           .doc('$i')
@@ -282,7 +284,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
   getBillMonth(String pattern) async {
     dateList.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('ladgerBill')
+        .collection('ladgerReceipt')
         .doc(_societyNameController.text)
         .collection('month')
         .get();

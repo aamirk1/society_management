@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:society_management/listScreen/Ladger/ListOfBillLadger.dart';
+import 'package:society_management/listScreen/Receipt/ListOfBillReceipt.dart';
 import 'package:society_management/listScreen/societyListOfBill.dart';
 import 'package:society_management/listScreen/societyListOfMember.dart';
 import 'package:society_management/screen/assignRoll/user.dart';
@@ -21,6 +22,7 @@ class _customSideState extends State<customSide> {
     'Role List',
     'Accounts',
     'Ladger Bill',
+    'Ladger Receipt',
   ];
   List<dynamic> tabIcon = [
     Icons.apartment_outlined,
@@ -28,8 +30,9 @@ class _customSideState extends State<customSide> {
     Icons.house_rounded,
     Icons.house_outlined,
     Icons.account_balance_outlined,
+    Icons.account_balance_wallet_outlined,
   ];
-  List<bool> design = [true, false, false, false, false];
+  List<bool> design = [true, false, false, false, false, false];
 
   int _selectedIndex = 0;
 
@@ -39,6 +42,7 @@ class _customSideState extends State<customSide> {
     const MenuUserPage(),
     const societyListOfBill(),
     const ListOfBillLadger(),
+    const ListOfBillReceipt(),
   ];
 
   @override
@@ -102,7 +106,7 @@ class _customSideState extends State<customSide> {
 
   void setDesignBool() {
     List<bool> tempBool = [];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
       tempBool.add(false);
     }
     design = tempBool;

@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MemberBillLadger extends StatefulWidget {
+class MemberBillReceipt extends StatefulWidget {
   final String societyName;
 
-  static const id = "/MemberBillLadger";
-  const MemberBillLadger({super.key, required this.societyName});
+  static const id = "/MemberBillReceipt";
+  const MemberBillReceipt({super.key, required this.societyName});
 
   @override
-  State<MemberBillLadger> createState() => _MemberBillLadgerState();
+  State<MemberBillReceipt> createState() => _MemberBillReceiptState();
 }
 
-class _MemberBillLadgerState extends State<MemberBillLadger> {
+class _MemberBillReceiptState extends State<MemberBillReceipt> {
   final _formKey = GlobalKey<FormState>();
 
   List<dynamic> columnName = [];
@@ -205,7 +205,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
   getUserdata(String pattern) async {
     searchedList.clear();
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('ladgerBill').get();
+        await FirebaseFirestore.instance.collection('ladgerReceipt').get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
     print('hhhhhhhhhhhhhhheuiwhfewn: $tempList');
@@ -238,7 +238,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
     print(mapdata);
 
     FirebaseFirestore.instance
-        .collection('ladgerBill')
+        .collection('ladgerReceipt')
         .doc(widget.societyName)
         .collection('month')
         .doc(monthyear)
@@ -257,7 +257,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
 
   Future<void> fetchMap(String societyName) async {
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-        .collection('ladgerBill')
+        .collection('ladgerReceipt')
         .doc(societyName)
         .collection('month')
         .doc(monthyear)
@@ -270,20 +270,12 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
       for (int i = 0; i < mapData.length; i++) {
         temp.add([
           mapData[i]['Flat No.'] ?? '',
+          mapData[i]['Receipt Date'] ?? '',
           mapData[i]['Member Name'] ?? '',
-          mapData[i]['Bill No'] ?? '',
-          mapData[i]['Municipal Tax'] ?? '',
-          mapData[i]['Maintenance Charges'] ?? '',
-          mapData[i]['Sinking Fund'] ?? '',
-          mapData[i]['Repair Fund'] ?? '',
-          mapData[i]['Mhada Lease Rent'] ?? '',
-          mapData[i]['Non Occupancy Chg'] ?? '',
-          mapData[i]['Parking Charges'] ?? '',
-          mapData[i]['Other Charges'] ?? '',
-          mapData[i]['TOWER BENEFIT'] ?? '',
-          mapData[i]['Legal Notice Charges'] ?? '',
-          mapData[i]['Interest'] ?? '',
-          mapData[i]['Bill Amount'] ?? '',
+          mapData[i]['Amount'] ?? '',
+          mapData[i]['ChqNo'] ?? '',
+          mapData[i]['ChqDate'] ?? '',
+          mapData[i]['Bank Name'] ?? '',
         ]);
       }
       columnName = temp[0];

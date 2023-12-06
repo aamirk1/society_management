@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -65,140 +66,126 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Form(
-                  key: _formKey,
-                  child: showTable == false
-                      ? const Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(),
-                              Text('Collecting Data...')
-                            ],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: showTable == false
+                    ? const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            Text('Collecting Data...')
+                          ],
+                        ),
+                      )
+                    : Container(
+                        padding: const EdgeInsets.all(2.0),
+                        height: 450,
+                        width: MediaQuery.of(context).size.width,
+                        child: DataTable2(
+                          minWidth: 1500,
+                          border: TableBorder.all(color: Colors.black),
+                          headingRowColor:
+                              const MaterialStatePropertyAll(Colors.blue),
+                          headingTextStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 50.0,
                           ),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.all(2.0),
-                          height: 450,
-                          width: MediaQuery.of(context).size.width,
-                          child: InteractiveViewer(
-                            constrained: false,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: DataTable(
-                                border: TableBorder.all(color: Colors.black),
-                                headingRowColor:
-                                    const MaterialStatePropertyAll(Colors.blue),
-                                headingTextStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 50.0,
-                                ),
-                                columnSpacing: 3.0,
-                                dataRowMinHeight: 1.0,
-                                columns: columnName
-                                    .map((e) => DataColumn(
-                                          label: Text(
-                                            e,
-                                            style: const TextStyle(
-                                                // overflow: TextOverflow.ellipsis,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ))
-                                    .toList(),
-                                rows: List.generate(
-                                  growable: true,
-                                  data.length,
-                                  (index1) => DataRow(
-                                    cells: List.generate(
-                                        growable: true,
-                                        data[0].length, (index2) {
-                                      return data[index1][index2] != 'Status'
-                                          ? DataCell(Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 2.0),
-                                              // child: Text(data[index1][index2]),
+                          columnSpacing: 3.0,
+                          columns: columnName
+                              .map((e) => DataColumn2(
+                                    label: Text(
+                                      e,
+                                      style: const TextStyle(
+                                          // overflow: TextOverflow.ellipsis,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ))
+                              .toList(),
+                          rows: List.generate(
+                            growable: true,
+                            data.length,
+                            (index1) => DataRow2(
+                              cells: List.generate(
+                                  growable: true, data[0].length, (index2) {
+                                return data[index1][index2] != 'Status'
+                                    ? DataCell(Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        // child: Text(data[index1][index2]),
 
-                                              child: TextFormField(
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                  // controller: controllers[index1][index2],
-                                                  onChanged: (value) {
-                                                    data[index1][index2] =
-                                                        value;
-                                                  },
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          const EdgeInsets.only(
-                                                              left: 3.0,
-                                                              right: 3.0),
-                                                      // border:
-                                                      //     const OutlineInputBorder(),
-                                                      hintText: data[index1]
-                                                          [index2],
-                                                      hintStyle:
-                                                          const TextStyle(
-                                                              fontSize: 11.0,
-                                                              color: Colors
-                                                                  .black))),
-                                            ))
-                                          : DataCell(ElevatedButton(
-                                              style: const ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll(
-                                                          Colors.blue)),
-                                              onPressed: () {
-                                                // print("Paid");
-                                              },
-                                              child: const Text('Pay')));
-                                    }),
-                                  ),
-                                ),
-                              ),
+                                        child: TextFormField(
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                            // controller: controllers[index1][index2],
+                                            onChanged: (value) {
+                                              data[index1][index2] = value;
+                                            },
+                                            decoration: InputDecoration(
+                                                contentPadding:
+                                                    const EdgeInsets.only(
+                                                        left: 3.0, right: 3.0),
+                                                // border:
+                                                //     const OutlineInputBorder(),
+                                                hintText: data[index1][index2],
+                                                hintStyle: const TextStyle(
+                                                    fontSize: 11.0,
+                                                    color: Colors.black))),
+                                      ))
+                                    : DataCell(ElevatedButton(
+                                        style: const ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Colors.blue)),
+                                        onPressed: () {
+                                          // print("Paid");
+                                        },
+                                        child: const Text('Pay')));
+                              }),
                             ),
                           ),
                         ),
-                ),
+                      ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 5),
-                    //   child: FloatingActionButton(
-                    //     onPressed: () {
-                    //       newRow = List.filled(data[0].length - 1, '');
-                    //       newRow.add('Status');
-                    //       data.add(newRow);
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 5),
+                  //   child: FloatingActionButton(
+                  //     onPressed: () {
+                  //       newRow = List.filled(data[0].length - 1, '');
+                  //       newRow.add('Status');
+                  //       data.add(newRow);
 
-                    //       setState(() {
-                    //         // const ListTile(
-                    //         //   title: Text('Pay'),
-                    //         //   trailing: Icon(Icons.check),
-                    //         // );
-                    //       });
-                    //     },
-                    //     child: const Icon(Icons.add),
-                    //   ),
-                    // ),
-                    FloatingActionButton(
-                      onPressed: storeEditedData,
-                      child: const Icon(Icons.check),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  //       setState(() {
+                  //         // const ListTile(
+                  //         //   title: Text('Pay'),
+                  //         //   trailing: Icon(Icons.check),
+                  //         // );
+                  //       });
+                  //     },
+                  //     child: const Icon(Icons.add),
+                  //   ),
+                  // ),
+                  FloatingActionButton(
+                    onPressed: storeEditedData,
+                    child: const Icon(Icons.check),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       );
 

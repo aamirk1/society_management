@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:society_management/excel/uploadExcelBill.dart';
 import 'package:society_management/excel/uploadExcelBillLadger.dart';
 import 'package:society_management/listScreen/Ladger/MemberBillLadger.dart';
 
@@ -55,7 +54,7 @@ class _ListOfBillLadgerState extends State<ListOfBillLadger> {
             child: Row(
               children: [
                 const Text(
-                  "Member Billss",
+                  "Member Bill",
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 Container(

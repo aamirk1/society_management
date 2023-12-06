@@ -9,15 +9,15 @@ import 'package:intl/intl.dart';
 
 // import '../excel/uploadExcel.dart';
 
-class UpExcelBillLadger extends StatefulWidget {
-  static const String id = "/UpExcelBillLadger";
-  const UpExcelBillLadger({super.key});
+class UpExcelBillReceipt extends StatefulWidget {
+  static const String id = "/UpExcelBillReceipt";
+  const UpExcelBillReceipt({super.key});
 
   @override
-  State<UpExcelBillLadger> createState() => _UpExcelBillLadgerState();
+  State<UpExcelBillReceipt> createState() => _UpExcelBillReceiptState();
 }
 
-class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
+class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _societyNameController = TextEditingController();
   List<dynamic> columnName = [];
@@ -41,7 +41,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
-          "Upload Excel",
+          "Upload Receipt Excel",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: const Color.fromARGB(255, 231, 239, 248),
@@ -209,7 +209,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
         onPressed: () async {
           // for (int i = 0; i < mapExcelData.length; i++) {
           await FirebaseFirestore.instance
-              .collection('ladgerBill')
+              .collection('ladgerReceipt')
               .doc(_societyNameController.text)
               .collection('month')
               .doc(monthyear)
@@ -223,7 +223,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
           });
 
           FirebaseFirestore.instance
-              .collection('ladgerBill')
+              .collection('ladgerReceipt')
               .doc(_societyNameController.text)
               .set({'name': _societyNameController.text});
           //       }
@@ -306,7 +306,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   getdat() async {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
-          .collection('ladgerBill')
+          .collection('ladgerReceipt')
           .doc(_societyNameController.text)
           .collection('tableData')
           .doc('$i')
