@@ -1,3 +1,6 @@
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -125,19 +128,7 @@ class _AddBillState extends State<AddBill> {
                                 return DataCell(Padding(
                                   padding: const EdgeInsets.only(bottom: 5.0),
                                   child: Text(data[index1][index2]),
-                                  // child: TextFormField(
-                                  //     // controller: controllers[index1][index2],
-                                  //     onChanged: (value) {
-                                  //       data[index1][index2] = value;
-                                  //     },
-                                  //     decoration: InputDecoration(
-                                  //         contentPadding: const EdgeInsets.only(
-                                  //             left: 3.0, right: 3.0),
-                                  //         // border: const OutlineInputBorder(),
-                                  //         hintText: data[index1][index2],
-                                  //         hintStyle: const TextStyle(
-                                  //             fontSize: 10.0,
-                                  //             color: Colors.black))),
+
                                 ));
                               }),
                             ),
@@ -149,24 +140,6 @@ class _AddBillState extends State<AddBill> {
               const SizedBox(
                 height: 15,
               ),
-              // Align(
-              //   alignment: Alignment.bottomRight,
-              //   child: Row(
-              //     children: [
-              //       ElevatedButton(
-              //           onPressed: () {
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                   builder: (context) => const UpExcelBill()),
-              //             );
-              //           },
-              //           child: const Text(
-              //             "Upload Excel",
-              //           )),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

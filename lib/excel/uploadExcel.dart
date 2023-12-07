@@ -1,3 +1,7 @@
+
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:excel/excel.dart';
@@ -5,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/listScreen/custom_textfield.dart';
 
 // import '../excel/uploadExcel.dart';
@@ -33,6 +38,7 @@ class _UpExcelState extends State<UpExcel> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
+  // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
   Map<String, dynamic> fieldMap = {};
@@ -42,7 +48,6 @@ class _UpExcelState extends State<UpExcel> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -54,7 +59,7 @@ class _UpExcelState extends State<UpExcel> {
           "Add Member",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: AppBarBgColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -71,7 +76,7 @@ class _UpExcelState extends State<UpExcel> {
                 ),
                 Text(
                   'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -105,7 +110,7 @@ class _UpExcelState extends State<UpExcel> {
                       },
                       onSuggestionSelected: (suggestion) {
                         _societyNameController.text = suggestion.toString();
-                        print(_societyNameController.text);
+                        // print(_societyNameController.text);
                       },
                     ),
                   )),
@@ -352,7 +357,7 @@ class _UpExcelState extends State<UpExcel> {
           tempMap = {};
         }
         //   mapExcelData.removeAt(0);
-        print(alldata);
+        // print(alldata);
       }
 
       data.removeAt(0);
@@ -362,6 +367,7 @@ class _UpExcelState extends State<UpExcel> {
     return data;
   }
 
+  // ignore: non_constant_identifier_names
   OverviewField(String title, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -374,7 +380,7 @@ class _UpExcelState extends State<UpExcel> {
             child: Text(
               title,
               textAlign: TextAlign.start,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           SizedBox(

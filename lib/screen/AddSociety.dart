@@ -1,6 +1,11 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/customWidgets/colors.dart';
 
 import '../listScreen/custom_textfield.dart';
 
@@ -62,7 +67,7 @@ class _AddSocietyState extends State<AddSociety> {
             "Add Society",
             style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Color.fromARGB(255, 231, 239, 248),
+          backgroundColor: AppBarBgColor,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
@@ -214,6 +219,7 @@ class _AddSocietyState extends State<AddSociety> {
         ),
       );
 
+  // ignore: non_constant_identifier_names
   OverviewField(String title, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -226,7 +232,7 @@ class _AddSocietyState extends State<AddSociety> {
             child: Text(
               title,
               textAlign: TextAlign.start,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           SizedBox(

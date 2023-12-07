@@ -1,3 +1,7 @@
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
+import 'package:society_management/customWidgets/colors.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -23,16 +28,17 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
+  // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
+  // String monthyear = 'February 2024';
   String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
 
   bool showTable = false;
 
   @override
   void initState() {
-    // TODO: implement initState
-    print(monthyear);
+    // print(monthyear);
     super.initState();
   }
 
@@ -44,7 +50,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
           "Upload Excel",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: AppBarBgColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -96,7 +102,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                       },
                       onSuggestionSelected: (suggestion) {
                         _societyNameController.text = suggestion.toString();
-                        print(_societyNameController.text);
+                        // print(_societyNameController.text);
                       },
                     ),
                   )),
@@ -230,6 +236,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
           // Perform desired action with the form data
 
           _societyNameController.clear();
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         },
         child: const Icon(Icons.check),
@@ -293,7 +300,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
           alldata.add(tempMap);
           tempMap = {};
         }
-        print(alldata);
+        // print(alldata);
       }
 
       data.removeAt(0);
@@ -314,6 +321,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
         'societyName': _societyNameController.text,
         '$i': data[i],
       }).then((value) {
+        // ignore: avoid_print
         print('Done!');
       });
     }

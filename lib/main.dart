@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
             }
             return null;
           },
-          home: customSide()
+          home: const customSide()
           // UpExcel()
           //customSide()
           // home: LoginScreen(),
@@ -91,11 +91,11 @@ class MyApp extends StatelessWidget {
       case '/addSociety':
         return const AddSociety();
       case '/addCommittee':
-        return AddCommittee();
+        return const AddCommittee();
       case '/addMember':
         return const AddMember();
       case '/societyList':
-        return societyList();
+        return const societyList();
       case '/committeeList':
         return const committeeList();
       case '/addBill':

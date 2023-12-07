@@ -1,3 +1,6 @@
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
 // ignore: avoid_web_libraries_in_flutter, unused_import
 import 'dart:html';
 
@@ -5,8 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/excel/uploadExcelBillReceipt.dart';
-import 'package:society_management/listScreen/Ladger/MemberBillLadger.dart';
 import 'package:society_management/listScreen/Receipt/MemberBillReceipt.dart';
 
 // import 'ListOfMemberName.dart';
@@ -47,7 +50,7 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
         //   "Society List",
         //   style: TextStyle(color: Colors.black),
         // ),
-        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: AppBarBgColor,
         actions: [
           Flexible(
               child: Padding(
@@ -83,7 +86,7 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MemberBillLadger(
+                            builder: (context) => MemberBillReceipt(
                                   societyName: suggestion.toString(),
                                 )),
                       );
@@ -91,39 +94,6 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
                     },
                   ),
                 ),
-                Container(
-                  width: 220,
-                  padding: const EdgeInsets.all(8),
-                  child: TypeAheadField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                        controller: monthyear,
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .copyWith(fontStyle: FontStyle.italic),
-                        decoration: const InputDecoration(
-                            labelText: 'Selcet Month',
-                            border: OutlineInputBorder())),
-                    suggestionsCallback: (pattern) async {
-                      return await getBillMonth(pattern);
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        title: Text(suggestion.toString()),
-                      );
-                    },
-                    onSuggestionSelected: (suggestion) {
-                      monthyear.text = suggestion.toString();
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => ListOfMemberBill(
-                      //             societyName: suggestion.toString(),
-                      //           )),
-                      // );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 10),
                 SizedBox(
                   height: 40,
                   child: Padding(
@@ -248,6 +218,7 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
         'societyName': _societyNameController.text,
         '$i': data[i],
       }).then((value) {
+        // ignore: avoid_print
         print('Done!');
       });
     }
@@ -255,6 +226,7 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
 
   // ignore: non_constant_identifier_names
   Future<List<DataRow>> getExceldata(String SelectedSociety) async {
+    // ignore: non_constant_identifier_names
     List<DataRow> CustomDataRow = [];
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -290,7 +262,7 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
         .get();
 
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    print(tempList);
+    // print(tempList);
 
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {

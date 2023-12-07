@@ -1,17 +1,24 @@
+
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/viewScreen/societyView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+// ignore: camel_case_types
 class societyList extends StatefulWidget {
   static const id = "/societyList";
-  societyList({super.key});
+  const societyList({super.key});
 
   @override
   State<societyList> createState() => _societyListState();
 }
 
+// ignore: camel_case_types
 class _societyListState extends State<societyList> {
   final TextEditingController _societyNameController = TextEditingController();
 
@@ -25,7 +32,7 @@ class _societyListState extends State<societyList> {
           "All Society",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: AppBarBgColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -42,7 +49,7 @@ class _societyListState extends State<societyList> {
                 ),
                 Text(
                   'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),

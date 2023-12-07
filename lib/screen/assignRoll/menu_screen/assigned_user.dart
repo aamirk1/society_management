@@ -717,6 +717,7 @@ class _AssignedUserState extends State<AssignedUser> {
       // 'cities': cities,
       'societyname': societynameName
     }).whenComplete(() {
+      // ignore: avoid_print
       print('Operation Complete');
     });
   }

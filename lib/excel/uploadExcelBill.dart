@@ -1,3 +1,7 @@
+
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
+import 'package:society_management/customWidgets/colors.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -23,6 +28,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
+  // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
   String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
@@ -31,8 +37,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    print(monthyear);
+    // print(monthyear);
     super.initState();
   }
 
@@ -44,7 +49,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
           "Add Bill",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: AppBarBgColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -96,7 +101,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
                       },
                       onSuggestionSelected: (suggestion) {
                         _societyNameController.text = suggestion.toString();
-                        print(_societyNameController.text);
+                        // print(_societyNameController.text);
                       },
                     ),
                   )),
@@ -293,6 +298,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
           alldata.add(tempMap);
           tempMap = {};
         }
+        // ignore: avoid_print
         print(alldata);
       }
 
@@ -314,6 +320,7 @@ class _UpExcelBillState extends State<UpExcelBill> {
         'societyName': _societyNameController.text,
         '$i': data[i],
       }).then((value) {
+        // ignore: avoid_print
         print('Done!');
       });
     }

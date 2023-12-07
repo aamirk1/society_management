@@ -1,3 +1,7 @@
+
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -150,24 +154,6 @@ class _AddLadgerState extends State<AddLadger> {
               const SizedBox(
                 height: 15,
               ),
-              // Align(
-              //   alignment: Alignment.bottomRight,
-              //   child: Row(
-              //     children: [
-              //       ElevatedButton(
-              //           onPressed: () {
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                   builder: (context) => const UpExcelBill()),
-              //             );
-              //           },
-              //           child: const Text(
-              //             "Upload Excel",
-              //           )),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

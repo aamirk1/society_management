@@ -1,17 +1,21 @@
-// ignore_for_file: dead_code
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/listScreen/custom_textfield.dart';
 
+// ignore: camel_case_types
 class committeeDetails extends StatefulWidget {
   final String name;
-  committeeDetails({super.key, required this.name});
+  const committeeDetails({super.key, required this.name});
 
   @override
   State<committeeDetails> createState() => _committeeDetailsState();
 }
 
+// ignore: camel_case_types
 class _committeeDetailsState extends State<committeeDetails> {
   @override
   void initState() {

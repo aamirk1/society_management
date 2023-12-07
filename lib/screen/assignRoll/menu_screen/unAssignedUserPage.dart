@@ -1,4 +1,6 @@
+// ignore: duplicate_ignore
 // ignore: file_names
+// ignore_for_file: file_names
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -324,6 +326,7 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
       'alphabet': name[0][0].toUpperCase(),
       'position': 'unAssigned',
     }).whenComplete(() {
+      // ignore: avoid_print
       print('Operation Complete');
     });
   }

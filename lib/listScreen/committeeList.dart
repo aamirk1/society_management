@@ -1,6 +1,13 @@
+
+// ignore: duplicate_ignore
+// ignore_for_file: file_names
+//ignore: avoid_web_libraries_in_flutter
+// ignore_for_file: camel_case_types
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/viewScreen/committeeView.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -26,7 +33,7 @@ class _committeeListState extends State<committeeList> {
           "Manager List",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+        backgroundColor: AppBarBgColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),

@@ -99,7 +99,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
     final provider = Provider.of<MenuUserPageProvider>(context, listen: true);
     return Scaffold(
       body: isLoading
-          ? CircularProgressIndicator()
+          ? const CircularProgressIndicator()
           : Container(
               padding: const EdgeInsets.all(5.0),
               width: MediaQuery.of(context).size.width * 0.98,
@@ -421,7 +421,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                 child: SizedBox(
                                                   width: 130,
                                                   child: TextButton(
-                                                    style: ButtonStyle(
+                                                    style: const ButtonStyle(
                                                         backgroundColor:
                                                             MaterialStatePropertyAll(
                                                                 Colors.grey)),
@@ -475,7 +475,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                                             index]
                                                                         ? Colors
                                                                             .white
-                                                                        : Color.fromARGB(
+                                                                        : const Color.fromARGB(
                                                                             255,
                                                                             150,
                                                                             149,
@@ -1061,7 +1061,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
         searchedList.add(societyList[i]);
       }
     }
-    print(searchedList);
+    // print(searchedList);
     societyList.clear();
     return searchedList;
   }
@@ -1140,6 +1140,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
     return assignedUserList;
   }
 
+  // ignore: non_constant_identifier_names
   UserCard(BuildContext context, int number, String title, Color color,
       Widget name) {
     final menuProvider =
@@ -1291,7 +1292,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
       updatedDepo.clear();
       updatedRole.clear();
     });
-    print('Updated');
+    // print('Updated');
   }
 
   Future<void> getCityName() async {

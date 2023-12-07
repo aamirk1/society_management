@@ -1,8 +1,11 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = '/';
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   backgroundColor: Colors.blueGrey.shade700,
       // ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Row(
@@ -82,31 +85,3 @@ class _HomeScreenState extends State<HomeScreen> {
         
         
         
-        
-        
-        
-//         Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Column(
-//           children: [
-//             Text("dat4535a"),
-//             Text("224tgtr lkjs6 chyjnm"),
-//             Text("data"),
-//             Text("224tgtr lkjs6 chyjnm"),
-//             Text("data"),
-//             Text("224tgtr lkjs6 chyjnm"),
-//           ],
-//         ),
-//         Column(
-//           children: [
-//             Text("data"),
-//             Text("224tgtr lkjs6 chyjnm"),
-//             Text("data"),
-//             Text("224tgtr lkjs6 chyjnm"),
-//           ],
-//         )
-//       ],
-//     ));
-//   }
-// }

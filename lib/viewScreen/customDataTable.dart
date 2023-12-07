@@ -1,3 +1,6 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -32,7 +35,6 @@ class _CustomDataTableState extends State<CustomDataTable> {
   @override
   void initState() {
     addData();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -43,7 +45,7 @@ class _CustomDataTableState extends State<CustomDataTable> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
               child: StreamBuilder<List<List<dynamic>>>(
                   stream: _streamData,
@@ -94,6 +96,7 @@ class _CustomDataTableState extends State<CustomDataTable> {
   }
 
   addRow() {
+    // ignore: no_leading_underscores_for_local_identifiers
     List<dynamic> _blankRow = ['', '', '', ''];
     rows.add(_blankRow);
     _data.add(rows);

@@ -1,3 +1,6 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/viewScreen/side.dart';
@@ -74,64 +77,70 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            String email = _emailController.text;
-                            String password = _passwordController.text;
-                            UserCredential userCredential =
-                                await _auth.signInWithEmailAndPassword(
-                              email: email,
-                              password: password,
-                            );
-                            User? user = userCredential.user;
-                            if (user != null) {
-                              print('Logged in successfully: ${user.uid}');
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const customSide();
-                              }));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 28, 70, 0),
-                                      content: Center(
-                                        child: Text(
-                                          'Login Successful',
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 172, 172, 172),
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      )));
-                            }
-                          } catch (e) {
-                            // print('An error occurred: $e');
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                                    backgroundColor: Colors.red,
+                      onPressed: () async {
+                        try {
+                          String email = _emailController.text;
+                          String password = _passwordController.text;
+                          UserCredential userCredential =
+                              await _auth.signInWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+                          User? user = userCredential.user;
+                          if (user != null) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const customSide();
+                            }));
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 28, 70, 0),
                                     content: Center(
                                       child: Text(
-                                        'Invalid Credentials',
+                                        'Login Successful',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Color.fromARGB(
+                                              255, 172, 172, 172),
                                           fontSize: 20,
                                         ),
                                       ),
                                     )));
-                            // Navigator.pop(context);
                           }
-                        },
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(color: Colors.white),
+                        } catch (e) {
+                          // print('An error occurred: $e');
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Center(
+                                    child: Text(
+                                      'Invalid Credentials',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  )));
+                          // Navigator.pop(context);
+                        }
+                      },
+                      // ignore: prefer_const_constructors, sort_child_properties_last
+                      child: Text(
+                        "Login",
+                        // ignore: prefer_const_constructors
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 0, 0, 0),
                         ),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 0, 0, 0))))
+                      ),
+                    ),
                   ]),
                 ),
-              )
+              ),
             ],
           ),
         ],

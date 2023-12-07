@@ -1,3 +1,6 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +35,7 @@ class _TotalUsersState extends State<TotalUsers> {
     final provider = Provider.of<FilterProvider>(context, listen: true);
 
     return isLoading
-        ? CircularProgressIndicator()
+        ? const CircularProgressIndicator()
         : Scaffold(
             appBar: PreferredSize(
                 preferredSize: Size(MediaQuery.of(context).size.width, 50),
@@ -822,7 +825,7 @@ class _TotalUsersState extends State<TotalUsers> {
         content: Text('Role Removed Successfully'),
       ));
     });
-    print('Role unAssigned Successfully');
+    // print('Role unAssigned Successfully');
 
     //Deleting role from the assigned users
     DocumentReference assginedUsersDoc =

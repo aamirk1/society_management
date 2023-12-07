@@ -1,9 +1,11 @@
-import 'dart:html';
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
+import 'package:society_management/customWidgets/colors.dart';
 
 class ListOfMemberBill extends StatefulWidget {
   final String societyName;
@@ -21,6 +23,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
+  // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
   bool showTable = false;
@@ -44,7 +47,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
             "All Members Account of ${widget.societyName}",
             style: const TextStyle(color: Colors.black),
           ),
-          backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+          backgroundColor: AppBarBgColor,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
@@ -156,9 +159,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                                                   backgroundColor:
                                                       MaterialStatePropertyAll(
                                                           Colors.blue)),
-                                              onPressed: () {
-                                                print("Paid");
-                                              },
+                                              onPressed: () {},
                                               child: const Text('Pay')));
                                     }),
                                   ),
@@ -238,7 +239,6 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
       }
       mapdata.add(tempMap);
     }
-    print(mapdata);
 
     FirebaseFirestore.instance
         .collection('accounts')

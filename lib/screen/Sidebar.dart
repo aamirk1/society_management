@@ -1,3 +1,6 @@
+// ignore: duplicate_ignore
+// ignore: file_names
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:society_management/listScreen/committeeList.dart';
@@ -12,7 +15,7 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  Widget selectedscreen = societyList();
+  Widget selectedscreen = const societyList();
   currentItem(item) {
     switch (item.route) {
       // case HomeScreen.id:
@@ -22,7 +25,7 @@ class _SidebarState extends State<Sidebar> {
       //   break;
       case societyList.id:
         setState(() {
-          selectedscreen = societyList();
+          selectedscreen = const societyList();
         });
         break;
       case committeeList.id:

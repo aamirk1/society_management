@@ -7,6 +7,7 @@ import 'package:society_management/screen/assignRoll/user.dart';
 
 import '../listScreen/societyList.dart';
 
+// ignore: camel_case_types
 class customSide extends StatefulWidget {
   const customSide({super.key});
 
@@ -37,7 +38,7 @@ class _customSideState extends State<customSide> {
   int _selectedIndex = 0;
 
   List<Widget> pages = [
-    societyList(),
+    const societyList(),
     const societyListOfMemberOfMember(),
     const MenuUserPage(),
     const societyListOfBill(),
@@ -53,14 +54,14 @@ class _customSideState extends State<customSide> {
           Container(
             padding: const EdgeInsets.only(top: 20),
             width: 250,
-            color: Color.fromARGB(255, 231, 239, 248),
+            color: const Color.fromARGB(255, 231, 239, 248),
             child: Column(
               children: [
                 Container(
                   width: 100,
                   height: 40,
-                  child: Image.asset('assets/images/devlogo.png'),
                   padding: const EdgeInsets.only(bottom: 10),
+                  child:  Image.asset('assets/images/devlogo.png'),
                 ),
                 const Divider(
                   color: Colors.black,
@@ -96,7 +97,7 @@ class _customSideState extends State<customSide> {
           title: Icon(icon,
               size: 30,
               color: design[index]
-                  ? Color.fromARGB(255, 8, 8, 8)
+                  ? const Color.fromARGB(255, 8, 8, 8)
                   : const Color.fromARGB(95, 134, 134, 134)),
           subtitle: Text(textAlign: TextAlign.center, title),
         ),
@@ -114,7 +115,7 @@ class _customSideState extends State<customSide> {
 
   Widget getPage(int index) {
     if (index == 0) {
-      return societyList();
+      return const societyList();
     }
     return const Text('');
   }
