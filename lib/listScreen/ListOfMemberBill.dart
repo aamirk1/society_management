@@ -3,6 +3,7 @@
 // ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
@@ -42,10 +43,10 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme:  IconThemeData(color:AppBarColor),
           title: Text(
             "All Members Account of ${widget.societyName}",
-            style: const TextStyle(color: Colors.black),
+            style:  TextStyle(color:AppBarColor),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
@@ -54,17 +55,17 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
               child: Column(
                 children: [
                   IconButton(
-                    icon: const Icon(
+                    icon:  Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color:AppBarColor,
                     ),
                     onPressed: () {
                       // signOut();
                     },
                   ),
-                  const Text(
+                   Text(
                     'Hi',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color:AppBarColor),
                   ),
                 ],
               ),
@@ -93,77 +94,68 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                           padding: const EdgeInsets.all(2.0),
                           height: 450,
                           width: MediaQuery.of(context).size.width,
-                          child: InteractiveViewer(
-                            constrained: false,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: DataTable(
-                                border: TableBorder.all(color: Colors.black),
-                                headingRowColor:
-                                    const MaterialStatePropertyAll(Colors.blue),
-                                headingTextStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 50.0,
+                          child: DataTable2(
+                            minWidth: 2500,
+                            border: TableBorder.all(color:Colors.black),
+                            headingRowColor:
+                                const MaterialStatePropertyAll(Colors.blue),
+                            headingTextStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 50.0,
+                            ),
+                            columnSpacing: 3.0,
+                            columns: List.generate(columnName.length, (index) {
+                              return DataColumn2(
+                                fixedWidth: index == 1 ? 500 : 130,
+                                label: Text(
+                                  columnName[index],
+                                  style: const TextStyle(
+                                      // overflow: TextOverflow.ellipsis,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                columnSpacing: 3.0,
-                                dataRowMinHeight: 1.0,
-                                columns: columnName
-                                    .map((e) => DataColumn(
-                                          label: Text(
-                                            e,
-                                            style: const TextStyle(
-                                                // overflow: TextOverflow.ellipsis,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ))
-                                    .toList(),
-                                rows: List.generate(
-                                  growable: true,
-                                  data.length,
-                                  (index1) => DataRow(
-                                    cells: List.generate(
-                                        growable: true,
-                                        data[0].length, (index2) {
-                                      return data[index1][index2] != 'Status'
-                                          ? DataCell(Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 2.0),
-                                              // child: Text(data[index1][index2]),
+                              );
+                            }),
+                            rows: List.generate(
+                              growable: true,
+                              data.length,
+                              (index1) => DataRow2(
+                                cells: List.generate(
+                                    growable: true, data[0].length, (index2) {
+                                  return data[index1][index2] != 'Status'
+                                      ? DataCell(Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 2.0),
+                                          // child: Text(data[index1][index2]),
 
-                                              child: TextFormField(
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                  // controller: controllers[index1][index2],
-                                                  onChanged: (value) {
-                                                    data[index1][index2] =
-                                                        value;
-                                                  },
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          const EdgeInsets.only(
-                                                              left: 3.0,
-                                                              right: 3.0),
-                                                      // border:
-                                                      //     const OutlineInputBorder(),
-                                                      hintText: data[index1]
-                                                          [index2],
-                                                      hintStyle:
-                                                          const TextStyle(
-                                                              fontSize: 11.0,
-                                                              color: Colors
-                                                                  .black))),
-                                            ))
-                                          : DataCell(ElevatedButton(
-                                              style: const ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll(
-                                                          Colors.blue)),
-                                              onPressed: () {},
-                                              child: const Text('Pay')));
-                                    }),
-                                  ),
-                                ),
+                                          child: TextFormField(
+                                              style:
+                                                  const TextStyle(fontSize: 12),
+                                              // controller: controllers[index1][index2],
+                                              onChanged: (value) {
+                                                data[index1][index2] = value;
+                                              },
+                                              decoration: InputDecoration(
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                          left: 3.0,
+                                                          right: 3.0),
+                                                  // border:
+                                                  //     const OutlineInputBorder(),
+                                                  hintText: data[index1]
+                                                      [index2],
+                                                  hintStyle: const TextStyle(
+                                                      fontSize: 11.0,
+                                                      color:Colors.black))),
+                                        ))
+                                      : DataCell(ElevatedButton(
+                                          style: const ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      Colors.blue)),
+                                          onPressed: () {},
+                                          child: const Text('Pay')));
+                                }),
                               ),
                             ),
                           ),
@@ -179,6 +171,8 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                     Padding(
                       padding: const EdgeInsets.only(right: 5),
                       child: FloatingActionButton(
+                        heroTag: 'add',
+                        backgroundColor: Colors.blue,
                         onPressed: () {
                           newRow = List.filled(data[0].length - 1, '');
                           newRow.add('Status');
@@ -195,6 +189,8 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                       ),
                     ),
                     FloatingActionButton(
+                      heroTag: 'save',
+                      backgroundColor: Colors.blue,
                       onPressed: storeEditedData,
                       child: const Icon(Icons.check),
                     ),

@@ -45,9 +45,9 @@ class _UpExcelBillState extends State<UpExcelBill> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        title:  Text(
           "Add Bill",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color:AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -56,17 +56,17 @@ class _UpExcelBillState extends State<UpExcelBill> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color:AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style:  TextStyle(color:AppBarColor),
                 ),
               ],
             ),
@@ -125,9 +125,9 @@ class _UpExcelBillState extends State<UpExcelBill> {
                               child: DataTable(
                                 // border: const TableBorder(
                                 //     horizontalInside: BorderSide(
-                                //   color: Colors.black,
+                                //   color:AppBarColor,
                                 // )),
-                                border: TableBorder.all(color: Colors.black),
+                                border: TableBorder.all(color:Colors.black),
                                 headingRowColor:
                                     const MaterialStatePropertyAll(Colors.blue),
                                 headingTextStyle: const TextStyle(

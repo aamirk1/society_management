@@ -4,7 +4,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:society_management/listScreen/custom_textfield.dart';
+import 'package:society_management/customWidgets/colors.dart';
+import 'package:society_management/customWidgets/custom_textfield.dart';
 
 // ignore: camel_case_types
 class committeeDetails extends StatefulWidget {
@@ -35,9 +36,9 @@ class _committeeDetailsState extends State<committeeDetails> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: AppBarColor),
           title: Text(widget.name),
-          backgroundColor: const Color.fromARGB(255, 0, 119, 255),
+          backgroundColor: AppBarBgColor,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),

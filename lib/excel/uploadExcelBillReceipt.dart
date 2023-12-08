@@ -1,4 +1,3 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
@@ -31,6 +30,8 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
+
+  // String monthyear = 'January 2024';
   String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
 
   bool showTable = false;
@@ -44,10 +45,10 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme:  IconThemeData(color:AppBarColor),
+        title:  Text(
           "Upload Receipt Excel",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color:AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -56,17 +57,17 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color:AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style:  TextStyle(color:AppBarColor),
                 ),
               ],
             ),
@@ -125,9 +126,9 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                               child: DataTable(
                                 // border: const TableBorder(
                                 //     horizontalInside: BorderSide(
-                                //   color: Colors.black,
+                                //   color:AppBarColor,
                                 // )),
-                                border: TableBorder.all(color: Colors.black),
+                                border: TableBorder.all(color:Colors.black),
                                 headingRowColor:
                                     const MaterialStatePropertyAll(Colors.blue),
                                 headingTextStyle: const TextStyle(

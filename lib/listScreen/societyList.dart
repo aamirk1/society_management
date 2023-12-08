@@ -1,13 +1,12 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/viewScreen/societyView.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 // ignore: camel_case_types
 class societyList extends StatefulWidget {
@@ -28,9 +27,9 @@ class _societyListState extends State<societyList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           "All Society",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color:AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -39,17 +38,17 @@ class _societyListState extends State<societyList> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color:AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style:  TextStyle(color:AppBarColor),
                 ),
               ],
             ),
@@ -132,7 +131,10 @@ class _societyListState extends State<societyList> {
                     itemCount: societyNames.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(societyNames[index]),
+                        title: Text(
+                          societyNames[index],
+                          style: TextStyle(color: TextListColor),
+                        ),
                         // subtitle: Text(data.docs[index]['city']),
                         onTap: () {
                           Navigator.push(

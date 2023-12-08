@@ -1,4 +1,3 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
@@ -8,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
-import 'package:society_management/listScreen/custom_textfield.dart';
+import 'package:society_management/customWidgets/custom_textfield.dart';
 
 class AddCommittee extends StatefulWidget {
   static const id = "/addCommittee";
@@ -43,10 +42,10 @@ class _AddCommitteeState extends State<AddCommittee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme: IconThemeData(color: AppBarColor),
+        title: Text(
           "Add Committee",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -55,17 +54,17 @@ class _AddCommitteeState extends State<AddCommittee> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color: AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),

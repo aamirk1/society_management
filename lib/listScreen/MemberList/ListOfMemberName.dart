@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/customWidgets/colors.dart';
 
@@ -53,10 +54,10 @@ class _societyPageState extends State<societyPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: AppBarColor),
           title: Text(
             "All Members of ${widget.societyName}",
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: AppBarColor),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
@@ -65,17 +66,17 @@ class _societyPageState extends State<societyPage> {
               child: Column(
                 children: [
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color: AppBarColor,
                     ),
                     onPressed: () {
                       // signOut();
                     },
                   ),
-                  const Text(
-                    'Hi',
-                    style: TextStyle(color: Colors.black),
+                  Text(
+                    'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                    style: TextStyle(color: AppBarColor),
                   ),
                 ],
               ),
@@ -221,6 +222,7 @@ class _societyPageState extends State<societyPage> {
                     Padding(
                       padding: const EdgeInsets.only(right: 5),
                       child: FloatingActionButton(
+                        heroTag: 'add',
                         onPressed: () {
                           addRow();
                         },
@@ -228,6 +230,7 @@ class _societyPageState extends State<societyPage> {
                       ),
                     ),
                     FloatingActionButton(
+                      heroTag: 'save',
                       onPressed: storeEditedData,
                       child: const Icon(Icons.check),
                     ),

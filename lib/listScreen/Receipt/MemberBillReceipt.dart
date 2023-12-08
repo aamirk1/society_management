@@ -21,7 +21,7 @@ class MemberBillReceipt extends StatefulWidget {
 class _MemberBillReceiptState extends State<MemberBillReceipt> {
   final TextEditingController monthyears = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  bool isLoding = false;
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<String> dateList = [];
@@ -36,7 +36,7 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
   String fetch = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
-    fetchMap(widget.societyName, monthyears.text)
+    fetchMap(widget.societyName, monthyear)
         .whenComplete(() => {showTable = true, setState(() {})});
 
     super.initState();
@@ -45,10 +45,10 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: AppBarColor),
           title: Text(
             "All Members Receipt of ${widget.societyName}",
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: AppBarColor),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
@@ -99,131 +99,138 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
               child: Column(
                 children: [
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color: AppBarColor,
                     ),
                     onPressed: () {
                       // signOut();
                     },
                   ),
-                  const Text(
+                  Text(
                     'Hi',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: AppBarColor),
                   ),
                 ],
               ),
             )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Form(
-                  key: _formKey,
-                  child: showTable == false
-                      ? const Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(),
-                              Text('Collecting Data...')
-                            ],
-                          ),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.all(2.0),
-                          height: 450,
-                          width: MediaQuery.of(context).size.width,
-                          child: DataTable2(
-                            minWidth: 1500,
-                            border: TableBorder.all(color: Colors.black),
-                            headingRowColor:
-                                const MaterialStatePropertyAll(Colors.blue),
-                            headingTextStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 50.0,
-                            ),
-                            columnSpacing: 3.0,
-                            columns: List.generate(columnName.length, (index) {
-                              return DataColumn2(
-                                fixedWidth: index == 2 ? 500 : 130,
-                                label: Text(
-                                  columnName[index],
-                                  style: const TextStyle(
-                                      // overflow: TextOverflow.ellipsis,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.bold),
+        body: isLoding
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Form(
+                      key: _formKey,
+                      child: showTable == false
+                          ? const Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(),
+                                  Text('Collecting Data...')
+                                ],
+                              ),
+                            )
+                          : Container(
+                              padding: const EdgeInsets.all(2.0),
+                              height: 450,
+                              width: MediaQuery.of(context).size.width,
+                              child: DataTable2(
+                                minWidth: 1500,
+                                border: TableBorder.all(color: Colors.black),
+                                headingRowColor:
+                                    const MaterialStatePropertyAll(Colors.blue),
+                                headingTextStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 50.0,
                                 ),
-                              );
-                            }),
-                            rows: List.generate(
-                              growable: true,
-                              data.length,
-                              (index1) => DataRow2(
-                                cells: List.generate(
-                                    growable: true, data[0].length, (index2) {
-                                  return data[index1][index2] != 'Status'
-                                      ? DataCell(Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 2.0),
-                                          // child: Text(data[index1][index2]),
-
-                                          child: TextFormField(
-                                              style:
-                                                  const TextStyle(fontSize: 12),
-                                              // controller: controllers[index1][index2],
-                                              onChanged: (value) {
-                                                data[index1][index2] = value;
-                                              },
-                                              decoration: InputDecoration(
-                                                  contentPadding:
-                                                      const EdgeInsets.only(
-                                                          left: 3.0,
-                                                          right: 3.0),
-                                                  // border:
-                                                  //     const OutlineInputBorder(),
-                                                  hintText: data[index1]
-                                                      [index2],
-                                                  hintStyle: const TextStyle(
-                                                      fontSize: 11.0,
-                                                      color: Colors.black))),
-                                        ))
-                                      : DataCell(ElevatedButton(
-                                          style: const ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStatePropertyAll(
-                                                      Colors.blue)),
-                                          onPressed: () {
-                                            // print("Paid");
-                                          },
-                                          child: const Text('Pay')));
+                                columnSpacing: 3.0,
+                                columns:
+                                    List.generate(columnName.length, (index) {
+                                  return DataColumn2(
+                                    fixedWidth: index == 2 ? 500 : 130,
+                                    label: Text(
+                                      columnName[index],
+                                      style: const TextStyle(
+                                          // overflow: TextOverflow.ellipsis,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  );
                                 }),
+                                rows: List.generate(
+                                  growable: true,
+                                  data.length,
+                                  (index1) => DataRow2(
+                                    cells: List.generate(
+                                        growable: true,
+                                        data[0].length, (index2) {
+                                      return data[index1][index2] != 'Status'
+                                          ? DataCell(Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 2.0),
+                                              // child: Text(data[index1][index2]),
+
+                                              child: TextFormField(
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                  // controller: controllers[index1][index2],
+                                                  onChanged: (value) {
+                                                    data[index1][index2] =
+                                                        value;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets.only(
+                                                              left: 3.0,
+                                                              right: 3.0),
+                                                      // border:
+                                                      //     const OutlineInputBorder(),
+                                                      hintText: data[index1]
+                                                          [index2],
+                                                      hintStyle:
+                                                          const TextStyle(
+                                                              fontSize: 11.0,
+                                                              color: Colors
+                                                                  .black))),
+                                            ))
+                                          : DataCell(ElevatedButton(
+                                              style: const ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                          Colors.blue)),
+                                              onPressed: () {
+                                                // print("Paid");
+                                              },
+                                              child: const Text('Pay')));
+                                    }),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: storeEditedData,
-                      child: const Icon(Icons.check),
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FloatingActionButton(
+                          onPressed: storeEditedData,
+                          child: const Icon(Icons.check),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
       );
 
   getUserdata(String pattern) async {
@@ -279,7 +286,10 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
     );
   }
 
-  Future<void> fetchMap(String societyName, String monthyears) async {
+  Future<void> fetchMap(String societyName, String monthyear) async {
+    setState(() {
+      isLoding = true;
+    });
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
         .collection('ladgerReceipt')
         .doc(societyName)
@@ -309,12 +319,15 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
 
       // Use the data map as needed
     }
+    setState(() {
+      isLoding = false;
+    });
   }
 
   getMonthReceipt(String pattern) async {
     dateList.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('ladgerBill')
+        .collection('ladgerReceipt')
         .doc(widget.societyName)
         .collection('month')
         .get();

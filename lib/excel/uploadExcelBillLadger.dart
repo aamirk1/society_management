@@ -45,10 +45,10 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme:  IconThemeData(color:AppBarColor),
+        title:  Text(
           "Upload Excel",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color:AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -57,17 +57,17 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color:AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style:  TextStyle(color:AppBarColor),
                 ),
               ],
             ),
@@ -128,7 +128,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                                 //     horizontalInside: BorderSide(
                                 //   color: Colors.black,
                                 // )),
-                                border: TableBorder.all(color: Colors.black),
+                                border: TableBorder.all(color:Colors.black),
                                 headingRowColor:
                                     const MaterialStatePropertyAll(Colors.blue),
                                 headingTextStyle: const TextStyle(

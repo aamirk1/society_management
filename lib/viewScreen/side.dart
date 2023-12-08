@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:society_management/listScreen/Ladger/ListOfBillLadger.dart';
 import 'package:society_management/listScreen/Receipt/ListOfBillReceipt.dart';
 import 'package:society_management/listScreen/societyListOfBill.dart';
-import 'package:society_management/listScreen/societyListOfMember.dart';
 import 'package:society_management/screen/assignRoll/user.dart';
 
+import '../listScreen/MemberList/societyListOfMember.dart';
 import '../listScreen/societyList.dart';
 
 // ignore: camel_case_types
@@ -54,14 +54,14 @@ class _customSideState extends State<customSide> {
           Container(
             padding: const EdgeInsets.only(top: 20),
             width: 250,
-            color: const Color.fromARGB(255, 231, 239, 248),
+            color: Colors.purple,
             child: Column(
               children: [
                 Container(
                   width: 100,
                   height: 40,
                   padding: const EdgeInsets.only(bottom: 10),
-                  child:  Image.asset('assets/images/devlogo.png'),
+                  child: Image.asset('assets/images/devlogo.png'),
                 ),
                 const Divider(
                   color: Colors.black,
@@ -98,8 +98,12 @@ class _customSideState extends State<customSide> {
               size: 30,
               color: design[index]
                   ? const Color.fromARGB(255, 8, 8, 8)
-                  : const Color.fromARGB(95, 134, 134, 134)),
-          subtitle: Text(textAlign: TextAlign.center, title),
+                  : Colors.white),
+          subtitle: Text(
+            textAlign: TextAlign.center,
+            title,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
@@ -51,16 +50,16 @@ class _societyListOfBillState extends State<societyListOfBill> {
         //   "Society List",
         //   style: TextStyle(color: Colors.black),
         // ),
-        backgroundColor:AppBarBgColor,
+        backgroundColor: AppBarBgColor,
         actions: [
           Flexible(
               child: Padding(
             padding: const EdgeInsets.only(left: 5, right: 10.0),
             child: Row(
               children: [
-                const Text(
+                Text(
                   "Accounts",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: AppBarColor, fontSize: 20),
                 ),
                 Container(
                   width: 550,
@@ -95,38 +94,6 @@ class _societyListOfBillState extends State<societyListOfBill> {
                     },
                   ),
                 ),
-                Container(
-                  width: 220,
-                  padding: const EdgeInsets.all(8),
-                  child: TypeAheadField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                        controller: monthyear,
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .copyWith(fontStyle: FontStyle.italic),
-                        decoration: const InputDecoration(
-                            labelText: 'Selcet Month',
-                            border: OutlineInputBorder())),
-                    suggestionsCallback: (pattern) async {
-                      return await getBillMonth(pattern);
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        title: Text(suggestion.toString()),
-                      );
-                    },
-                    onSuggestionSelected: (suggestion) {
-                      monthyear.text = suggestion.toString();
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => ListOfMemberBill(
-                      //             societyName: suggestion.toString(),
-                      //           )),
-                      // );
-                    },
-                  ),
-                ),
                 const SizedBox(width: 10),
                 SizedBox(
                   height: 40,
@@ -155,17 +122,17 @@ class _societyListOfBillState extends State<societyListOfBill> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color: AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
@@ -196,7 +163,8 @@ class _societyListOfBillState extends State<societyListOfBill> {
                     itemCount: societyList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(societyList[index]),
+                        title: Text(societyList[index],
+                            style: TextStyle(color: TextListColor)),
                         // subtitle: Text(data.docs[index]['city']),
                         onTap: () {
                           Navigator.push(

@@ -1,16 +1,15 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
-import 'package:society_management/listScreen/custom_textfield.dart';
+import 'package:society_management/customWidgets/custom_textfield.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -55,9 +54,9 @@ class _UpExcelState extends State<UpExcel> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        title: Text(
           "Add Member",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -66,17 +65,17 @@ class _UpExcelState extends State<UpExcel> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color: AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
@@ -116,47 +115,6 @@ class _UpExcelState extends State<UpExcel> {
                   )),
                 ],
               ),
-              // const SizedBox(
-              //   height: 5,
-              // ),
-
-              // Column(
-              //   children: [
-              //     Row(
-              //       children: [
-              //         OverviewField('Flat No.: ', s_flatNo),
-              //         OverviewField('Member Name: ', s_name),
-              //       ],
-              //     ),
-              //     Row(
-              //       children: [
-              //         OverviewField('Area', s_area),
-              //         OverviewField('Status', s_status),
-              //       ],
-              //     ),
-              //     Row(
-              //       children: [
-              //         OverviewField('Mobile No.:', s_mobile),
-              //         OverviewField(
-              //           'Email Id:',
-              //           s_email,
-              //         ),
-              //       ],
-              //     ),
-              //     Row(
-              //       children: [
-              //         OverviewField('MC Member', s_mc),
-              //         OverviewField('Remarks', s_remarks),
-              //       ],
-              //     ),
-              //     Row(
-              //       children: [
-              //         OverviewField('Parking No.', s_parking),
-              //         OverviewField('Tenant Name And Address', s_tenant),
-              //       ],
-              //     ),
-              //   ],
-              // ),
               showTable
                   ? Expanded(
                       child: Container(

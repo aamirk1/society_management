@@ -4,7 +4,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:society_management/listScreen/custom_textfield.dart';
+import 'package:society_management/customWidgets/colors.dart';
+import 'package:society_management/customWidgets/custom_textfield.dart';
 
 // ignore: camel_case_types
 class societyDetails extends StatefulWidget {
@@ -24,46 +25,30 @@ class _societyDetailsState extends State<societyDetails> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _uniqueController = TextEditingController();
-
   final TextEditingController _societyNameController = TextEditingController();
-
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _regNoController = TextEditingController();
-
   final TextEditingController _adminNameController = TextEditingController();
-
   final TextEditingController _contactNumberController =
       TextEditingController();
-
   final TextEditingController _emailIdController = TextEditingController();
-
   final TextEditingController _roadNoController = TextEditingController();
-
   final TextEditingController _roadNameController = TextEditingController();
-
   final TextEditingController _areaController = TextEditingController();
-
   final TextEditingController _plotNoController = TextEditingController();
-
   final TextEditingController _landmarkController = TextEditingController();
-
   final TextEditingController _sectorController = TextEditingController();
-
   final TextEditingController _cityController = TextEditingController();
-
   final TextEditingController _stateController = TextEditingController();
-
   final TextEditingController _pincodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: AppBarColor),
           title: Text(widget.societyNames),
-          backgroundColor: const Color.fromARGB(255, 0, 119, 255),
+          backgroundColor: AppBarBgColor,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),

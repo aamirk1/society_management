@@ -6,8 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/customWidgets/colors.dart';
-
-import '../listScreen/custom_textfield.dart';
+import 'package:society_management/customWidgets/custom_textfield.dart';
 
 class AddSociety extends StatefulWidget {
   static const id = "/addSociety";
@@ -62,10 +61,10 @@ class _AddSocietyState extends State<AddSociety> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-          title: const Text(
+          iconTheme: IconThemeData(color: AppBarColor),
+          title: Text(
             "Add Society",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: AppBarColor),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
@@ -74,9 +73,9 @@ class _AddSocietyState extends State<AddSociety> {
               child: Column(
                 children: [
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color: AppBarColor,
                     ),
                     onPressed: () {
                       // signOut();
@@ -84,7 +83,7 @@ class _AddSocietyState extends State<AddSociety> {
                   ),
                   Text(
                     'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                    style: const TextStyle(color: Colors.black),
+                    style: TextStyle(color: AppBarColor),
                   ),
                 ],
               ),

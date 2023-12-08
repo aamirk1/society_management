@@ -28,10 +28,10 @@ class _committeeListState extends State<committeeList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme:  IconThemeData(color:AppBarColor),
+        title:  Text(
           "Manager List",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color:AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -40,17 +40,17 @@ class _committeeListState extends State<committeeList> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color:AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style:  TextStyle(color:AppBarColor),
                 ),
               ],
             ),

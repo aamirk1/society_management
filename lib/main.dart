@@ -71,11 +71,9 @@ class MyApp extends StatelessWidget {
             }
             return null;
           },
-          home: const customSide()
-          // UpExcel()
-          //customSide()
-          // home: LoginScreen(),
-          // const customSide(),
+          // home: const customSide()
+          home: LoginScreen(),
+
           ),
     );
   }

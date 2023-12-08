@@ -35,10 +35,10 @@ class _societyListOfMemberOfMemberState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme: IconThemeData(color: AppBarColor),
+        title: Text(
           "Society List",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -47,17 +47,17 @@ class _societyListOfMemberOfMemberState
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color: AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
@@ -149,7 +149,10 @@ class _societyListOfMemberOfMemberState
                     itemCount: societyList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(societyList[index]),
+                        title: Text(
+                          societyList[index],
+                          style: TextStyle(color: TextListColor),
+                        ),
                         // subtitle: Text(data.docs[index]['city']),
                         onTap: () {
                           Navigator.push(

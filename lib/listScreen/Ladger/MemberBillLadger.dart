@@ -46,10 +46,10 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme:  IconThemeData(color:AppBarColor),
           title: Text(
             "All Members Bill of ${widget.societyName}",
-            style: const TextStyle(color: Colors.black),
+            style:  TextStyle(color:AppBarColor),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
@@ -74,7 +74,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                         },
                         itemBuilder: (context, suggestion) {
                           return ListTile(
-                            textColor: Colors.black,
+                            textColor:Colors.black,
                             title: Text(suggestion.toString()),
                           );
                         },
@@ -100,17 +100,17 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
               child: Column(
                 children: [
                   IconButton(
-                    icon: const Icon(
+                    icon:  Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color:AppBarColor,
                     ),
                     onPressed: () {
                       // signOut();
                     },
                   ),
                   Text(
-                    'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                    style: const TextStyle(color: Colors.black),
+                    'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                    style:  TextStyle(color:AppBarColor),
                   ),
                 ],
               ),
@@ -144,7 +144,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                               width: MediaQuery.of(context).size.width,
                               child: DataTable2(
                                 minWidth: 3000,
-                                border: TableBorder.all(color: Colors.black),
+                                border: TableBorder.all(color:Colors.black),
                                 headingRowColor:
                                     const MaterialStatePropertyAll(Colors.blue),
                                 headingTextStyle: const TextStyle(

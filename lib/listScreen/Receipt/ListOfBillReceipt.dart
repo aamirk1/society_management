@@ -57,9 +57,9 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
             padding: const EdgeInsets.only(left: 5, right: 10.0),
             child: Row(
               children: [
-                const Text(
+                 Text(
                   "Receipts",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color:AppBarColor, fontSize: 20),
                 ),
                 Container(
                   width: 550,
@@ -121,17 +121,17 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
             child: Column(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.person,
-                    color: Colors.black,
+                    color:AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
                   },
                 ),
                 Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
-                  style: const TextStyle(color: Colors.black),
+                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
+                  style:  TextStyle(color:AppBarColor),
                 ),
               ],
             ),
@@ -164,7 +164,8 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
                     itemCount: societyList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(societyList[index]),
+                        title: Text(societyList[index],
+                            style:  TextStyle(color:Colors.black)),
                         // subtitle: Text(data.docs[index]['city']),
                         onTap: () {
                           Navigator.push(
@@ -253,7 +254,7 @@ class _ListOfBillReceiptState extends State<ListOfBillReceipt> {
     return CustomDataRow;
   }
 
-  getBillMonth(String pattern) async {
+  getMonthReceipt(String pattern) async {
     dateList.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('ladgerReceipt')
