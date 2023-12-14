@@ -46,10 +46,10 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme:  IconThemeData(color:AppBarColor),
+          iconTheme: IconThemeData(color: AppBarColor),
           title: Text(
             "All Members Bill of ${widget.societyName}",
-            style:  TextStyle(color:AppBarColor),
+            style: TextStyle(color: AppBarColor),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
@@ -63,7 +63,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                       padding: const EdgeInsets.all(10.0),
                       child: TypeAheadField(
                         textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: Colors.white  ),
+                            style: const TextStyle(color: Colors.white),
                             controller: monthyears,
                             decoration: const InputDecoration(
                                 labelText: 'Selcet Month',
@@ -74,7 +74,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                         },
                         itemBuilder: (context, suggestion) {
                           return ListTile(
-                            textColor:Colors.black,
+                            textColor: Colors.black,
                             title: Text(suggestion.toString()),
                           );
                         },
@@ -100,9 +100,9 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
               child: Column(
                 children: [
                   IconButton(
-                    icon:  Icon(
+                    icon: Icon(
                       Icons.person,
-                      color:AppBarColor,
+                      color: AppBarColor,
                     ),
                     onPressed: () {
                       // signOut();
@@ -110,7 +110,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                   ),
                   Text(
                     'Hi, ${FirebaseAuth.instance.currentUser?.email}',
-                    style:  TextStyle(color:AppBarColor),
+                    style: TextStyle(color: AppBarColor),
                   ),
                 ],
               ),
@@ -144,7 +144,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                               width: MediaQuery.of(context).size.width,
                               child: DataTable2(
                                 minWidth: 3000,
-                                border: TableBorder.all(color:Colors.black),
+                                border: TableBorder.all(color: Colors.black),
                                 headingRowColor:
                                     const MaterialStatePropertyAll(Colors.blue),
                                 headingTextStyle: const TextStyle(

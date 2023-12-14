@@ -105,8 +105,6 @@ class _societyListOfMemberOfMemberState
                             );
                           },
                           onSuggestionSelected: (suggestion) {
-                            // ignore: avoid_print
-                            print('help');
                             _societyNameController.text = suggestion.toString();
                             Navigator.push(
                               context,

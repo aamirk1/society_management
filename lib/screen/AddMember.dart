@@ -1,13 +1,13 @@
 // ignore: duplicate_ignore
 // ignore: avoid_web_libraries_in_flutter
 
-
 // ignore_for_file: file_names, avoid_web_libraries_in_flutter
 import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../excel/uploadExcel.dart';
@@ -108,11 +108,11 @@ class _AddMemberState extends State<AddMember> {
                       height: 450,
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: SingleChildScrollView(
-                        child: DataTable(
+                        child: DataTable2(
+                          minWidth: 1700,
                           columnSpacing: 5.0,
-                          dataRowMinHeight: 10.0,
                           columns: columnNames[0]
-                              .map((e) => DataColumn(
+                              .map((e) => DataColumn2(
                                     label: Text(
                                       e,
                                       style: const TextStyle(
@@ -125,13 +125,12 @@ class _AddMemberState extends State<AddMember> {
                           rows: List.generate(
                             growable: true,
                             data.length,
-                            (index1) => DataRow(
+                            (index1) => DataRow2(
                               cells: List.generate(
                                   growable: true, data[0].length, (index2) {
                                 return DataCell(Padding(
                                   padding: const EdgeInsets.only(bottom: 5.0),
                                   child: Text(data[index1][index2]),
-
                                 ));
                               }),
                             ),

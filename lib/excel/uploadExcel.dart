@@ -4,6 +4,7 @@
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -121,63 +122,57 @@ class _UpExcelState extends State<UpExcel> {
                         padding: const EdgeInsets.all(2.0),
                         height: 398,
                         width: MediaQuery.of(context).size.width,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Expanded(
-                            child: DataTable(
-                              // border: const TableBorder(
-                              //     horizontalInside: BorderSide(
-                              //   color: Colors.black,
-                              // )),
-                              border: TableBorder.all(color: Colors.black),
-                              headingRowColor:
-                                  const MaterialStatePropertyAll(Colors.blue),
-                              headingTextStyle: const TextStyle(
-                                  color: Colors.white,
-                                  // fontSize: 24,
-                                  wordSpacing: 5),
-                              columnSpacing: 5.0,
-                              dataRowMinHeight: 10.0,
-                              columns: columnName
-                                  .map((e) => DataColumn(
-                                        label: Text(
-                                          e,
-                                          // textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              // overflow: TextOverflow.ellipsis,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ))
-                                  .toList(),
-                              rows: List.generate(
-                                growable: true,
-                                data.length,
-                                (index1) => DataRow(
-                                  cells: List.generate(
-                                      growable: true, data[0].length, (index2) {
-                                    return DataCell(Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 5.0),
-                                      child: Text(data[index1][index2]),
+                        child: DataTable2(
+                          minWidth: 1700,
+                          // border: const TableBorder(
+                          //     horizontalInside: BorderSide(
+                          //   color: Colors.black,
+                          // )),
+                          border: TableBorder.all(color: Colors.black),
+                          headingRowColor:
+                              const MaterialStatePropertyAll(Colors.blue),
+                          headingTextStyle: const TextStyle(
+                              color: Colors.white,
+                              // fontSize: 24,
+                              wordSpacing: 5),
+                          columnSpacing: 5.0,
+                          columns: columnName
+                              .map((e) => DataColumn2(
+                                    label: Text(
+                                      e,
+                                      // textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          // overflow: TextOverflow.ellipsis,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ))
+                              .toList(),
+                          rows: List.generate(
+                            growable: true,
+                            data.length,
+                            (index1) => DataRow2(
+                              cells: List.generate(
+                                  growable: true, data[0].length, (index2) {
+                                return DataCell(Padding(
+                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                  child: Text(data[index1][index2]),
 
-                                      // child: TextFormField(
-                                      //     // controller: controllers[index1][index2],
-                                      //     onChanged: (value) {
-                                      //       data[index1][index2] = value;
-                                      //     },
-                                      //     decoration: InputDecoration(
-                                      //         contentPadding: const EdgeInsets.only(
-                                      //             left: 3.0, right: 3.0),
-                                      //         border: const OutlineInputBorder(),
-                                      //         hintText: data[index1][index2],
-                                      //         hintStyle: const TextStyle(
-                                      //             fontSize: 10.0,
-                                      //             color: Colors.black))),
-                                    ));
-                                  }),
-                                ),
-                              ),
+                                  // child: TextFormField(
+                                  //     // controller: controllers[index1][index2],
+                                  //     onChanged: (value) {
+                                  //       data[index1][index2] = value;
+                                  //     },
+                                  //     decoration: InputDecoration(
+                                  //         contentPadding: const EdgeInsets.only(
+                                  //             left: 3.0, right: 3.0),
+                                  //         border: const OutlineInputBorder(),
+                                  //         hintText: data[index1][index2],
+                                  //         hintStyle: const TextStyle(
+                                  //             fontSize: 10.0,
+                                  //             color: Colors.black))),
+                                ));
+                              }),
                             ),
                           ),
                         ),

@@ -82,7 +82,7 @@ class _AddSocietyState extends State<AddSociety> {
                     },
                   ),
                   Text(
-                    'Hi, ${FirebaseAuth.instance.currentUser?.displayName}',
+                    'Hi, ${FirebaseAuth.instance.currentUser?.email}',
                     style: TextStyle(color: AppBarColor),
                   ),
                 ],
