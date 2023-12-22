@@ -6,7 +6,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:society_management/provider/filteration_provider.dart';
 import 'package:society_management/provider/menuUserPageProvider.dart';
-import 'package:society_management/viewScreen/committeeView.dart';
 
 import 'menu_screen/assigned_user.dart';
 import 'menu_screen/totalUser.dart';
@@ -75,11 +74,11 @@ class _MenuUserPageState extends State<MenuUserPage> {
 
   @override
   void initState() {
-    getCityName().whenComplete(() => {
-          isLoading = false,
-          getCityLen(),
-          if (mounted) {setState(() {})}
-        });
+    // getCityName().whenComplete(() => {
+    //       isLoading = false,
+    //       getCityLen(),
+    //       if (mounted) {setState(() {})}
+    //     });
     getDesigationLen();
     getTotalUsers().whenComplete(() => {
           isLoading = false,
@@ -99,7 +98,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
     final provider = Provider.of<MenuUserPageProvider>(context, listen: true);
     return Scaffold(
       body: isLoading
-          ? const CircularProgressIndicator()
+          ? Center(child: const CircularProgressIndicator())
           : Container(
               padding: const EdgeInsets.all(5.0),
               width: MediaQuery.of(context).size.width * 0.98,
@@ -470,16 +469,16 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                                             (context, index) {
                                                           return ElevatedButton(
                                                             style: ButtonStyle(
-                                                                backgroundColor:
-                                                                    MaterialStatePropertyAll(changeColorForRole[
-                                                                            index]
-                                                                        ? Colors
-                                                                            .white
-                                                                        : const Color.fromARGB(
-                                                                            255,
-                                                                            150,
-                                                                            149,
-                                                                            151))),
+                                                                backgroundColor: MaterialStatePropertyAll(changeColorForRole[
+                                                                        index]
+                                                                    ? Colors
+                                                                        .white
+                                                                    : const Color
+                                                                            .fromARGB(
+                                                                        255,
+                                                                        150,
+                                                                        149,
+                                                                        151))),
                                                             onPressed: () {
                                                               if (designation[
                                                                       index] ==
@@ -526,422 +525,12 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
-                                        SingleChildScrollView(
-                                          child: StreamBuilder<QuerySnapshot>(
-                                            stream: FirebaseFirestore.instance
-                                                .collection('committee')
-                                                .snapshots(),
-                                            builder: (context, snapshot) {
-                                              if (!snapshot.hasData) {
-                                                return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              } else if (snapshot.hasData) {
-                                                final data = snapshot.data;
-                                                // String cityname = '';
-
-                                                List<dynamic> committeeNames =
-                                                    data!.docs
-                                                        .map((e) => e.id)
-                                                        .toList();
-
-                                                return Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Flexible(
-                                                            child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8),
-                                                          child: TypeAheadField(
-                                                            textFieldConfiguration: TextFieldConfiguration(
-                                                                controller:
-                                                                    _nameController,
-                                                                style: DefaultTextStyle.of(
-                                                                        context)
-                                                                    .style
-                                                                    .copyWith(
-                                                                        fontStyle:
-                                                                            FontStyle
-                                                                                .italic),
-                                                                decoration: const InputDecoration(
-                                                                    labelText:
-                                                                        'Search Committee Members',
-                                                                    border:
-                                                                        OutlineInputBorder())),
-                                                            suggestionsCallback:
-                                                                (pattern) async {
-                                                              return await getUserdata(
-                                                                  pattern);
-                                                            },
-                                                            itemBuilder:
-                                                                (context,
-                                                                    suggestion) {
-                                                              return ListTile(
-                                                                title: Text(
-                                                                    suggestion
-                                                                        .toString()),
-                                                              );
-                                                            },
-                                                            onSuggestionSelected:
-                                                                (suggestion) {
-                                                              _nameController
-                                                                      .text =
-                                                                  suggestion
-                                                                      .toString();
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      committeeDetails(
-                                                                          name:
-                                                                              suggestion.toString()),
-                                                                ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        )),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        SizedBox(
-                                                          height: 45,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right: 5.0),
-                                                            child:
-                                                                ElevatedButton(
-                                                              style:
-                                                                  const ButtonStyle(),
-                                                              onPressed: () {
-                                                                Navigator.pushNamed(
-                                                                    context,
-                                                                    '/addCommittee');
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.add,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 200,
-                                                      child: ListView.builder(
-                                                        shrinkWrap: true,
-                                                        itemCount:
-                                                            committeeNames
-                                                                .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return ListTile(
-                                                            title: Text(
-                                                                committeeNames[
-                                                                    index]),
-                                                            subtitle: Text(data
-                                                                    .docs[index]
-                                                                [
-                                                                'designation']),
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      committeeDetails(
-                                                                          name:
-                                                                              committeeNames[index]),
-                                                                ),
-                                                              );
-                                                            },
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              } else {
-                                                const Text("Not Availabel");
-                                              }
-                                              return Container();
-                                            },
-                                          ),
-                                        ),
-
-                                        // Container(
-                                        //   padding: const EdgeInsets.only(
-                                        //       left: 10.0,
-                                        //       top: 10.0,
-                                        //       bottom: 10),
-                                        //   child: Row(
-                                        //     children: [
-                                        //       Container(
-                                        //         padding: const EdgeInsets.only(
-                                        //             right: 10.0),
-                                        //         child: SizedBox(
-                                        //           width: 130,
-                                        //           child: TextButton(
-                                        //             style: ButtonStyle(
-                                        //                 backgroundColor:
-                                        //                     MaterialStatePropertyAll(
-                                        //                         Colors.grey)),
-                                        //             onPressed: () {},
-                                        //             child: const Text(
-                                        //               'Cities :',
-                                        //               style: TextStyle(
-                                        //                   fontSize: 10,
-                                        //                   fontWeight:
-                                        //                       FontWeight.bold,
-                                        //                   color: Colors.white),
-                                        //             ),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //       Consumer<MenuUserPageProvider>(
-                                        //         builder: (BuildContext context,
-                                        //             providerValue,
-                                        //             Widget? child) {
-                                        //           return SizedBox(
-                                        //             height: 30,
-                                        //             width:
-                                        //                 MediaQuery.of(context)
-                                        //                         .size
-                                        //                         .width *
-                                        //                     0.65,
-                                        //             child: ListView.builder(
-                                        //               scrollDirection:
-                                        //                   Axis.horizontal,
-                                        //               shrinkWrap: true,
-                                        //               itemCount:
-                                        //                   cityData.length,
-                                        //               itemBuilder:
-                                        //                   (context, index) {
-                                        //                 return Container(
-                                        //                   padding:
-                                        //                       const EdgeInsets
-                                        //                               .only(
-                                        //                           right: 10),
-                                        //                   child: ElevatedButton(
-                                        //                     style: ButtonStyle(
-                                        //                         shadowColor:
-                                        //                             const MaterialStatePropertyAll(
-                                        //                                 Colors
-                                        //                                     .black),
-                                        //                         backgroundColor:
-                                        //                             MaterialStatePropertyAll(changeColorForCity[
-                                        //                                     index]
-                                        //                                 ? Colors
-                                        //                                     .white
-                                        //                                 : Colors
-                                        //                                     .grey)),
-                                        //                     onPressed: () {
-                                        //                       changeColorForCity[
-                                        //                               index] =
-                                        //                           !changeColorForCity[
-                                        //                               index];
-                                        //                       insertSelectedCity(
-                                        //                           index);
-
-                                        //                       if (isRemoveDepo[
-                                        //                           index]) {
-                                        //                         isRemoveDepo[
-                                        //                                 index] =
-                                        //                             false;
-                                        //                         selectedDepo
-                                        //                             .clear();
-                                        //                         getDepoNames(
-                                        //                                 cityData[
-                                        //                                     index])
-                                        //                             .then((_) {
-                                        //                           getDepoLen();
-                                        //                           provider
-                                        //                               .setLoadWidget(
-                                        //                                   true);
-                                        //                         });
-                                        //                       } else {
-                                        //                         isRemoveDepo[
-                                        //                                 index] =
-                                        //                             true;
-                                        //                         removeSelectedDepo(
-                                        //                                 cityData[
-                                        //                                     index])
-                                        //                             .then(
-                                        //                                 (_) => {
-                                        //                                       provider.setLoadWidget(true)
-                                        //                                     });
-                                        //                       }
-                                        //                     },
-                                        //                     child: Text(
-                                        //                       cityData[index],
-                                        //                       style: TextStyle(
-                                        //                           fontSize: 10,
-                                        //                           color: changeColorForCity[
-                                        //                                   index]
-                                        //                               ? Colors
-                                        //                                   .black
-                                        //                               : Colors
-                                        //                                   .white),
-                                        //                     ),
-                                        //                   ),
-                                        //                 );
-                                        //               },
-                                        //             ),
-                                        //           );
-                                        //         },
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                        // const SizedBox(height: 10),
-                                        // Consumer<MenuUserPageProvider>(
-                                        //   builder: (BuildContext context,
-                                        //       providerValue, Widget? child) {
-                                        //     return Container(
-                                        //       padding: const EdgeInsets.only(
-                                        //           left: 10.0,
-                                        //           top: 10.0,
-                                        //           bottom: 10),
-                                        //       child: Row(
-                                        //         children: [
-                                        //           Container(
-                                        //             padding:
-                                        //                 const EdgeInsets.only(
-                                        //                     right: 10.0),
-                                        //             child: SizedBox(
-                                        //               width: 130,
-                                        //               child: TextButton(
-                                        //                 style: ButtonStyle(
-                                        //                     backgroundColor:
-                                        //                         MaterialStatePropertyAll(
-                                        //                             Colors
-                                        //                                 .grey)),
-                                        //                 onPressed: () {},
-                                        //                 child: const Text(
-                                        //                   'Depots :',
-                                        //                   style: TextStyle(
-                                        //                       fontSize: 10,
-                                        //                       fontWeight:
-                                        //                           FontWeight
-                                        //                               .bold,
-                                        //                       color:
-                                        //                           Colors.white),
-                                        //                 ),
-                                        //               ),
-                                        //             ),
-                                        //           ),
-                                        //           Consumer<
-                                        //               MenuUserPageProvider>(
-                                        //             builder:
-                                        //                 (BuildContext context,
-                                        //                     providerValue,
-                                        //                     Widget? child) {
-                                        //               return Container(
-                                        //                 decoration:
-                                        //                     BoxDecoration(
-                                        //                         boxShadow: [
-                                        //                       BoxShadow(
-                                        //                         color: Colors
-                                        //                             .grey
-                                        //                             .withOpacity(
-                                        //                                 0.3),
-                                        //                       )
-                                        //                     ],
-                                        //                         border: Border
-                                        //                             .all()),
-                                        //                 height: 150,
-                                        //                 width: MediaQuery.of(
-                                        //                             context)
-                                        //                         .size
-                                        //                         .width *
-                                        //                     0.6,
-                                        //                 child: Padding(
-                                        //                   padding:
-                                        //                       const EdgeInsets
-                                        //                           .all(5.0),
-                                        //                   child:
-                                        //                       GridView.builder(
-                                        //                           shrinkWrap:
-                                        //                               true,
-                                        //                           itemCount:
-                                        //                               depodata
-                                        //                                   .length,
-                                        //                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        //                               crossAxisCount:
-                                        //                                   6,
-                                        //                               crossAxisSpacing:
-                                        //                                   10.0,
-                                        //                               mainAxisSpacing:
-                                        //                                   10.0,
-                                        //                               mainAxisExtent:
-                                        //                                   30,
-                                        //                               childAspectRatio:
-                                        //                                   9.0),
-                                        //                           itemBuilder:
-                                        //                               (context,
-                                        //                                   index) {
-                                        //                             if (isProjectManager) {
-                                        //                               changeColorForDepo[
-                                        //                                       index] =
-                                        //                                   false;
-                                        //                               insertSelectedDepo(
-                                        //                                   index);
-                                        //                             }
-
-                                        //                             return ElevatedButton(
-                                        //                                 style:
-                                        //                                     ButtonStyle(
-                                        //                                         backgroundColor:
-                                        //                                             MaterialStatePropertyAll(
-                                        //                                   changeColorForDepo[index]
-                                        //                                       ? Colors.white
-                                        //                                       : Colors.grey,
-                                        //                                 )),
-                                        //                                 onPressed:
-                                        //                                     () {
-                                        //                                   isProjectManager =
-                                        //                                       false;
-                                        //                                   changeColorForDepo[index] =
-                                        //                                       !changeColorForDepo[index];
-                                        //                                   insertSelectedDepo(
-                                        //                                       index);
-                                        //                                   providerValue
-                                        //                                       .setLoadWidget(true);
-                                        //                                 },
-                                        //                                 child:
-                                        //                                     Text(
-                                        //                                   depodata[
-                                        //                                       index],
-                                        //                                   style: TextStyle(
-                                        //                                       color: changeColorForDepo[index] ? Colors.black : Colors.white,
-                                        //                                       fontSize: 10),
-                                        //                                 ));
-                                        //                           }),
-                                        //                 ),
-                                        //               );
-                                        //             },
-                                        //           ),
-                                        //         ],
-                                        //       ),
-                                        //     );
-                                        //   },
-                                        // ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
                                       ],
                                     ),
                             ),
                           );
-                        } else {
-                          return const CircularProgressIndicator();
                         }
+                        return Center(child: CircularProgressIndicator());
                       },
                     ),
                   ),
@@ -1295,31 +884,6 @@ class _MenuUserPageState extends State<MenuUserPage> {
     // print('Updated');
   }
 
-  Future<void> getCityName() async {
-    List<bool> tempBool = [];
-    List<String> tempCityName = [];
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('CityName').get();
-
-    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-
-    for (int i = 0; i < tempList.length; i++) {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('CityName')
-          .doc(tempList[i])
-          .get();
-
-      Map<String, dynamic> data =
-          documentSnapshot.data() as Map<String, dynamic>;
-      // cityData.add(data['CityName']);
-      tempCityName.add(data['CityName']);
-      tempBool.add(true);
-    }
-
-    cityData = tempCityName;
-    isRemoveDepo = tempBool;
-  }
-
   customAlertBox(String message) {
     return showDialog(
         context: context,
@@ -1387,16 +951,10 @@ class _MenuUserPageState extends State<MenuUserPage> {
 
   Future<List<dynamic>> getMemberList(String pattern) async {
     if (_controllerSociety.text.isNotEmpty) {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('members')
-          .doc(_controllerSociety.text.trim())
-          .get();
-      Map<String, dynamic> temp =
-          documentSnapshot.data() as Map<String, dynamic>;
-      List<dynamic> memberName = temp['data'];
-      for (int i = 1; i < memberName.length; i++) {
-        memberList.add(memberName[i]['Member Name']);
-      }
+      QuerySnapshot documentSnapshot =
+          await FirebaseFirestore.instance.collection('unAssignedRole').get();
+      memberList = documentSnapshot.docs.map((e) => e.id).toList();
+
       return memberList;
     } else {
       return ['please select society first'];

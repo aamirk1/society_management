@@ -41,7 +41,8 @@ class _AddMemberState extends State<AddMember> {
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: 
+          Column(
             children: [
               Row(
                 children: [

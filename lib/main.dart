@@ -11,7 +11,6 @@ import 'package:society_management/screen/AddBill.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
 import 'package:society_management/screen/AddSociety.dart';
-import 'package:society_management/viewScreen/side.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,40 +40,39 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MenuUserPageProvider()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Society Management',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            textTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: Colors.blueGrey,
-                ),
-            primaryTextTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: Colors.purple,
-                ),
-            primaryIconTheme: const IconThemeData(
-              color: Color.fromARGB(255, 91, 3, 255),
-            ),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+        debugShowCheckedModeBanner: false,
+        title: 'Society Management',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.blueGrey,
+              ),
+          primaryTextTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.purple,
+              ),
+          primaryIconTheme: const IconThemeData(
+            color: Color.fromARGB(255, 91, 3, 255),
           ),
-          onGenerateRoute: (settings) {
-            final page = _getPageWidget(settings);
-            if (page != null) {
-              return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (_, __, ___) => page,
-                  transitionsBuilder: (_, anim, __, child) {
-                    return FadeTransition(
-                      opacity: anim,
-                      child: child,
-                    );
-                  });
-            }
-            return null;
-          },
-          // home: const customSide()
-          home: LoginScreen(),
-
-          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        onGenerateRoute: (settings) {
+          final page = _getPageWidget(settings);
+          if (page != null) {
+            return PageRouteBuilder(
+                settings: settings,
+                pageBuilder: (_, __, ___) => page,
+                transitionsBuilder: (_, anim, __, child) {
+                  return FadeTransition(
+                    opacity: anim,
+                    child: child,
+                  );
+                });
+          }
+          return null;
+        },
+        // home: const customSide()
+        home: LoginScreen(),
+      ),
     );
   }
 

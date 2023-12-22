@@ -1,4 +1,3 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
@@ -7,9 +6,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/viewScreen/committeeView.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class committeeList extends StatefulWidget {
   static const id = "/committeeList";
@@ -28,10 +27,10 @@ class _committeeListState extends State<committeeList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme:  IconThemeData(color:AppBarColor),
-        title:  Text(
+        iconTheme: IconThemeData(color: AppBarColor),
+        title: Text(
           "Manager List",
-          style: TextStyle(color:AppBarColor),
+          style: TextStyle(color: AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
@@ -40,9 +39,9 @@ class _committeeListState extends State<committeeList> {
             child: Column(
               children: [
                 IconButton(
-                  icon:  Icon(
+                  icon: Icon(
                     Icons.person,
-                    color:AppBarColor,
+                    color: AppBarColor,
                   ),
                   onPressed: () {
                     // signOut();
@@ -50,7 +49,7 @@ class _committeeListState extends State<committeeList> {
                 ),
                 Text(
                   'Hi, ${FirebaseAuth.instance.currentUser?.email}',
-                  style:  TextStyle(color:AppBarColor),
+                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
