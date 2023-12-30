@@ -87,7 +87,7 @@ class _AddLadgerState extends State<AddLadger> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const UpExcelBillReceipt()),
+                                     UpExcelBillReceipt(societyName: '')),
                           );
                         },
                         child: const Icon(

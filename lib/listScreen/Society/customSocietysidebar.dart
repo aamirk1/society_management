@@ -1,38 +1,50 @@
 import 'package:flutter/material.dart';
-
-import '../listScreen/Society/societyList.dart';
+import 'package:society_management/listScreen/Ladger/MemberBillLadger.dart';
+import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
+import 'package:society_management/listScreen/Receipt/MemberBillReceipt.dart';
+import 'package:society_management/listScreen/societyListOfBill.dart';
+import 'package:society_management/screen/assignRoll/user.dart';
 
 // ignore: camel_case_types
-class customSide extends StatefulWidget {
-  const customSide({super.key});
+class customSocietySide extends StatefulWidget {
+  const customSocietySide({super.key, required this.societyNames});
+  final String societyNames;
 
   @override
-  State<customSide> createState() => _customSideState();
+  State<customSocietySide> createState() => _customSocietySideState();
 }
 
 // ignore: camel_case_types
-class _customSideState extends State<customSide> {
+class _customSocietySideState extends State<customSocietySide> {
   List<String> tabTitle = [
-    'Society List',
+    'Member List',
+    'Role Assign',
+    'Account List',
+    'Bill List',
+    'Receipt List',
   ];
   List<dynamic> tabIcon = [
     Icons.apartment_outlined,
+    Icons.person,
+    Icons.account_balance,
+    Icons.receipt,
+    Icons.receipt_outlined
   ];
-  List<bool> design = [true];
+  List<bool> design = [true, false, false, false, false];
 
   int _selectedIndex = 0;
 
-  List<Widget> pages = [
-    const societyList(),
-    // const societyListOfMemberOfMember(),
-    // const MenuUserPage(),
-    // const societyListOfBill(),
-    // const ListOfBillLadger(),
-    // const ListOfBillReceipt(),
-  ];
+  List<Widget> pages = [];
 
   @override
   Widget build(BuildContext context) {
+    pages = [
+      MemberNameList(societyName: widget.societyNames),
+      MenuUserPage(societyName: widget.societyNames),
+      societyListOfBill(societyName: widget.societyNames),
+      MemberBillLadger(societyName: widget.societyNames),
+      MemberBillReceipt(societyName: widget.societyNames),
+    ];
     return Scaffold(
       body: Row(
         children: [
@@ -104,7 +116,7 @@ class _customSideState extends State<customSide> {
 
   Widget getPage(int index) {
     if (index == 0) {
-      return const societyList();
+      return MemberNameList(societyName: widget.societyNames);
     }
     return const Text('');
   }

@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:society_management/customWidgets/colors.dart';
+
 import '../../../provider/filteration_provider.dart';
 import 'LoadingForMenuUser.dart';
 
@@ -37,11 +39,11 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
         appBar: PreferredSize(
             preferredSize: Size(MediaQuery.of(context).size.width, 50),
             child: AppBar(
-              title: const Text(
+              title: Text(
                 'UnAssigned Members',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: AppBarColor),
               ),
-              backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+              backgroundColor: AppBarBgColor,
             )),
         body: Column(
           children: [

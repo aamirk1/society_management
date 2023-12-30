@@ -7,7 +7,6 @@ import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/excel/uploadExcelBill.dart';
 import 'package:society_management/listScreen/ListOfMemberBill.dart';
@@ -17,7 +16,9 @@ import 'package:society_management/listScreen/ListOfMemberBill.dart';
 // ignore: camel_case_types
 class societyListOfBill extends StatefulWidget {
   static const id = "/societyListOfBill";
-  const societyListOfBill({super.key});
+  const societyListOfBill({super.key, required this.societyName});
+
+  final String societyName;
 
   @override
   State<societyListOfBill> createState() => _societyListOfBillState();
@@ -25,7 +26,6 @@ class societyListOfBill extends StatefulWidget {
 
 // ignore: camel_case_types
 class _societyListOfBillState extends State<societyListOfBill> {
-  final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController monthyear = TextEditingController();
 
   List<List<dynamic>> data = [];
@@ -60,39 +60,6 @@ class _societyListOfBillState extends State<societyListOfBill> {
                 Text(
                   "Accounts",
                   style: TextStyle(color: AppBarColor, fontSize: 20),
-                ),
-                Container(
-                  width: 550,
-                  padding: const EdgeInsets.all(8),
-                  child: TypeAheadField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                        controller: _societyNameController,
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .copyWith(fontStyle: FontStyle.italic),
-                        decoration: const InputDecoration(
-                            labelText: 'Selcet Society',
-                            border: OutlineInputBorder())),
-                    suggestionsCallback: (pattern) async {
-                      return await getUserdata(pattern);
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        title: Text(suggestion.toString()),
-                      );
-                    },
-                    onSuggestionSelected: (suggestion) {
-                      _societyNameController.text = suggestion.toString();
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => ListOfMemberBill(
-                      //             societyName: suggestion.toString(),
-                      //           )),
-                      // );
-                      // Navigator.pop(context);
-                    },
-                  ),
                 ),
                 const SizedBox(width: 10),
                 SizedBox(
@@ -211,11 +178,11 @@ class _societyListOfBillState extends State<societyListOfBill> {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
           .collection('accounts')
-          .doc(_societyNameController.text)
+          .doc(widget.societyName)
           .collection('tableData')
           .doc('$i')
           .set({
-        'societyName': _societyNameController.text,
+        'societyName': widget.societyName,
         '$i': data[i],
       }).then((value) {
         // ignore: avoid_print
@@ -257,7 +224,7 @@ class _societyListOfBillState extends State<societyListOfBill> {
     dateList.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('accounts')
-        .doc(_societyNameController.text)
+        .doc(widget.societyName)
         .collection('month')
         .get();
 

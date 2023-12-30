@@ -2,14 +2,18 @@
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
+import 'dart:html' as html;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:society_management/customWidgets/colors.dart';
 
 // import '../excel/uploadExcel.dart';
@@ -173,10 +177,18 @@ class _UpExcelBillState extends State<UpExcelBill> {
                 child: Row(
                   children: [
                     ElevatedButton(
-                        onPressed: selectExcelFile,
-                        child: const Text(
-                          "Upload Excel",
-                        )),
+                      onPressed: selectExcelFile,
+                      child: const Text(
+                        "Upload Excel",
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: openPdf(url),
+                      child: const Text(
+                        "Download CSV",
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -297,6 +309,24 @@ class _UpExcelBillState extends State<UpExcelBill> {
         // ignore: avoid_print
         print('Done!');
       });
+    }
+  }
+
+  Future<String> downloadCsv() async {
+    final storage = FirebaseStorage.instance;
+    final Reference ref = storage.ref('template');
+    ListResult allFiles = await ref.listAll();
+    final url = allFiles.items[0].getDownloadURL();
+    return url;
+  }
+
+  openPdf(var url) {
+    if (kIsWeb) {
+      html.window.open(url, '_blank');
+      final encodedUrl = Uri.encodeFull(url);
+      html.Url.revokeObjectUrl(encodedUrl);
+    } else {
+      const Text('Sorry it is not ready for mobile platform');
     }
   }
 }

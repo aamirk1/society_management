@@ -2,8 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:society_management/authentication/loginScreen.dart';
-import 'package:society_management/listScreen/committeeList.dart';
-import 'package:society_management/listScreen/societyList.dart';
+import 'package:society_management/listScreen/Society/societyList.dart';
 import 'package:society_management/provider/excel_provider.dart';
 import 'package:society_management/provider/filteration_provider.dart';
 import 'package:society_management/provider/menuUserPageProvider.dart';
@@ -89,11 +88,12 @@ class MyApp extends StatelessWidget {
       case '/addCommittee':
         return const AddCommittee();
       case '/addMember':
-        return const AddMember();
+        final societyName = settings.arguments as String;
+        return AddMember(
+          societyName: societyName,
+        );
       case '/societyList':
         return const societyList();
-      case '/committeeList':
-        return const committeeList();
       case '/addBill':
         return const AddBill();
     }

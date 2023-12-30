@@ -7,14 +7,14 @@ import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:excel/excel.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-
-import '../excel/uploadExcel.dart';
+import 'package:society_management/customWidgets/colors.dart';
 
 class AddMember extends StatefulWidget {
   static const String id = "/addMember";
-  const AddMember({super.key});
+  const AddMember({super.key, required this.societyName});
+  final String societyName;
 
   @override
   State<AddMember> createState() => _AddMemberState();
@@ -30,71 +30,48 @@ class _AddMemberState extends State<AddMember> {
 
   List<List<TextEditingController>> controllers = [];
   List<List<dynamic>> columnNames = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // downloadCsv();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Add Member"),
-      //   backgroundColor: Color.fromARGB(255, 0, 119, 255),
-      // ),
-
+      appBar: AppBar(
+        title: Text(
+          "Add Member in ${widget.societyName}",
+          style: TextStyle(color: AppBarColor),
+        ),
+        backgroundColor: AppBarBgColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: 
-          Column(
+          child: Column(
             children: [
               Row(
                 children: [
-                  Flexible(
-                      child: Container(
-                    padding: const EdgeInsets.all(8),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: _societyNameController,
-                          style: DefaultTextStyle.of(context)
-                              .style
-                              .copyWith(fontStyle: FontStyle.italic),
-                          decoration: const InputDecoration(
-                              labelText: 'Search Society',
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        return await getUserdata(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        _societyNameController.text = suggestion.toString();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => societyDetails(
-                        //         societyNames: suggestion.toString()),
-                        //   ),
-                        // );
-                      },
-                    ),
-                  )),
-                  const SizedBox(width: 30),
                   SizedBox(
                     height: 45,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 5.0),
-                      child: ElevatedButton(
-                        style: const ButtonStyle(),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UpExcel()),
-                          );
-                        },
-                        child: const Icon(
-                          Icons.add,
-                        ),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            style: const ButtonStyle(),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/UpExcel',
+                                  arguments: widget.societyName);
+                            },
+                            child: const Icon(
+                              Icons.add,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -155,6 +132,13 @@ class _AddMemberState extends State<AddMember> {
         },
         child: const Icon(Icons.check),
       ));
+
+  Future<void> downloadCsv() async {
+    final storage = FirebaseStorage.instance;
+    final Reference ref = storage.ref('template');
+    ListResult allFiles = await ref.listAll();
+    allFiles.items[0].getDownloadURL();
+  }
 
   getUserdata(String pattern) async {
     searchedList.clear();

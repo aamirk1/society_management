@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
+import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/provider/filteration_provider.dart';
 import 'package:society_management/provider/menuUserPageProvider.dart';
 
@@ -13,7 +14,8 @@ import 'menu_screen/unAssignedUserPage.dart';
 
 class MenuUserPage extends StatefulWidget {
   static const String id = 'user-page';
-  const MenuUserPage({super.key});
+  const MenuUserPage({super.key, required this.societyName});
+  final String societyName;
 
   @override
   State<MenuUserPage> createState() => _MenuUserPageState();
@@ -35,7 +37,6 @@ class _MenuUserPageState extends State<MenuUserPage> {
   List<dynamic> unAssignedUserList = [];
   int unAssignedUser = 0;
   String selectedUserName = '';
-  String selectedSocietyName = '';
   List<bool> changeColorForDepo = [];
   List<dynamic> selectedDepo = [];
   List<dynamic> selecteddesignation = [];
@@ -95,14 +96,20 @@ class _MenuUserPageState extends State<MenuUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    String selectedSocietyName = widget.societyName;
     final provider = Provider.of<MenuUserPageProvider>(context, listen: true);
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: AppBarColor),
+        title: Text(widget.societyName),
+        backgroundColor: AppBarBgColor,
+      ),
       body: isLoading
           ? Center(child: const CircularProgressIndicator())
           : Container(
               padding: const EdgeInsets.all(5.0),
               width: MediaQuery.of(context).size.width * 0.98,
-              height: MediaQuery.of(context).size.height * 0.98,
+              height: MediaQuery.of(context).size.height * 0.99,
               child: Column(
                 children: [
                   Consumer<MenuUserPageProvider>(
@@ -123,7 +130,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
                   const SizedBox(height: 10),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    // height: MediaQuery.of(context).size.height * 0.7,
                     child: StreamBuilder(
                       stream: _stream,
                       builder: (context, snapshot) {
@@ -144,96 +151,24 @@ class _MenuUserPageState extends State<MenuUserPage> {
                                           child: Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10),
-                                                child: TextButton(
-                                                  style: const ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStatePropertyAll(
-                                                              Colors.grey)),
-                                                  onPressed: () {},
-                                                  child: const Text(
-                                                    ' Select Society:',
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              SingleChildScrollView(
-                                                child: Container(
-                                                  color: Colors.white,
-                                                  height: 30,
-                                                  width: 250,
-                                                  child: TypeAheadField(
-                                                    hideOnLoading: true,
-                                                    textFieldConfiguration:
-                                                        TextFieldConfiguration(
-                                                      style: const TextStyle(
-                                                          fontSize: 10),
-                                                      controller:
-                                                          _controllerSociety,
-                                                      decoration: const InputDecoration(
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                                  borderSide: BorderSide(
-                                                                      color: Colors
-                                                                          .black)),
-                                                          labelText:
-                                                              'Select Society',
-                                                          labelStyle: TextStyle(
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              color:
-                                                                  Colors.black),
-                                                          border:
-                                                              OutlineInputBorder()),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
+                                                  child: TextButton(
+                                                    style: const ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStatePropertyAll(
+                                                                Colors.grey)),
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                      'Select Member: ',
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
                                                     ),
-                                                    itemBuilder:
-                                                        (context, suggestion) {
-                                                      return ListTile(
-                                                          title: Text(suggestion
-                                                              .toString()));
-                                                    },
-                                                    onSuggestionSelected:
-                                                        (suggestion) {
-                                                      _controllerSociety.text =
-                                                          suggestion.toString();
-                                                      selectedSocietyName =
-                                                          suggestion.toString();
-                                                    },
-                                                    suggestionsCallback:
-                                                        (String pattern) async {
-                                                      return await getUserdata(
-                                                          pattern);
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 100,
-                                              ),
-                                              TextButton(
-                                                style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(
-                                                            Colors.grey)),
-                                                onPressed: () {},
-                                                child: const Text(
-                                                  'Select Member: ',
-                                                  style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
+                                                  )),
                                               const SizedBox(
                                                 width: 10,
                                               ),
@@ -695,7 +630,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
         'position': 'Assigned',
         'roles': role,
         // 'depots': selectedDepo,
-        'societyname': selectedSocietyName,
+        'societyname': widget.societyName,
         // 'cities': selectedCity,
       }).whenComplete(() {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -713,7 +648,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
         'position': 'Assigned',
         'roles': role,
         // 'depots': selectedDepo,
-        'societyname': selectedSocietyName,
+        'societyname': widget.societyName,
         // 'cities': selectedCity,
       });
     }
@@ -856,7 +791,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
       'position': 'Assigned',
       'roles': updatedRole,
       'depots': updatedDepo,
-      'societyname': selectedSocietyName,
+      'societyname': widget.societyName,
       'cities': updatedCity,
     }).whenComplete(() {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -874,7 +809,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
       'position': 'Assigned',
       'roles': updatedRole,
       'depots': updatedDepo,
-      'societyname': selectedSocietyName,
+      'societyname': widget.societyName,
       'cities': updatedCity,
     }).whenComplete(() {
       updatedCity.clear();
@@ -950,15 +885,22 @@ class _MenuUserPageState extends State<MenuUserPage> {
   }
 
   Future<List<dynamic>> getMemberList(String pattern) async {
-    if (_controllerSociety.text.isNotEmpty) {
-      QuerySnapshot documentSnapshot =
-          await FirebaseFirestore.instance.collection('unAssignedRole').get();
-      memberList = documentSnapshot.docs.map((e) => e.id).toList();
+    List<String> searchedList = [];
+    QuerySnapshot documentSnapshot =
+        await FirebaseFirestore.instance.collection('unAssignedRole').get();
+    memberList = documentSnapshot.docs.map((e) => e.id).toList();
 
-      return memberList;
-    } else {
-      return ['please select society first'];
+    for (var member in memberList) {
+      if (member
+          .toString()
+          .trim()
+          .toLowerCase()
+          .contains(pattern.trim().toLowerCase())) {
+        searchedList.add(member);
+      }
     }
+
+    return searchedList;
   }
 }
 
@@ -967,9 +909,7 @@ Widget searchWidget(String text) {
     title: Text(
       text.length > 4 ? text.substring(0, 4) : text,
       style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-          color: Colors.indigoAccent),
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
     ),
     subtitle: Text(
       text,

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:society_management/customWidgets/colors.dart';
 import '../../../provider/filteration_provider.dart';
 
 import 'LoadingForMenuUser.dart';
@@ -39,11 +40,12 @@ class _AssignedUserState extends State<AssignedUser> {
             appBar: PreferredSize(
               preferredSize: Size(MediaQuery.of(context).size.width, 50),
               child: AppBar(
-                  title: const Text(
+                  title:  Text(
                     'Assigned Members',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: AppBarColor),
+
                   ),
-                  backgroundColor: const Color.fromARGB(255, 231, 239, 248)),
+                  backgroundColor: AppBarBgColor),
             ),
             body: Column(
               children: [
@@ -460,27 +462,6 @@ class _AssignedUserState extends State<AssignedUser> {
                 ],
               ),
             ),
-            // Container(
-            //   padding: const EdgeInsets.only(top: 5.0),
-            //   child: Row(
-            //     children: [
-            //       Icon(
-            //         Icons.house_sharp,
-            //         color: Colors.blue[900],
-            //         size: 14,
-            //       ),
-            //       Text(
-            //         'Cities',
-            //         style: TextStyle(
-            //             decoration: TextDecoration.underline,
-            //             decorationThickness: 2.0,
-            //             fontWeight: FontWeight.bold,
-            //             color: Colors.blue[900],
-            //             fontSize: 12),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.only(left: 12.0),
               child: Row(

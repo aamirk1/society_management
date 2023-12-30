@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:society_management/customWidgets/colors.dart';
 
 import '../../../provider/filteration_provider.dart';
 
@@ -40,11 +41,11 @@ class _TotalUsersState extends State<TotalUsers> {
             appBar: PreferredSize(
                 preferredSize: Size(MediaQuery.of(context).size.width, 50),
                 child: AppBar(
-                  title: const Text(
+                  title: Text(
                     'Total Comittee Members',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: AppBarColor),
                   ),
-                  backgroundColor: const Color.fromARGB(255, 231, 239, 248),
+                  backgroundColor: AppBarBgColor,
                 )),
             body: Column(
               children: [
@@ -61,7 +62,7 @@ class _TotalUsersState extends State<TotalUsers> {
                             shadowColor: Colors.black,
                             child: SizedBox(
                               height: 32,
-                              width: 60,
+                              width: 55,
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -91,7 +92,7 @@ class _TotalUsersState extends State<TotalUsers> {
                               return Card(
                                 elevation: selectedDesign[index] ? 5 : 0,
                                 child: SizedBox(
-                                  width: 40,
+                                  width: 36,
                                   child: ElevatedButton(
                                     style: ButtonStyle(
                                         backgroundColor:

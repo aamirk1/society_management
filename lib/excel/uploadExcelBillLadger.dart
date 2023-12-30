@@ -3,13 +3,15 @@
 //ignore: avoid_web_libraries_in_flutter
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
+import 'dart:html' as html;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
 
@@ -17,7 +19,8 @@ import 'package:society_management/customWidgets/colors.dart';
 
 class UpExcelBillLadger extends StatefulWidget {
   static const String id = "/UpExcelBillLadger";
-  const UpExcelBillLadger({super.key});
+  const UpExcelBillLadger({super.key, required this.societyName});
+  final String societyName;
 
   @override
   State<UpExcelBillLadger> createState() => _UpExcelBillLadgerState();
@@ -28,6 +31,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   final TextEditingController _societyNameController = TextEditingController();
   List<dynamic> columnName = [];
   List<String> searchedList = [];
+  String url = '';
   List<List<dynamic>> data = [];
   // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
@@ -41,6 +45,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   void initState() {
     // print(monthyear);
     super.initState();
+    downloadCsv();
   }
 
   @override
@@ -48,7 +53,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppBarColor),
         title: Text(
-          "Upload Excel",
+          "Upload Ledger ${widget.societyName}",
           style: TextStyle(color: AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
@@ -81,38 +86,6 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
           key: _formKey,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Flexible(
-                      child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: _societyNameController,
-                        decoration: const InputDecoration(
-                            labelText: 'Select Society',
-                            border: OutlineInputBorder()),
-                      ),
-                      suggestionsCallback: (pattern) async {
-                        return await getUserdata(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        _societyNameController.text = suggestion.toString();
-                        // print(_societyNameController.text);
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
               showTable
                   ? Container(
                       padding: const EdgeInsets.all(2.0),
@@ -126,7 +99,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                         // )),
                         border: TableBorder.all(color: Colors.black),
                         headingRowColor:
-                            const MaterialStatePropertyAll(Colors.blue),
+                            const MaterialStatePropertyAll(Colors.purple),
                         headingTextStyle: const TextStyle(
                             color: Colors.white,
                             // fontSize: 24,
@@ -189,10 +162,26 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                 child: Row(
                   children: [
                     ElevatedButton(
-                        onPressed: selectExcelFile,
-                        child: const Text(
-                          "Upload Excel",
-                        )),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(AppBarBgColor),  
+                      ),
+                      onPressed: selectExcelFile,
+                      child: const Text(
+                        "Upload Excel",
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(AppBarBgColor),
+                      ),
+                      onPressed: () {
+                        openPdf(url);
+                      },
+                      child: const Text(
+                        "Download CSV",
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -201,11 +190,12 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppBarBgColor,
         onPressed: () async {
           // for (int i = 0; i < mapExcelData.length; i++) {
           await FirebaseFirestore.instance
               .collection('ladgerBill')
-              .doc(_societyNameController.text)
+              .doc(widget.societyName)
               .collection('month')
               .doc(monthyear)
               .set({
@@ -219,8 +209,8 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
 
           FirebaseFirestore.instance
               .collection('ladgerBill')
-              .doc(_societyNameController.text)
-              .set({'name': _societyNameController.text});
+              .doc(widget.societyName)
+              .set({'name': widget.societyName});
           //       }
           // Perform desired action with the form data
 
@@ -303,16 +293,35 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
           .collection('ladgerBill')
-          .doc(_societyNameController.text)
+          .doc(widget.societyName)
           .collection('tableData')
           .doc('$i')
           .set({
-        'societyName': _societyNameController.text,
+        'societyName': widget.societyName,
         '$i': data[i],
       }).then((value) {
         // ignore: avoid_print
         print('Done!');
       });
+    }
+  }
+
+  Future<String> downloadCsv() async {
+    final storage = FirebaseStorage.instance;
+    final Reference ref = storage.ref('template');
+    ListResult allFiles = await ref.listAll();
+    url = await allFiles.items[1].getDownloadURL();
+    print('url - $url');
+    return url.toString();
+  }
+
+  openPdf(String url) {
+    if (kIsWeb) {
+      html.window.open(url, '_blank');
+      final encodedUrl = Uri.encodeFull(url);
+      html.Url.revokeObjectUrl(encodedUrl);
+    } else {
+      const Text('Sorry it is not ready for mobile platform');
     }
   }
 }

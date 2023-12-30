@@ -34,7 +34,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         minLines: 1,
         autofocus: false,
         // textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 13),
+        style: const TextStyle(fontSize: 13, color: Colors.black),
       ),
     );
   }

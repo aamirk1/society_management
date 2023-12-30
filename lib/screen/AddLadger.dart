@@ -1,4 +1,3 @@
-
 // ignore: duplicate_ignore
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
@@ -86,8 +85,9 @@ class _AddLadgerState extends State<AddLadger> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const UpExcelBillLadger()),
+                                builder: (context) => UpExcelBillLadger(
+                                      societyName: '',
+                                    )),
                           );
                         },
                         child: const Icon(

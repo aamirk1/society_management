@@ -2,21 +2,24 @@
 // ignore_for_file: file_names
 //ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
+import 'dart:html' as html;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
 import 'package:data_table_2/data_table_2.dart';
-import 'package:excel/excel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
+import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
 
 // import '../excel/uploadExcel.dart';
 
 class UpExcelBillReceipt extends StatefulWidget {
   static const String id = "/UpExcelBillReceipt";
-  const UpExcelBillReceipt({super.key});
+  const UpExcelBillReceipt({super.key, required this.societyName});
+  final String societyName;
 
   @override
   State<UpExcelBillReceipt> createState() => _UpExcelBillReceiptState();
@@ -28,18 +31,34 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
+  String url = '';
   // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
 
+  List<String> monthList = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
   // String monthyear = 'January 2024';
-  String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
+  String monthyear = DateFormat('yyyy').format(DateTime.now());
 
   bool showTable = false;
 
   @override
   void initState() {
-    // print(monthyear);
+    print('monthyear -  $monthyear');
     super.initState();
   }
 
@@ -48,7 +67,7 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppBarColor),
         title: Text(
-          "Upload Receipt Excel",
+          "Upload Receipt ${widget.societyName}",
           style: TextStyle(color: AppBarColor),
         ),
         backgroundColor: AppBarBgColor,
@@ -59,16 +78,12 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
               children: [
                 IconButton(
                   icon: Icon(
-                    Icons.person,
+                    Icons.logout_rounded,
                     color: AppBarColor,
                   ),
                   onPressed: () {
-                    // signOut();
+                    signOut(context);
                   },
-                ),
-                Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
-                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
@@ -81,38 +96,33 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
           key: _formKey,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Flexible(
-                      child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: _societyNameController,
-                        decoration: const InputDecoration(
-                            labelText: 'Select Society',
-                            border: OutlineInputBorder()),
-                      ),
-                      suggestionsCallback: (pattern) async {
-                        return await getUserdata(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: Center(
+                  child: ListView.builder(
+                      itemCount: monthList.length,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.only(left: 8.0, top: 5),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.purple,
+                            ),
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            child: Text(monthList[index]),
+                          ),
                         );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        _societyNameController.text = suggestion.toString();
-                        // print(_societyNameController.text);
-                      },
-                    ),
-                  )),
-                ],
+                      }),
+                ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 10,
               ),
-
               showTable
                   ? Container(
                       padding: const EdgeInsets.all(2.0),
@@ -120,13 +130,9 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                       width: MediaQuery.of(context).size.width,
                       child: DataTable2(
                         minWidth: 1700,
-                        // border: const TableBorder(
-                        //     horizontalInside: BorderSide(
-                        //   color:AppBarColor,
-                        // )),
                         border: TableBorder.all(color: Colors.black),
                         headingRowColor:
-                            const MaterialStatePropertyAll(Colors.blue),
+                            const MaterialStatePropertyAll(Colors.purple),
                         headingTextStyle: const TextStyle(
                             color: Colors.white,
                             // fontSize: 24,
@@ -146,27 +152,13 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                             .toList(),
                         rows: List.generate(
                           growable: true,
-                          data.length,
+                          alldata.length,
                           (index1) => DataRow2(
-                            cells: List.generate(growable: true, data[0].length,
+                            cells: List.generate(growable: true, alldata.length,
                                 (index2) {
                               return DataCell(Padding(
                                 padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text(data[index1][index2]),
-
-                                // child: TextFormField(
-                                //     // controller: controllers[index1][index2],
-                                //     onChanged: (value) {
-                                //       data[index1][index2] = value;
-                                //     },
-                                //     decoration: InputDecoration(
-                                //         contentPadding: const EdgeInsets.only(
-                                //             left: 3.0, right: 3.0),
-                                //         border: const OutlineInputBorder(),
-                                //         hintText: data[index1][index2],
-                                //         hintStyle: const TextStyle(
-                                //             fontSize: 10.0,
-                                //             color: Colors.black))),
+                                child: Text(alldata[index1]),
                               ));
                             }),
                           ),
@@ -174,25 +166,46 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                       ),
                     )
                   : Container(),
-              // SizedBox(height: 10),
-              // Column(children: [
-              //   Table(
-              // children: [getdat()],
-              //   ),
-              // ]),
               const SizedBox(
                 height: 15,
               ),
-
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(
                   children: [
+                    // ListView.builder(
+                    //     shrinkWrap: true,
+                    //     scrollDirection: Axis.horizontal,
+                    //     itemBuilder: (context, index) {
+                    //       return ElevatedButton(
+                    //           onPressed: () {}, child: Text(monthList[index]));
+                    //     }),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
                     ElevatedButton(
-                        onPressed: selectExcelFile,
-                        child: const Text(
-                          "Upload Excel",
-                        )),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(AppBarBgColor),
+                      ),
+                      onPressed: selectExcelFile,
+                      child: const Text(
+                        "Upload Excel",
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(AppBarBgColor),
+                      ),
+                      onPressed: () {
+                        openPdf(url);
+                      },
+                      child: const Text(
+                        "Download CSV",
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -201,11 +214,12 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppBarBgColor,
         onPressed: () async {
           // for (int i = 0; i < mapExcelData.length; i++) {
           await FirebaseFirestore.instance
               .collection('ladgerReceipt')
-              .doc(_societyNameController.text)
+              .doc(widget.societyName)
               .collection('month')
               .doc(monthyear)
               .set({
@@ -219,8 +233,8 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
 
           FirebaseFirestore.instance
               .collection('ladgerReceipt')
-              .doc(_societyNameController.text)
-              .set({'name': _societyNameController.text});
+              .doc(widget.societyName)
+              .set({'name': widget.societyName});
           //       }
           // Perform desired action with the form data
 
@@ -249,48 +263,67 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   }
 
   Future<List<List<dynamic>>> selectExcelFile() async {
-    final input = FileUploadInputElement()..accept = '.xlsx';
+    final input = FileUploadInputElement()..accept = '.csv';
     input.click();
 
     await input.onChange.first;
     final files = input.files;
-
-    if (files?.length == 1) {
-      final file = files?[0];
+    print('filesssssss- ${files!.first.name}');
+    if (files.length == 1) {
+      // final myData = await rootBundle.loadString('${files.first.name}');
       final reader = FileReader();
+      reader.readAsText(files[0]);
+      await reader.onLoad.first;
+      final myData = reader.result as String;
 
-      reader.readAsArrayBuffer(file!);
-
-      await reader.onLoadEnd.first;
-
-      final excel = Excel.decodeBytes(reader.result as List<int>);
-
-      for (var table in excel.tables.keys) {
-        final sheet = excel.tables[table];
-
-        for (var rows in sheet!.rows.skip(0)) {
-          Map<String, dynamic> tempMap = {};
-          if (columnName.isEmpty) {
-            for (var cells in sheet.rows[0]) {
-              columnName.add(cells!.value.toString());
-            }
-          }
-
-          List<dynamic> rowData = [];
-          for (var cell in rows) {
-            rowData.add(cell?.value.toString() ?? '');
-          }
-
-          data.add(rowData);
-
-          for (int i = 0; i < columnName.length; i++) {
-            tempMap[columnName[i]] = rowData[i];
-          }
-          alldata.add(tempMap);
-          tempMap = {};
+      List<List<dynamic>> csvTable = const CsvToListConverter().convert(myData);
+      print(csvTable);
+      data = csvTable;
+      for (var row in csvTable) {
+        // Access each column in the row
+        for (var column in row) {
+          print(column);
+          alldata.add(column);
+          print('mydata $alldata');
         }
-        // print(alldata);
       }
+      // alldata.add(data);
+      // print(alldata);
+      // final file = files[0];
+      // final reader = FileReader();
+
+      // reader.readAsArrayBuffer(file);
+
+      // await reader.onLoadEnd.first;
+
+      // final excel = Excel.decodeBytes(reader.result as List<int>);
+
+      // for (var table in excel.tables.keys) {
+      //   final sheet = excel.tables[table];
+
+      //   for (var rows in sheet!.rows.skip(0)) {
+      //     Map<String, dynamic> tempMap = {};
+      //     if (columnName.isEmpty) {
+      //       for (var cells in sheet.rows[0]) {
+      //         columnName.add(cells!.value.toString());
+      //       }
+      //     }
+
+      //     List<dynamic> rowData = [];
+      //     for (var cell in rows) {
+      //       rowData.add(cell?.value.toString() ?? '');
+      //     }
+
+      //     data.add(rowData);
+
+      //     for (int i = 0; i < columnName.length; i++) {
+      //       tempMap[columnName[i]] = rowData[i];
+      //     }
+      //     alldata.add(tempMap);
+      //     tempMap = {};
+      //   }
+      //   // print(alldata);
+      // }
 
       data.removeAt(0);
       showTable = true;
@@ -303,16 +336,35 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
     for (int i = 0; i < data.length; i++) {
       FirebaseFirestore.instance
           .collection('ladgerReceipt')
-          .doc(_societyNameController.text)
+          .doc(widget.societyName)
           .collection('tableData')
           .doc('$i')
           .set({
-        'societyName': _societyNameController.text,
+        'societyName': widget.societyName,
         '$i': data[i],
       }).then((value) {
         // ignore: avoid_print
         print('Done!');
       });
+    }
+  }
+
+  Future<String> downloadCsv() async {
+    final storage = FirebaseStorage.instance;
+    final Reference ref = storage.ref('template');
+    ListResult allFiles = await ref.listAll();
+    url = await allFiles.items[0].getDownloadURL();
+    print('url - $url');
+    return url.toString();
+  }
+
+  openPdf(String url) {
+    if (kIsWeb) {
+      html.window.open(url, '_blank');
+      final encodedUrl = Uri.encodeFull(url);
+      html.Url.revokeObjectUrl(encodedUrl);
+    } else {
+      const Text('Sorry it is not ready for mobile platform');
     }
   }
 }
