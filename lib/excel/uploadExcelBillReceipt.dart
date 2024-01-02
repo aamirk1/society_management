@@ -124,47 +124,64 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                 height: 10,
               ),
               showTable
-                  ? Container(
-                      padding: const EdgeInsets.all(2.0),
-                      height: 398,
-                      width: MediaQuery.of(context).size.width,
-                      child: DataTable2(
-                        minWidth: 1700,
-                        border: TableBorder.all(color: Colors.black),
-                        headingRowColor:
-                            const MaterialStatePropertyAll(Colors.purple),
-                        headingTextStyle: const TextStyle(
-                            color: Colors.white,
-                            // fontSize: 24,
-                            wordSpacing: 5),
-                        columnSpacing: 5.0,
-                        columns: columnName
-                            .map((e) => DataColumn2(
-                                  label: Text(
-                                    e,
-                                    // textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        // overflow: TextOverflow.ellipsis,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ))
-                            .toList(),
-                        rows: List.generate(
-                          growable: true,
-                          alldata.length,
-                          (index1) => DataRow2(
-                            cells: List.generate(growable: true, alldata.length,
-                                (index2) {
-                              return DataCell(Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text(alldata[index1]),
-                              ));
-                            }),
+                  // ? SingleChildScrollView(
+                  //     scrollDirection: Axis.vertical,
+                  //     child: Container(
+                  //       width: 1000,
+                  //       height: MediaQuery.of(context).size.height - 50,
+                  //       child: ListView.builder(
+                  //           itemCount: alldata.length,
+                  //           itemBuilder: (context, index) {
+                  //             return Padding(
+                  //               padding: const EdgeInsets.all(8.0),
+                  //               child: Text(alldata[index]),
+                  //             );
+                  //           }),
+                  //     ),
+                  //   )
+                  ? columnName.isEmpty
+                      ? alertBox()
+                      : Container(
+                          padding: const EdgeInsets.all(2.0),
+                          height: 398,
+                          width: MediaQuery.of(context).size.width,
+                          child: DataTable2(
+                            minWidth: 1700,
+                            border: TableBorder.all(color: Colors.black),
+                            headingRowColor:
+                                const MaterialStatePropertyAll(Colors.purple),
+                            headingTextStyle: const TextStyle(
+                                color: Colors.white,
+                                // fontSize: 24,
+                                wordSpacing: 5),
+                            columnSpacing: 5.0,
+                            columns: columnName
+                                .map((e) => DataColumn2(
+                                      label: Text(
+                                        e,
+                                        // textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            // overflow: TextOverflow.ellipsis,
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ))
+                                .toList(),
+                            rows: List.generate(
+                              growable: true,
+                              alldata.length,
+                              (index1) => DataRow2(
+                                cells: List.generate(
+                                    growable: true, alldata.length, (index2) {
+                                  return DataCell(Padding(
+                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                    child: Text(alldata[index1]),
+                                  ));
+                                }),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                        )
                   : Container(),
               const SizedBox(
                 height: 15,
@@ -226,9 +243,10 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
             'data': alldata,
           }).then((value) {
             const ScaffoldMessenger(
-                child: SnackBar(
-              content: Text('Successfully Uploaded'),
-            ));
+              child: SnackBar(
+                content: Text('Successfully Uploaded'),
+              ),
+            );
           });
 
           FirebaseFirestore.instance
@@ -279,14 +297,33 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
       List<List<dynamic>> csvTable = const CsvToListConverter().convert(myData);
       print(csvTable);
       data = csvTable;
-      for (var row in csvTable) {
-        // Access each column in the row
-        for (var column in row) {
-          print(column);
-          alldata.add(column);
-          print('mydata $alldata');
+      print('dataaaaaa- $data');
+      //   final sheet = excel.tables[table];
+
+      for (var rows in data.skip(0)) {
+        Map<String, dynamic> tempMap = {};
+        if (columnName.isEmpty) {
+          for (var cells in rows) {
+            columnName.add(cells!.value.toString());
+          }
         }
+        print('columnname - $columnName');
+
+        List<dynamic> rowData = [];
+        for (var cell in rows) {
+          rowData.add(cell?.value.toString() ?? '');
+        }
+        print('rowssdataa- $rowData');
+        data.add(rowData);
+        print('dataaaaaa - $data');
+        for (int i = 0; i < columnName.length; i++) {
+          tempMap[columnName[i]] = rowData[i];
+        }
+        alldata.add(tempMap);
+        print('alldata - $alldata');
+        tempMap = {};
       }
+
       // alldata.add(data);
       // print(alldata);
       // final file = files[0];
@@ -330,6 +367,17 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
       setState(() {});
     }
     return data;
+  }
+
+  alertBox() {
+    return const AlertDialog(
+      title: Center(
+        child: Text(
+          'No Data Found',
+          style: TextStyle(fontSize: 20, color: Colors.red),
+        ),
+      ),
+    );
   }
 
   getdat() async {

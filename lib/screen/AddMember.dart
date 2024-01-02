@@ -22,7 +22,7 @@ class AddMember extends StatefulWidget {
 
 class _AddMemberState extends State<AddMember> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _societyNameController = TextEditingController();
+  // final TextEditingController _societyNameController = TextEditingController();
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
 

@@ -28,7 +28,7 @@ class UpExcel extends StatefulWidget {
 class _UpExcelState extends State<UpExcel> {
   String url = '';
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _societyNameController = TextEditingController();
+  // final TextEditingController _societyNameController = TextEditingController();
   // final TextEditingController s_flatNo = TextEditingController();
   // final TextEditingController s_name = TextEditingController();
   // final TextEditingController s_email = TextEditingController();
