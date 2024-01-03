@@ -35,7 +35,7 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
   bool showTable = false;
   List<dynamic> newRow = [];
 
-  String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
+  String monthyear = DateFormat('yyyy').format(DateTime.now());
   String fetch = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
@@ -125,7 +125,7 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   IconButton(
@@ -315,11 +315,12 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
     }
     // print(mapdata);
 
+    String fetch = 'January $monthyear';
     FirebaseFirestore.instance
         .collection('ladgerReceipt')
         .doc(widget.societyName)
         .collection('month')
-        .doc(monthyear)
+        .doc(fetch)
         .update({"data": mapdata}).whenComplete(
       () => const ScaffoldMessenger(
         child: SnackBar(

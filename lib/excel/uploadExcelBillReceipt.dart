@@ -27,14 +27,14 @@ class UpExcelBillReceipt extends StatefulWidget {
 
 class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _societyNameController = TextEditingController();
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
   String url = '';
   // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
-  List<dynamic> alldata = [];
+  List<List<dynamic>> alldata = [];
+  List<Map<String, dynamic>> newData = [];
 
   List<String> monthList = [
     'January',
@@ -51,14 +51,11 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
     'December'
   ];
 
-  // String monthyear = 'January 2024';
   String monthyear = DateFormat('yyyy').format(DateTime.now());
-
   bool showTable = false;
 
   @override
   void initState() {
-    print('monthyear -  $monthyear');
     super.initState();
   }
 
@@ -172,10 +169,12 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                               alldata.length,
                               (index1) => DataRow2(
                                 cells: List.generate(
-                                    growable: true, alldata.length, (index2) {
+                                    growable: true,
+                                    alldata[0].length, (index2) {
                                   return DataCell(Padding(
                                     padding: const EdgeInsets.only(bottom: 5.0),
-                                    child: Text(alldata[index1]),
+                                    child: Text(
+                                        alldata[index1][index2].toString()),
                                   ));
                                 }),
                               ),
@@ -233,31 +232,23 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppBarBgColor,
         onPressed: () async {
-          // for (int i = 0; i < mapExcelData.length; i++) {
+          String fetch = 'January $monthyear';
+          // for (int i = 0; i < alldata.length; i++) {
           await FirebaseFirestore.instance
               .collection('ladgerReceipt')
               .doc(widget.societyName)
               .collection('month')
-              .doc(monthyear)
+              .doc(fetch)
               .set({
-            'data': alldata,
-          }).then((value) {
-            const ScaffoldMessenger(
-              child: SnackBar(
-                content: Text('Successfully Uploaded'),
-              ),
-            );
+            'data': newData,
           });
-
-          FirebaseFirestore.instance
+          // }
+          await FirebaseFirestore.instance
               .collection('ladgerReceipt')
               .doc(widget.societyName)
               .set({'name': widget.societyName});
           //       }
-          // Perform desired action with the form data
 
-          _societyNameController.clear();
-          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         },
         child: const Icon(Icons.check),
@@ -299,30 +290,43 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
       data = csvTable;
       print('dataaaaaa- $data');
       //   final sheet = excel.tables[table];
-
-      for (var rows in data.skip(0)) {
+      // if (columnName.isEmpty) {
+      //   for (var cells in data[0]) {
+      //     columnName.add(cells!.toString());
+      //   }
+      // }
+      for (var a in data[0]) {
+        columnName.add(a.toString().trim());
+      }
+      for (var rows in data) {
         Map<String, dynamic> tempMap = {};
-        if (columnName.isEmpty) {
-          for (var cells in rows) {
-            columnName.add(cells!.value.toString());
-          }
-        }
+
         print('columnname - $columnName');
 
         List<dynamic> rowData = [];
         for (var cell in rows) {
-          rowData.add(cell?.value.toString() ?? '');
+          rowData.add(cell?.toString() ?? '');
         }
-        print('rowssdataa- $rowData');
-        data.add(rowData);
-        print('dataaaaaa - $data');
+
         for (int i = 0; i < columnName.length; i++) {
           tempMap[columnName[i]] = rowData[i];
         }
-        alldata.add(tempMap);
-        print('alldata - $alldata');
+        // print('rowssdataa- $rowData');
+        // newData.add(rowData);
+        // data.addAll(newData.skip(1));
+        // print('dataaaaaa - $data');
+        // for (int i = 0; i < columnName.length; i++) {
+        //   tempMap[columnName[i]] = rows[i].toString();
+        // }
+        alldata.add(rowData);
+
+        newData.add(tempMap);
+        // print('alldata - $alldata');
         tempMap = {};
       }
+
+      alldata.removeAt(0);
+      print('aaaa - $newData');
 
       // alldata.add(data);
       // print(alldata);
@@ -389,7 +393,7 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
           .doc('$i')
           .set({
         'societyName': widget.societyName,
-        '$i': data[i],
+        '$i': alldata[i],
       }).then((value) {
         // ignore: avoid_print
         print('Done!');

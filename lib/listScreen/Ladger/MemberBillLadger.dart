@@ -184,7 +184,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                                     columns: List.generate(columnName.length,
                                         (index) {
                                       return DataColumn2(
-                                        fixedWidth: index == 1 ? 500 : 130,
+                                        fixedWidth: index == 2 ? 500 : 130,
                                         label: Text(
                                           columnName[index],
                                           style: const TextStyle(
@@ -347,6 +347,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
       List<List<dynamic>> temp = [];
       for (int i = 0; i < mapData.length; i++) {
         temp.add([
+          mapData[i]['Bill Date'] ?? '',
           mapData[i]['Flat No.'] ?? '',
           mapData[i]['Member Name'] ?? '',
           mapData[i]['Bill No'] ?? '',
@@ -366,9 +367,9 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
       }
       columnName = temp[0];
       data = temp;
-      // print(data);
       data.removeAt(0);
 
+      print('dataaaaa - $data');
       // Use the data map as needed
     }
     setState(() {

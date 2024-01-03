@@ -6,8 +6,8 @@ import 'dart:html';
 import 'dart:html' as html;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
 import 'package:data_table_2/data_table_2.dart';
-import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -33,6 +33,8 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   List<String> searchedList = [];
   String url = '';
   List<List<dynamic>> data = [];
+
+  List<Map<String, dynamic>> newData = [];
   // ignore: prefer_collection_literals
   Map<String, dynamic> mapExcelData = Map();
   List<dynamic> alldata = [];
@@ -125,7 +127,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                                 (index2) {
                               return DataCell(Padding(
                                 padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text(data[index1][index2]),
+                                child: Text(data[index1][index2].toString()),
 
                                 // child: TextFormField(
                                 //     // controller: controllers[index1][index2],
@@ -163,7 +165,8 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(AppBarBgColor),  
+                        backgroundColor:
+                            MaterialStatePropertyAll(AppBarBgColor),
                       ),
                       onPressed: selectExcelFile,
                       child: const Text(
@@ -173,7 +176,8 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                     const SizedBox(width: 10),
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(AppBarBgColor),
+                        backgroundColor:
+                            MaterialStatePropertyAll(AppBarBgColor),
                       ),
                       onPressed: () {
                         openPdf(url);
@@ -199,7 +203,7 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
               .collection('month')
               .doc(monthyear)
               .set({
-            'data': alldata,
+            'data': newData,
           }).then((value) {
             const ScaffoldMessenger(
                 child: SnackBar(
@@ -239,48 +243,55 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   }
 
   Future<List<List<dynamic>>> selectExcelFile() async {
-    final input = FileUploadInputElement()..accept = '.xlsx';
+    final input = FileUploadInputElement()..accept = '.csv';
     input.click();
 
     await input.onChange.first;
     final files = input.files;
-
-    if (files?.length == 1) {
-      final file = files?[0];
+    print('filesssssss- ${files!.first.name}');
+    if (files.length == 1) {
+      // final myData = await rootBundle.loadString('${files.first.name}');
       final reader = FileReader();
+      reader.readAsText(files[0]);
+      await reader.onLoad.first;
+      final myData = reader.result as String;
 
-      reader.readAsArrayBuffer(file!);
+      List<List<dynamic>> csvTable = const CsvToListConverter().convert(myData);
+      print(csvTable);
+      data = csvTable;
+      print('dataaaaaa- $data');
+      //   final sheet = excel.tables[table];
+      // if (columnName.isEmpty) {
+      //   for (var cells in data[0]) {
+      //     columnName.add(cells!.toString());
+      //   }
+      // }
 
-      await reader.onLoadEnd.first;
-
-      final excel = Excel.decodeBytes(reader.result as List<int>);
-
-      for (var table in excel.tables.keys) {
-        final sheet = excel.tables[table];
-
-        for (var rows in sheet!.rows.skip(0)) {
-          Map<String, dynamic> tempMap = {};
-          if (columnName.isEmpty) {
-            for (var cells in sheet.rows[0]) {
-              columnName.add(cells!.value.toString());
-            }
-          }
-
-          List<dynamic> rowData = [];
-          for (var cell in rows) {
-            rowData.add(cell?.value.toString() ?? '');
-          }
-
-          data.add(rowData);
-
-          for (int i = 0; i < columnName.length; i++) {
-            tempMap[columnName[i]] = rowData[i];
-          }
-          alldata.add(tempMap);
-          tempMap = {};
-        }
-        // print(alldata);
+      for (var a in data[0]) {
+        columnName.add(a.toString().trim());
       }
+      for (var rows in data) {
+        Map<String, dynamic> tempMap = {};
+
+        print('columnname - $columnName');
+
+        List<dynamic> rowData = [];
+        for (var cell in rows) {
+          rowData.add(cell?.toString() ?? '');
+        }
+
+        for (int i = 0; i < columnName.length; i++) {
+          tempMap[columnName[i]] = rowData[i];
+        }
+        alldata.add(rowData);
+
+        newData.add(tempMap);
+        // print('alldata - $alldata');
+        tempMap = {};
+      }
+
+      alldata.removeAt(0);
+      print('aaaa - $newData');
 
       data.removeAt(0);
       showTable = true;
