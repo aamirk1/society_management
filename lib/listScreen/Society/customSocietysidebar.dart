@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:society_management/listScreen/Ladger/MemberBillLadger.dart';
 import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
 import 'package:society_management/listScreen/Receipt/MemberBillReceipt.dart';
-import 'package:society_management/listScreen/societyListOfBill.dart';
 import 'package:society_management/screen/assignRoll/user.dart';
 
 // ignore: camel_case_types
@@ -19,14 +18,14 @@ class _customSocietySideState extends State<customSocietySide> {
   List<String> tabTitle = [
     'Member List',
     'Role Assign',
-    'Account List',
+    // 'Account List',
     'Bill List',
     'Receipt List',
   ];
   List<dynamic> tabIcon = [
     Icons.apartment_outlined,
     Icons.person,
-    Icons.account_balance,
+    // Icons.account_balance,
     Icons.receipt,
     Icons.receipt_outlined
   ];
@@ -41,7 +40,7 @@ class _customSocietySideState extends State<customSocietySide> {
     pages = [
       MemberNameList(societyName: widget.societyNames),
       MenuUserPage(societyName: widget.societyNames),
-      societyListOfBill(societyName: widget.societyNames),
+      // ListOfMemberBill(societyName: widget.societyNames),
       MemberBillLadger(societyName: widget.societyNames),
       MemberBillReceipt(societyName: widget.societyNames),
     ];
@@ -55,10 +54,12 @@ class _customSocietySideState extends State<customSocietySide> {
             child: Column(
               children: [
                 Container(
-                  width: 100,
-                  height: 40,
+                  width: 150,
+                  height: 80,
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: Image.asset('assets/images/devlogo.png'),
+                  child: Image.asset(
+                    'assets/images/devlogo.png',
+                  ),
                 ),
                 const Divider(
                   color: Colors.black,

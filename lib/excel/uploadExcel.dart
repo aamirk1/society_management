@@ -28,17 +28,7 @@ class UpExcel extends StatefulWidget {
 class _UpExcelState extends State<UpExcel> {
   String url = '';
   final _formKey = GlobalKey<FormState>();
-  // final TextEditingController _societyNameController = TextEditingController();
-  // final TextEditingController s_flatNo = TextEditingController();
-  // final TextEditingController s_name = TextEditingController();
-  // final TextEditingController s_email = TextEditingController();
-  // final TextEditingController s_mobile = TextEditingController();
-  // final TextEditingController s_mc = TextEditingController();
-  // final TextEditingController s_remarks = TextEditingController();
-  // final TextEditingController s_parking = TextEditingController();
-  // final TextEditingController s_tenant = TextEditingController();
-  // final TextEditingController s_area = TextEditingController();
-  // final TextEditingController s_status = TextEditingController();
+
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];

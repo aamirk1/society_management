@@ -8,12 +8,13 @@ import 'dart:html' as html;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:data_table_2/data_table_2.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
+import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
+import 'package:society_management/listScreen/Society/societyDetails.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -54,28 +55,33 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppBarColor),
-        title: Text(
-          "Upload Ledger ${widget.societyName}",
-          style: TextStyle(color: AppBarColor),
+        title: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return societyDetails(
+                societyNames: widget.societyName,
+              );
+            }));
+          },
+          child: Text(
+            "Upload Bill of ${widget.societyName}",
+            style: TextStyle(color: AppBarColor),
+          ),
         ),
         backgroundColor: AppBarBgColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: Column(
+            child: Row(
               children: [
                 IconButton(
                   icon: Icon(
-                    Icons.person,
+                    Icons.logout_rounded,
                     color: AppBarColor,
                   ),
                   onPressed: () {
-                    // signOut();
+                    signOut(context);
                   },
-                ),
-                Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
-                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
@@ -128,20 +134,6 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
                               return DataCell(Padding(
                                 padding: const EdgeInsets.only(bottom: 5.0),
                                 child: Text(data[index1][index2].toString()),
-
-                                // child: TextFormField(
-                                //     // controller: controllers[index1][index2],
-                                //     onChanged: (value) {
-                                //       data[index1][index2] = value;
-                                //     },
-                                //     decoration: InputDecoration(
-                                //         contentPadding: const EdgeInsets.only(
-                                //             left: 3.0, right: 3.0),
-                                //         border: const OutlineInputBorder(),
-                                //         hintText: data[index1][index2],
-                                //         hintStyle: const TextStyle(
-                                //             fontSize: 10.0,
-                                //             color: Colors.black))),
                               ));
                             }),
                           ),

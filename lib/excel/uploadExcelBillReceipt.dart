@@ -11,8 +11,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
+import 'package:society_management/listScreen/Society/societyDetails.dart';
+import 'package:society_management/provider/upload_receipt_provider.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -52,51 +55,68 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
   ];
 
   String monthyear = DateFormat('yyyy').format(DateTime.now());
+  String monthAndYear = '';
   bool showTable = false;
+  List<bool> buttonBoolList = [];
 
   @override
   void initState() {
     super.initState();
+    setMonthlyBoolean();
+    downloadCsv();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppBarColor),
-        title: Text(
-          "Upload Receipt ${widget.societyName}",
-          style: TextStyle(color: AppBarColor),
+  Widget build(BuildContext context) {
+    final selectedMonth =
+        Provider.of<UploadReceiptProvider>(context, listen: false)
+            .selectedMonth;
+    final provider = Provider.of<UploadReceiptProvider>(context);
+    return Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppBarColor),
+          title: InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return societyDetails(
+                  societyNames: widget.societyName,
+                );
+              }));
+            },
+            child: Text(
+              "Upload Receipt of ${widget.societyName}",
+              style: TextStyle(color: AppBarColor),
+            ),
+          ),
+          backgroundColor: AppBarBgColor,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.logout_rounded,
+                      color: AppBarColor,
+                    ),
+                    onPressed: () {
+                      signOut(context);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
-        backgroundColor: AppBarBgColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
             child: Column(
               children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.logout_rounded,
-                    color: AppBarColor,
-                  ),
-                  onPressed: () {
-                    signOut(context);
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                child: Center(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
                   child: ListView.builder(
                       itemCount: monthList.length,
                       shrinkWrap: true,
@@ -105,154 +125,210 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
                         return Container(
                           margin: const EdgeInsets.only(left: 8.0, top: 5),
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.purple,
-                            ),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    buttonBoolList[index] == true
+                                        ? const Color.fromARGB(255, 91, 16, 104)
+                                        : Colors.purple)),
                             onPressed: () {
-                              setState(() {});
+                              setButtonBoolean(index);
+                              provider.setMonth(monthList[index]);
+                              provider.reload(true);
                             },
                             child: Text(monthList[index]),
                           ),
                         );
                       }),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              showTable
-                  // ? SingleChildScrollView(
-                  //     scrollDirection: Axis.vertical,
-                  //     child: Container(
-                  //       width: 1000,
-                  //       height: MediaQuery.of(context).size.height - 50,
-                  //       child: ListView.builder(
-                  //           itemCount: alldata.length,
-                  //           itemBuilder: (context, index) {
-                  //             return Padding(
-                  //               padding: const EdgeInsets.all(8.0),
-                  //               child: Text(alldata[index]),
-                  //             );
-                  //           }),
-                  //     ),
-                  //   )
-                  ? columnName.isEmpty
-                      ? alertBox()
-                      : Container(
-                          padding: const EdgeInsets.all(2.0),
-                          height: 398,
-                          width: MediaQuery.of(context).size.width,
-                          child: DataTable2(
-                            minWidth: 1700,
-                            border: TableBorder.all(color: Colors.black),
-                            headingRowColor:
-                                const MaterialStatePropertyAll(Colors.purple),
-                            headingTextStyle: const TextStyle(
-                                color: Colors.white,
-                                // fontSize: 24,
-                                wordSpacing: 5),
-                            columnSpacing: 5.0,
-                            columns: columnName
-                                .map((e) => DataColumn2(
-                                      label: Text(
-                                        e,
-                                        // textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            // overflow: TextOverflow.ellipsis,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ))
-                                .toList(),
-                            rows: List.generate(
-                              growable: true,
-                              alldata.length,
-                              (index1) => DataRow2(
-                                cells: List.generate(
-                                    growable: true,
-                                    alldata[0].length, (index2) {
-                                  return DataCell(Padding(
-                                    padding: const EdgeInsets.only(bottom: 5.0),
-                                    child: Text(
-                                        alldata[index1][index2].toString()),
-                                  ));
-                                }),
+                const SizedBox(
+                  height: 10,
+                ),
+                showTable
+                    // ? SingleChildScrollView(
+                    //     scrollDirection: Axis.vertical,
+                    //     child: Container(
+                    //       width: 1000,
+                    //       height: MediaQuery.of(context).size.height - 50,
+                    //       child: ListView.builder(
+                    //           itemCount: alldata.length,
+                    //           itemBuilder: (context, index) {
+                    //             return Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: Text(alldata[index]),
+                    //             );
+                    //           }),
+                    //     ),
+                    //   )
+                    ? columnName.isEmpty
+                        ? alertBox()
+                        : Container(
+                            padding: const EdgeInsets.all(2.0),
+                            height: 398,
+                            width: MediaQuery.of(context).size.width,
+                            child: DataTable2(
+                              minWidth: 1700,
+                              border: TableBorder.all(color: Colors.black),
+                              headingRowColor:
+                                  const MaterialStatePropertyAll(Colors.purple),
+                              headingTextStyle: const TextStyle(
+                                  color: Colors.white,
+                                  // fontSize: 24,
+                                  wordSpacing: 5),
+                              columnSpacing: 5.0,
+                              columns: columnName
+                                  .map((e) => DataColumn2(
+                                        label: Text(
+                                          e,
+                                          // textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              // overflow: TextOverflow.ellipsis,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ))
+                                  .toList(),
+                              rows: List.generate(
+                                growable: true,
+                                alldata.length,
+                                (index1) => DataRow2(
+                                  cells: List.generate(
+                                      growable: true,
+                                      alldata[0].length, (index2) {
+                                    return DataCell(Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 5.0),
+                                      child: Text(
+                                          alldata[index1][index2].toString()),
+                                    ));
+                                  }),
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                  : Container(),
-              const SizedBox(
-                height: 15,
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  children: [
-                    // ListView.builder(
-                    //     shrinkWrap: true,
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemBuilder: (context, index) {
-                    //       return ElevatedButton(
-                    //           onPressed: () {}, child: Text(monthList[index]));
-                    //     }),
-                    // SizedBox(
-                    //   width: 10,
-                    // ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppBarBgColor),
-                      ),
-                      onPressed: selectExcelFile,
-                      child: const Text(
-                        "Upload Excel",
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppBarBgColor),
-                      ),
-                      onPressed: () {
-                        openPdf(url);
-                      },
-                      child: const Text(
-                        "Download CSV",
-                      ),
-                    ),
-                  ],
+                          )
+                    : Container(),
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-            ],
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    children: [
+                      // ListView.builder(
+                      //     shrinkWrap: true,
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemBuilder: (context, index) {
+                      //       return ElevatedButton(
+                      //           onPressed: () {}, child: Text(monthList[index]));
+                      //     }),
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(AppBarBgColor),
+                        ),
+                        onPressed: () async {
+                          if (selectedMonth.trim().isNotEmpty) {
+                            monthAndYear = "$selectedMonth $monthyear";
+                            selectExcelFile();
+                          } else {
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    contentPadding: const EdgeInsets.all(5),
+                                    icon: const Icon(
+                                      Icons.warning_amber,
+                                      size: 60,
+                                      color: Color.fromARGB(255, 212, 194, 25),
+                                    ),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'))
+                                    ],
+                                    title: const Text(
+                                      'Please Select A Month !',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  );
+                                });
+                          }
+                        },
+                        child: const Text(
+                          "Upload Excel",
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(AppBarBgColor),
+                        ),
+                        onPressed: () {
+                          openPdf(url);
+                        },
+                        child: const Text(
+                          "Download CSV",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppBarBgColor,
-        onPressed: () async {
-          String fetch = 'January $monthyear';
-          // for (int i = 0; i < alldata.length; i++) {
-          await FirebaseFirestore.instance
-              .collection('ladgerReceipt')
-              .doc(widget.societyName)
-              .collection('month')
-              .doc(fetch)
-              .set({
-            'data': newData,
-          });
-          // }
-          await FirebaseFirestore.instance
-              .collection('ladgerReceipt')
-              .doc(widget.societyName)
-              .set({'name': widget.societyName});
-          //       }
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppBarBgColor,
+          onPressed: () async {
+            String fetch = 'January $monthyear';
+            // for (int i = 0; i < alldata.length; i++) {
+            await FirebaseFirestore.instance
+                .collection('ladgerReceipt')
+                .doc(widget.societyName)
+                .collection('month')
+                .doc(monthAndYear)
+                .set({
+              'data': newData,
+            });
+            // }
+            await FirebaseFirestore.instance
+                .collection('ladgerReceipt')
+                .doc(widget.societyName)
+                .set({'name': widget.societyName});
+            //       }
 
-          Navigator.pop(context);
-        },
-        child: const Icon(Icons.check),
-      ));
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.check),
+        ));
+  }
+
+  setMonthlyBoolean() {
+    List<bool> boolList = [];
+    for (int i = 0; i < monthList.length; i++) {
+      boolList.add(false);
+    }
+    buttonBoolList = boolList;
+  }
+
+  setButtonBoolean(int exceptIndex) {
+    List<bool> boolList = [];
+    for (int i = 0; i < monthList.length; i++) {
+      if (i == exceptIndex) {
+        boolList.add(true);
+      } else {
+        boolList.add(false);
+      }
+    }
+    buttonBoolList = boolList;
+  }
 
   getUserdata(String pattern) async {
     searchedList.clear();

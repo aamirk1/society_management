@@ -5,8 +5,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
+import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
+import 'package:society_management/listScreen/Society/societyDetails.dart';
 
 class ListOfMemberBill extends StatefulWidget {
   final String societyName;
@@ -21,6 +24,8 @@ class ListOfMemberBill extends StatefulWidget {
 class _ListOfMemberBillState extends State<ListOfMemberBill> {
   final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController monthyears = TextEditingController();
+  bool isLoding = false;
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
@@ -29,12 +34,12 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   List<dynamic> alldata = [];
   bool showTable = false;
   List<dynamic> newRow = [];
-
+  List<String> dateList = [];
   String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
   String fetch = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
-    fetchMap(widget.societyName)
+    fetchMap(widget.societyName, monthyear)
         .whenComplete(() => {showTable = true, setState(() {})});
 
     super.initState();
@@ -43,33 +48,79 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          iconTheme:  IconThemeData(color:AppBarColor),
-          title: Text(
-            "All Members Account of ${widget.societyName}",
-            style:  TextStyle(color:AppBarColor),
+          iconTheme: IconThemeData(color: AppBarColor),
+          title: InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return societyDetails(
+                  societyNames: widget.societyName,
+                );
+              }));
+            },
+            child: Text(
+              "All Members Account of ${widget.societyName}",
+              style: TextStyle(color: AppBarColor),
+            ),
           ),
           backgroundColor: AppBarBgColor,
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Column(
+              padding: const EdgeInsets.only(left: 150, right: 10.0),
+              child: Row(
                 children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            style: const TextStyle(color: Colors.white),
+                            controller: monthyears,
+                            decoration: const InputDecoration(
+                                labelText: 'Selcet Month',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder())),
+                        suggestionsCallback: (pattern) async {
+                          return await getMonthReceipt(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            textColor: Colors.black,
+                            title: Text(suggestion.toString()),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          monthyears.text = suggestion.toString();
+                          fetchMap(widget.societyName, monthyears.text);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => ListOfMemberBill(
+                          //             societyName: suggestion.toString(),
+                          //           )),
+                          // );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   IconButton(
-                    icon:  Icon(
-                      Icons.person,
-                      color:AppBarColor,
+                    icon: Icon(
+                      Icons.logout_rounded,
+                      color: AppBarColor,
                     ),
                     onPressed: () {
-                      // signOut();
+                      signOut(context);
                     },
-                  ),
-                   Text(
-                    'Hi',
-                    style: TextStyle(color:AppBarColor),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
         body: SingleChildScrollView(
@@ -96,7 +147,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                           width: MediaQuery.of(context).size.width,
                           child: DataTable2(
                             minWidth: 2500,
-                            border: TableBorder.all(color:Colors.black),
+                            border: TableBorder.all(color: Colors.black),
                             headingRowColor:
                                 const MaterialStatePropertyAll(Colors.blue),
                             headingTextStyle: const TextStyle(
@@ -146,7 +197,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
                                                       [index2],
                                                   hintStyle: const TextStyle(
                                                       fontSize: 11.0,
-                                                      color:Colors.black))),
+                                                      color: Colors.black))),
                                         ))
                                       : DataCell(ElevatedButton(
                                           style: const ButtonStyle(
@@ -254,7 +305,7 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
     );
   }
 
-  Future<void> fetchMap(String societyName) async {
+  Future<void> fetchMap(String societyName, String monthyear) async {
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
         .collection('accounts')
         .doc(societyName)
@@ -290,5 +341,26 @@ class _ListOfMemberBillState extends State<ListOfMemberBill> {
 
       // Use the data map as needed
     }
+  }
+
+  getMonthReceipt(String pattern) async {
+    dateList.clear();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('ladgerReceipt')
+        .doc(widget.societyName)
+        .collection('month')
+        .get();
+
+    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
+
+    for (int i = 0; i < tempList.length; i++) {
+      if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
+        dateList.add(tempList[i]);
+      } else {
+        // dateList.add('Not Availabel');
+      }
+    }
+    // print(searchedList.length);
+    return dateList;
   }
 }

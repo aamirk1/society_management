@@ -24,7 +24,7 @@ class MemberBillLadger extends StatefulWidget {
 class _MemberBillLadgerState extends State<MemberBillLadger> {
   final TextEditingController monthyears = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool isLoding = false;
+  bool isLoding = true;
   List<dynamic> columnName = [];
   List<String> searchedList = [];
   List<String> dateList = [];
@@ -39,8 +39,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
   String fetch = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
-    fetchMap(widget.societyName, monthyear)
-        .whenComplete(() => {showTable = true, setState(() {})});
+    fetchMap(widget.societyName, monthyear);
 
     super.initState();
   }
@@ -114,13 +113,6 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                         onSuggestionSelected: (suggestion) {
                           monthyears.text = suggestion.toString();
                           fetchMap(widget.societyName, monthyears.text);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ListOfMemberBill(
-                          //             societyName: suggestion.toString(),
-                          //           )),
-                          // );
                         },
                       ),
                     ),
@@ -155,17 +147,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
                         padding: const EdgeInsets.all(16),
                         child: Form(
                           key: _formKey,
-                          child: showTable == false
-                              ? const Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircularProgressIndicator(),
-                                      Text('Collecting Data...')
-                                    ],
-                                  ),
-                                )
-                              : Container(
+                          child:Container(
                                   padding: const EdgeInsets.all(2.0),
                                   height: 455,
                                   width: MediaQuery.of(context).size.width,
@@ -331,9 +313,7 @@ class _MemberBillLadgerState extends State<MemberBillLadger> {
   }
 
   Future<void> fetchMap(String societyName, String monthyear) async {
-    setState(() {
-      isLoding = true;
-    });
+   
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
         .collection('ladgerBill')
         .doc(societyName)

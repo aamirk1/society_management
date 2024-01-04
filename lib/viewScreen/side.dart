@@ -43,8 +43,8 @@ class _customSideState extends State<customSide> {
             child: Column(
               children: [
                 Container(
-                  width: 100,
-                  height: 40,
+                  width: 150,
+                  height: 80,
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Image.asset('assets/images/devlogo.png'),
                 ),

@@ -6,6 +6,7 @@ import 'package:society_management/listScreen/Society/societyList.dart';
 import 'package:society_management/provider/excel_provider.dart';
 import 'package:society_management/provider/filteration_provider.dart';
 import 'package:society_management/provider/menuUserPageProvider.dart';
+import 'package:society_management/provider/upload_receipt_provider.dart';
 import 'package:society_management/screen/AddBill.dart';
 import 'package:society_management/screen/AddCommittee.dart';
 import 'package:society_management/screen/AddMember.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ExcelProvider()),
         ChangeNotifierProvider(create: (_) => FilterProvider()),
         ChangeNotifierProvider(create: (_) => MenuUserPageProvider()),
+        ChangeNotifierProvider(create: (_) => UploadReceiptProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

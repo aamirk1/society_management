@@ -1,55 +1,73 @@
-// ignore: duplicate_ignore
-// ignore: file_names
-// ignore_for_file: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:society_management/viewScreen/side.dart';
 
-class LoginScreen extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 7, 180, 233),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              "Welcome! Kindly login",
-              style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-          ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Card(
+                elevation: 10,
                 child: Image.asset(
                   'assets/images/login_img.jpg',
-                  height: 500,
+                  height: 550,
                   width: 550,
                 ),
               ),
               Card(
+                elevation: 10,
                 color: Colors.white,
                 shadowColor: Colors.white70,
                 child: Container(
                   padding: const EdgeInsets.all(70),
                   width: 550,
-                  height: 500,
+                  height: 550,
                   child: Column(children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Welcome! Kindly login",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Align(
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         child: Image.asset(
                           "assets/images/devlogo.png",
                           height: 60,
@@ -63,7 +81,8 @@ class LoginScreen extends StatelessWidget {
                         textInputAction: TextInputAction.next,
                         controller: _emailController,
                         decoration: const InputDecoration(
-                            labelText: 'email', border: OutlineInputBorder()),
+                            labelText: 'Enter Your Email',
+                            border: OutlineInputBorder()),
                       ),
                     ),
                     Padding(
@@ -77,6 +96,13 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 7, 180, 233),
+                          ),
+                          minimumSize: MaterialStatePropertyAll(
+                            Size(410, 50),
+                          )),
                       onPressed: () async {
                         try {
                           String email = _emailController.text;
@@ -96,14 +122,15 @@ class LoginScreen extends StatelessWidget {
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
+                                    padding: EdgeInsets.only(top: 5, bottom: 5),
                                     backgroundColor:
-                                        Color.fromARGB(255, 28, 70, 0),
+                                        Color.fromARGB(255, 45, 168, 109),
                                     content: Center(
                                       child: Text(
                                         'Login Successful',
                                         style: TextStyle(
                                           color: Color.fromARGB(
-                                              255, 172, 172, 172),
+                                              255, 255, 255, 255),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -130,12 +157,7 @@ class LoginScreen extends StatelessWidget {
                       child: Text(
                         "Login",
                         // ignore: prefer_const_constructors
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 0, 0, 0),
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ]),

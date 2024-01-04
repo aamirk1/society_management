@@ -97,10 +97,7 @@ class _societyListOfBillState extends State<societyListOfBill> {
                     // signOut();
                   },
                 ),
-                Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
-                  style: TextStyle(color: AppBarColor),
-                ),
+               
               ],
             ),
           )
