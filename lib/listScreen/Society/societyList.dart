@@ -71,37 +71,39 @@ class _societyListState extends State<societyList> {
                   Row(
                     children: [
                       Flexible(
-                          child: Container(
-                        padding: const EdgeInsets.all(8),
-                        child: TypeAheadField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                              controller: _societyNameController,
-                              style: DefaultTextStyle.of(context)
-                                  .style
-                                  .copyWith(fontStyle: FontStyle.italic),
-                              decoration: const InputDecoration(
-                                  labelText: 'Search Society',
-                                  border: OutlineInputBorder())),
-                          suggestionsCallback: (pattern) async {
-                            return await getUserdata(pattern);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion.toString()),
-                            );
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            _societyNameController.text = suggestion.toString();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => societyDetails(
-                                    societyNames: suggestion.toString()),
-                              ),
-                            );
-                          },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          child: TypeAheadField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: _societyNameController,
+                                style: DefaultTextStyle.of(context)
+                                    .style
+                                    .copyWith(fontStyle: FontStyle.italic),
+                                decoration: const InputDecoration(
+                                    labelText: 'Search Society',
+                                    border: OutlineInputBorder())),
+                            suggestionsCallback: (pattern) async {
+                              return await getUserdata(pattern);
+                            },
+                            itemBuilder: (context, suggestion) {
+                              return ListTile(
+                                title: Text(suggestion.toString()),
+                              );
+                            },
+                            onSuggestionSelected: (suggestion) {
+                              _societyNameController.text =
+                                  suggestion.toString();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => societyDetails(
+                                      societyNames: suggestion.toString()),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      )),
+                      ),
                       const SizedBox(width: 10),
                       SizedBox(
                         height: 45,

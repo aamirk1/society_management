@@ -10,10 +10,12 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
+import 'package:society_management/listScreen/Society/customSocietysidebar.dart';
 import 'package:society_management/listScreen/Society/societyDetails.dart';
 import 'package:society_management/provider/upload_receipt_provider.dart';
 
@@ -21,7 +23,7 @@ import 'package:society_management/provider/upload_receipt_provider.dart';
 
 class UpExcelBillReceipt extends StatefulWidget {
   static const String id = "/UpExcelBillReceipt";
-  const UpExcelBillReceipt({super.key, required this.societyName});
+  UpExcelBillReceipt({super.key, required this.societyName});
   final String societyName;
 
   @override
@@ -29,6 +31,7 @@ class UpExcelBillReceipt extends StatefulWidget {
 }
 
 class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
+  TextEditingController _societyNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<dynamic> columnName = [];
   List<String> searchedList = [];
@@ -94,6 +97,42 @@ class _UpExcelBillReceiptState extends State<UpExcelBillReceipt> {
               padding: const EdgeInsets.only(right: 8.0),
               child: Row(
                 children: [
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: _societyNameController,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                                labelText: 'Search Society',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder())),
+                        suggestionsCallback: (pattern) async {
+                          return await getUserdata(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          _societyNameController.text = suggestion.toString();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => customSocietySide(
+                                  societyNames: suggestion.toString()),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                const  SizedBox(
+                    width: 10,
+                  ),
                   IconButton(
                     icon: Icon(
                       Icons.logout_rounded,

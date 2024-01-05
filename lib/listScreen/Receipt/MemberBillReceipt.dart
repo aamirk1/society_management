@@ -9,6 +9,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/excel/uploadExcelBillReceipt.dart';
+import 'package:society_management/listScreen/Society/customSocietysidebar.dart';
 import 'package:society_management/listScreen/Society/societyDetails.dart';
 
 class MemberBillReceipt extends StatefulWidget {
@@ -23,6 +24,8 @@ class MemberBillReceipt extends StatefulWidget {
 
 class _MemberBillReceiptState extends State<MemberBillReceipt> {
   final TextEditingController monthyears = TextEditingController();
+
+  final TextEditingController _societyNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = true;
   List<dynamic> columnName = [];
@@ -120,6 +123,39 @@ class _MemberBillReceiptState extends State<MemberBillReceipt> {
                           //             societyName: suggestion.toString(),
                           //           )),
                           // );
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: _societyNameController,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                                labelText: 'Search Society',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder())),
+                        suggestionsCallback: (pattern) async {
+                          return await getUserdata(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          _societyNameController.text = suggestion.toString();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => customSocietySide(
+                                  societyNames: suggestion.toString()),
+                            ),
+                          );
                         },
                       ),
                     ),

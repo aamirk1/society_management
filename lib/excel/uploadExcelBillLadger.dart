@@ -11,9 +11,11 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/listScreen/MemberList/ListOfMemberName.dart';
+import 'package:society_management/listScreen/Society/customSocietysidebar.dart';
 import 'package:society_management/listScreen/Society/societyDetails.dart';
 
 // import '../excel/uploadExcel.dart';
@@ -74,6 +76,42 @@ class _UpExcelBillLadgerState extends State<UpExcelBillLadger> {
             padding: const EdgeInsets.only(right: 8.0),
             child: Row(
               children: [
+                SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: _societyNameController,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                                labelText: 'Search Society',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder())),
+                        suggestionsCallback: (pattern) async {
+                          return await getUserdata(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          _societyNameController.text = suggestion.toString();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => customSocietySide(
+                                  societyNames: suggestion.toString()),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                const  SizedBox(
+                    width: 10,
+                  ),
                 IconButton(
                   icon: Icon(
                     Icons.logout_rounded,

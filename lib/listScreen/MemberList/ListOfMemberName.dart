@@ -9,8 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/excel/uploadExcel.dart';
+import 'package:society_management/listScreen/Society/customSocietysidebar.dart';
 import 'package:society_management/listScreen/Society/societyDetails.dart';
 
 class MemberNameList extends StatefulWidget {
@@ -26,6 +28,7 @@ class _MemberNameListState extends State<MemberNameList> {
   final StreamController<List<List<dynamic>>> _data =
       StreamController<List<List<dynamic>>>();
 
+  final TextEditingController _societyNameController = TextEditingController();
   Stream<List<List<dynamic>>> get _streamData => _data.stream;
   List<bool> isActive = [];
 
@@ -91,6 +94,39 @@ class _MemberNameListState extends State<MemberNameList> {
                       Icons.add,
                       size: 20,
                       color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: _societyNameController,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                                labelText: 'Search Society',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder())),
+                        suggestionsCallback: (pattern) async {
+                          return await getUserdata(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          _societyNameController.text = suggestion.toString();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => customSocietySide(
+                                  societyNames: suggestion.toString()),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -185,7 +221,6 @@ class _MemberNameListState extends State<MemberNameList> {
                                                         fontSize: 11.0,
                                                         color: Colors.black))),
                                           ));
-                                          
                                         }),
                                       ),
                                     ),
@@ -256,6 +291,22 @@ class _MemberNameListState extends State<MemberNameList> {
     );
   }
 
+  getUserdata(String pattern) async {
+    searchedList.clear();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('ladgerBill').get();
+
+    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
+
+    for (int i = 0; i < tempList.length; i++) {
+      if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
+        searchedList.add(tempList[i]);
+      }
+    }
+    // print(searchedList.length);
+    return searchedList;
+  }
+
   Future<void> fetchMap(String societyName) async {
     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
         .collection('members')
@@ -290,11 +341,10 @@ class _MemberNameListState extends State<MemberNameList> {
         isActive.add(true);
       }
     }
-    
+
     setState(() {
       isLoading = false;
     });
-
   }
 
   addData() {

@@ -11,8 +11,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:society_management/customWidgets/colors.dart';
 import 'package:society_management/customWidgets/custom_textfield.dart';
+import 'package:society_management/listScreen/Society/customSocietysidebar.dart';
 
 // import '../excel/uploadExcel.dart';
 
@@ -27,6 +29,7 @@ class UpExcel extends StatefulWidget {
 
 class _UpExcelState extends State<UpExcel> {
   String url = '';
+  TextEditingController _societyNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   List<dynamic> columnName = [];
@@ -59,20 +62,52 @@ class _UpExcelState extends State<UpExcel> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: Column(
+            child: Row(
               children: [
+                SizedBox(
+                  width: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: _societyNameController,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                              labelText: 'Search Society',
+                              labelStyle: TextStyle(color: Colors.white),
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        return await getUserdata(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        _societyNameController.text = suggestion.toString();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => customSocietySide(
+                                societyNames: suggestion.toString()),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
                 IconButton(
                   icon: Icon(
-                    Icons.person,
+                    Icons.logout_rounded,
                     color: AppBarColor,
                   ),
                   onPressed: () {
-                    // signOut();
+                    signOut(context);
                   },
-                ),
-                Text(
-                  'Hi, ${FirebaseAuth.instance.currentUser?.email}',
-                  style: TextStyle(color: AppBarColor),
                 ),
               ],
             ),
@@ -314,5 +349,14 @@ class _UpExcelState extends State<UpExcel> {
     } else {
       const Text('Sorry it is not ready for mobile platform');
     }
+  }
+
+  Future<void> signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/',
+      (route) => false,
+    );
   }
 }

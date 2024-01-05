@@ -29,7 +29,7 @@ class _customSocietySideState extends State<customSocietySide> {
     Icons.receipt,
     Icons.receipt_outlined
   ];
-  List<bool> design = [true, false, false, false, false];
+  List<bool> design = [true, false, false, false];
 
   int _selectedIndex = 0;
 
